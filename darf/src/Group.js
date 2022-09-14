@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  JOIN_GROUP_REQUEST,
   LOAD_REGISTED_GROUP_REQUEST,
   LOAD_SELECTED_GROUP_REQUEST,
   SEARCH_GROUP_REQUEST,
 } from "./modules/reducers/group";
 import { message } from "antd";
 import GroupCreate from "./components/group/GroupCreate";
+import SearchedGroupItem from "./components/group/SearchedGroupItem";
 
 const Group = () => {
   const { me, logOutDone } = useSelector((state) => state.user);
@@ -109,24 +109,6 @@ const Group = () => {
     dispatchGroupSearch();
   }, [searchGroupPurpose, searchGroupName]);
 
-  /** 그룹 가입 버튼을 클릭했을때 backend로 "JOIN_GROUP" Dispatch 및 front에서 1차적으로 가입 불가 조건을 수행하는 함수 */
-  const onClickJoinGroup = (group) => {
-    console.log(group);
-    // 그룹 정원보다 가입한 유저 수가 많을 경우
-    if (group.capacity <= group.Users?.length) {
-      message.error("정원을 초과했습니다.");
-    }
-    // 그룹 비밀번호가 있는 경우
-    if (group.password?.length >= 1) {
-      message.info("비공개 그룹은 비밀번호를 입력해야 합니다.");
-    }
-
-    dispatch({
-      type: JOIN_GROUP_REQUEST,
-      data: { groupId: group.id },
-    });
-  };
-
   /** 그룹 가입 메세지를 토스트팝업으로 출력하는 함수 */
   useEffect(() => {
     if (joinGroupError) message.error(joinGroupError);
@@ -201,43 +183,11 @@ const Group = () => {
               {group.searchedGroup?.length >= 1 ? (
                 group.searchedGroup.map((e) => {
                   return (
-                    <div key={e.id} className="searchedGroupItem">
-                      <span>{e.name}</span>
-                      <span>{e.password.length >= 1 ? "🔒︎" : ""}</span>
-                      <p className="groupEmoji">{e.emoji}</p>
-                      <p>{`${e.Users.length}/${e.capacity}`}</p>
-                      {e.purpose &&
-                        JSON.parse(e.purpose).map((purpose, index) => {
-                          if (purpose === searchGroupPurpose) {
-                            return (
-                              <span
-                                className={`groupPurpose groupPurpose-${index} groupPurpose-active`}
-                                key={index}
-                              >
-                                {purpose}
-                              </span>
-                            );
-                          }
-
-                          return (
-                            <span
-                              className={`groupPurpose groupPurpose-${index}`}
-                              key={index}
-                            >
-                              {purpose}
-                            </span>
-                          );
-                        })}
-                      <p>{e.introduce}</p>
-                      <p>{`${new Date(e.createdAt)}`}</p>
-                      <button
-                        onClick={() => {
-                          return onClickJoinGroup(e);
-                        }}
-                      >
-                        가입하기
-                      </button>
-                    </div>
+                    <SearchedGroupItem
+                      key={e.id}
+                      group={e}
+                      searchGroupPurpose={searchGroupPurpose}
+                    ></SearchedGroupItem>
                   );
                 })
               ) : (

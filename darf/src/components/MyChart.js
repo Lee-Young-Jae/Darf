@@ -88,7 +88,7 @@ const MyChart = () => {
                   chart?.width &&
                   Math.floor(
                     Math.max(...chart?.width.map((e) => parseInt(e.width))) *
-                      1.1
+                      1.3
                   ),
 
                 axisLabel: {

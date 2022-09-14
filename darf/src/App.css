@@ -355,7 +355,13 @@ body {
   display: flex;
   justify-content: space-around;
   margin: 5px 0px;
+  transition: 1s;
 }
+
+/* .modalComponent footer button:last-child {
+  animation: modal-bg-show 1s;
+  transition: 1s;
+} */
 
 .modalBody button {
   font-weight: bold;
