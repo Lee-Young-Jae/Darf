@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { CREATE_GROUP_POST_REQUEST } from "../modules/reducers/group";
 import { REMOVE_DIET_REQUEST } from "../modules/reducers/user";
 import Modal from "./Modal";
-import { days, timeForToday } from "../util/function";
+import { timeForToday } from "../util/function";
+import { days } from "../util/publicData";
 
 const DietItem = ({ data }) => {
   const now = new Date(data.date);

@@ -15,7 +15,7 @@ import {
   UPLOAD_IMAGES_REQUEST,
 } from "./modules/reducers/user";
 
-import { foodTypes, days } from "./util/function";
+import { foodTypes, days } from "./util/publicData";
 
 const Diet = () => {
   const [searchFoodName, setSearchFoodName] = useState("");
