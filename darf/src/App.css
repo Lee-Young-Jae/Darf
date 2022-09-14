@@ -662,27 +662,6 @@ textarea :focus {
   object-fit: cover;
 }
 
-/* UserHealthBoardForm */
-
-.UserHealthBoradFormTitle {
-  font-family: "San Francisco";
-  font-size: 1.2rem;
-}
-
-.UserHealthBoardForm ul {
-  padding: 0;
-}
-
-.UserHealthBoardForm li {
-  /* border: 1px solid #ececec; */
-  font-family: "San Francisco";
-  margin: 10px 0px;
-  list-style: none;
-  border-radius: 5px;
-  box-shadow: 0 0 0.6rem rgb(0 0 0 / 20%);
-  padding: 2rem;
-}
-
 /* 운동기록 exercise Page */
 
 .exercisePage {
@@ -1162,6 +1141,38 @@ textarea :focus {
       rgba(0, 0, 255, 0.1),
       rgba(255, 255, 255, 0.2)
     );
+}
+
+.UserWidthItemComponent {
+  margin: 30px 0;
+  border-radius: 25px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 300px;
+  transform: 1s;
+  animation: registed 0.5s normal;
+  transition: 0.4s;
+}
+
+.UserWidthItemComponent:hover {
+  box-shadow: 0 0 0.6rem rgb(0 0 0 / 40%);
+  transition: 0.3s;
+}
+
+.UserWidthItemComponent ul {
+  padding: 0;
+}
+
+.UserWidthItemComponent li {
+  /* border: 1px solid #ececec; */
+  font-family: "San Francisco";
+  margin: 10px 0px;
+  list-style: none;
+  border-radius: 5px;
+  box-shadow: 0 0 0.6rem rgb(0 0 0 / 20%);
+  padding: 2rem;
 }
 
 /* Group 그룹 페이지*/

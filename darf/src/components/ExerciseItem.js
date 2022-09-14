@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { CREATE_GROUP_POST_REQUEST } from "../modules/reducers/group";
 import { REMOVE_EXERCISE_REQUEST } from "../modules/reducers/user";
 import Modal from "./Modal";
+import { timeForToday } from "../util/function";
 
 const ExerciseItem = ({ data }) => {
   const [shareRecordsAsGroup, setShareRecordsAsGroup] = useState();
   const { group } = useSelector((state) => state.group);
   const { createGroupPostDone } = useSelector((state) => state.group.state);
+  const [removeRecordModalOpen, setRemoveRecordModalOpen] = useState(false);
 
   const days = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -56,12 +58,29 @@ const ExerciseItem = ({ data }) => {
       <div>{data.intensity}</div>
       <div>{data.minute}분</div>
       <button
-        onClick={() => {
-          onClickRemoveBtn(data);
+        onClick={(e) => {
+          e.preventDefault();
+          setRemoveRecordModalOpen((prev) => !prev);
         }}
       >
         기록 삭제
       </button>
+      {removeRecordModalOpen && (
+        <Modal
+          innerContents={
+            <span>{`${timeForToday(data.createdAt)} 정성스럽게 작성한
+            ${data.name} 기록을 정말로 삭제할까요? 😢`}</span>
+          }
+          closeMessage="돌아가기"
+          okMessage="삭제합니다"
+          okAction={() => {
+            onClickRemoveBtn(data);
+          }}
+          closeAction={() => {
+            setRemoveRecordModalOpen(false);
+          }}
+        ></Modal>
+      )}
       <span onClick={() => setShareRecordsAsGroup((prev) => !prev)}>
         그룹에 공유하기
       </span>

@@ -78,7 +78,6 @@ const DietItem = ({ data }) => {
         onClick={(e) => {
           e.preventDefault();
           setRemoveRecordModalOpen((prev) => !prev);
-          console.log(removeRecordModalOpen);
         }}
       >
         기록 삭제

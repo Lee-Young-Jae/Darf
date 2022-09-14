@@ -2,12 +2,11 @@ import { message } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import UserHealthBoardForm from "./components/UserHealthBoardForm";
+import UserWidthItem from "./components/UserWidthItem";
 import WeekCalendar from "./components/WeekCalendar";
 import { CHANGE_SELECT_DATE_REQUEST } from "./modules/reducers/calendar";
 import {
   LOAD_WIDTH_REQUEST,
-  REMOVE_WIDTH_REQUEST,
   WIDTH_WRITE_REQUEST,
 } from "./modules/reducers/user";
 
@@ -76,14 +75,6 @@ const Width = () => {
     console.log(width);
   };
 
-  /** removeWidth Dispatch를 하는 함수 */
-  const onClickWidthRemoveBtn = (data) => {
-    dispatch({
-      type: REMOVE_WIDTH_REQUEST,
-      data: { WidthId: data.id },
-    });
-  };
-
   const onClickDate = (date) => {
     dispatch({
       type: CHANGE_SELECT_DATE_REQUEST,
@@ -130,12 +121,10 @@ const Width = () => {
           </form>
         </section>
         <section className="widthListWrapper">
-          {me?.width && (
-            <UserHealthBoardForm
-              data={me.width}
-              eventHandler={onClickWidthRemoveBtn}
-            ></UserHealthBoardForm>
-          )}
+          {me?.width &&
+            me.width.map((data) => {
+              return <UserWidthItem key={data.id} data={data}></UserWidthItem>;
+            })}
         </section>
       </div>
     </div>
