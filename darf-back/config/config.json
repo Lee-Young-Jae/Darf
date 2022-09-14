@@ -1,0 +1,31 @@
+{
+  "development": {
+    "username": "ori",
+    "password": "dudwo9786@",
+    "database": "health-diary",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "timezone": "+09:00",
+    "dialectOptions": {
+      "dataStrings": true,
+      "typeCast": true
+    },
+    "define": {
+      "timestamps": true
+    }
+  },
+  "test": {
+    "username": "ori",
+    "password": "dudwo9786@",
+    "database": "health-diary",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "ori",
+    "password": "dudwo9786@",
+    "database": "health-diary",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}

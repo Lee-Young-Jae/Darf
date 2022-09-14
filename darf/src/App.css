@@ -1,0 +1,1839 @@
+@import "~antd/dist/antd.css";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+
+/** 노멀라이징 */
+html {
+  font-family: "Apple SD Gothic Neo", Roboto, "Noto Sans KR", NanumGothic,
+    "Malgun Gothic", sans-serif;
+  line-height: 1.2;
+  word-wrap: break-word;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+div,
+span,
+article,
+section,
+header,
+footer,
+aside,
+p,
+ul,
+li,
+fieldset,
+legend,
+label,
+a,
+nav,
+form {
+  box-sizing: border-box;
+}
+ol,
+ul,
+li {
+  list-style: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  border: 0;
+}
+button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+a {
+  text-decoration-line: none;
+}
+
+html {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 14px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+.cursorPointer {
+  cursor: pointer;
+}
+
+.underbar {
+  width: 100%;
+  border-bottom: 1px solid #1d1d1f;
+  border-radius: 0;
+  font-weight: bold;
+}
+
+.MyButton {
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  min-width: 90px;
+  min-height: 45px;
+  cursor: pointer;
+}
+
+.MyInput {
+  border: none;
+  /* background-color: #ececec; */
+  /* border-radius: 20px; */
+  padding: 3px;
+  margin: 0px 2px;
+  border-bottom: 1px solid black;
+}
+
+.MyInput:focus {
+  outline: none;
+}
+
+.MyInput:placeholder {
+  font-weight: lighter;
+}
+
+.MyButton:hover {
+  border: solid 2px #6e6e6e;
+}
+
+.MyButton_default {
+}
+
+.MyButton_positive {
+  background-color: #74959a;
+  color: white;
+}
+
+.MyButton_negative {
+  background-color: #495371;
+  color: white;
+}
+
+.MyModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: 1s;
+}
+
+.MyModal .ModalForm {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px #f7f7f7;
+  border-radius: 7px;
+  width: 70%;
+  height: 50%;
+  background-color: #f7f7f7;
+  justify-content: space-around;
+  box-shadow: 5px 10px 10px 1px rgba(0, 0, 0, 0.3);
+}
+
+.MyModal .ModalTitle {
+  font-size: 1.7rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.MyModal .ModalMessage {
+  text-align: center;
+}
+
+.MyModal .ModalMenuList {
+  text-align: center;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 5px;
+}
+
+.MyModal a {
+  color: black;
+}
+
+.MyModal .ModalMenu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3px;
+  height: 100%;
+  border: 1px solid #ececec;
+  font-size: 1.3rem;
+  border-radius: 5px;
+  padding: 0;
+}
+
+.MyModal .ModalMenu:hover {
+  background-color: black;
+  color: white;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.MyModal .ModalBtn {
+}
+
+.MyModal-active .ModalForm {
+  top: 0;
+}
+
+@keyframes modal-show {
+  from {
+    opacity: 0;
+    margin-top: -50px;
+  }
+  to {
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+@keyframes modal-bg-show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalComponent.modalBackground {
+  z-index: -1;
+  transition: 0.5s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+  animation: modal-bg-show 0.3s;
+}
+
+.modalComponent .modalBody {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 40px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+  transform: translateX(-50%) translateY(-50%);
+  min-width: 300px;
+  z-index: 1;
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: modal-show 0.3s;
+  overflow: hidden;
+}
+
+.modalComponent footer {
+  display: flex;
+  justify-content: space-around;
+  margin: 5px 0px;
+}
+
+.modalBody button {
+  font-weight: bold;
+}
+
+.modalComponent header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.groupCard {
+  display: flex;
+  padding: 10px;
+}
+
+.groupCard button {
+  margin-left: 0.5rem;
+}
+
+textarea {
+  resize: none;
+  width: 100%;
+  min-height: 6.25rem;
+  border: none;
+  border-radius: 15px;
+  background-color: #ececec;
+  line-height: 160%;
+  overflow: hidden;
+  border: 1px solid black;
+}
+textarea :focus {
+  outline: none;
+  border: 1px solid #ececec;
+}
+
+.emoji-mini-black {
+  border-radius: 150px;
+  display: flexbox;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  background-color: #000000;
+  min-width: 3rem;
+  min-height: 3rem;
+  padding: 5px;
+}
+
+.LoginPage {
+}
+
+.DiaryPage {
+}
+
+.DiaryPage .DiaryForm {
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.DiaryPage .DiaryForm input {
+  min-width: 400px;
+  padding: 10px 5px;
+  border: solid 1px #ececec;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.DiaryPage .DiaryForm textarea {
+  min-width: 400px;
+  min-height: 300px;
+  padding: 10px 5px;
+  border: solid 1px #ececec;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.DiaryPage .DiaryForm button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+  min-width: 400px;
+  padding: 5px 5px;
+  font-size: 15px;
+}
+
+.DiaryList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.DiaryItem {
+  background-color: #f6f6f6;
+  border: solid 1px #ececec;
+  border-radius: 5px;
+  width: 50vw;
+  margin-top: 5px;
+  padding: 10px;
+}
+
+.DiaryItem:hover .DiaryHead button {
+  display: inline;
+}
+
+.DiaryItem .DiaryHead {
+  display: flex;
+  justify-content: space-between;
+}
+
+.DiaryItem .DiaryHead button {
+  display: none;
+  background-color: rgba(105, 105, 105, 0.527);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.DiaryItem .title {
+  border-bottom: solid 1px #ececec;
+  padding: 5px;
+}
+
+.DiaryItem .content {
+  padding: 5px;
+}
+
+.DiaryItem .emotion {
+  padding: 5px;
+}
+
+.HealthState {
+  padding-bottom: 50px;
+}
+
+.HealthState .HealthFormBoxWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  background-color: #f7f7f7;
+}
+
+.HealthFormBox {
+  margin: 5px;
+  background-color: white;
+  border-radius: 3px;
+  padding: 10px;
+  min-width: 30%;
+}
+
+.HealthFormBox .InputWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.HealthFormBox .RangeInput {
+  flex-grow: 1;
+}
+
+.HealthFormBox .Input {
+  margin-left: 5px;
+  max-width: 100px;
+}
+
+.Calender {
+  margin: 40px 0px;
+  font-family: "San Francisco";
+  font-weight: 300;
+}
+
+.Calender .CalenderHeader {
+  text-align: center;
+  font-size: 26px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.Calender .HeaderMonth {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.Calender .CalenderBody {
+  margin: 20px 50px;
+  /* border: 2px solid #ececec; */
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.Calender .DayWeek {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.Calender .Day {
+  color: #6e6e6e;
+  font-weight: bold;
+  width: 13%;
+  text-align: end;
+  padding: 5px;
+}
+
+.Calender .Day:nth-child(1) {
+  color: #fd565f;
+}
+
+.Calender .Day:nth-child(7) {
+  color: rgb(65, 65, 253);
+}
+
+.Calender .Date {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.Calender .DateItem {
+  width: 13%;
+  font-size: 20px;
+  text-align: right;
+  vertical-align: top;
+  border: 1px solid #ececec;
+  min-height: 120px;
+  padding: 5px 10px;
+}
+
+.Calender .Today {
+  border: solid 1px #6e6e6e;
+  /* background-color: #f3f3f3; */
+}
+
+.Calender .DateItem:nth-child(7n) {
+  color: blue;
+  background-color: #f5f5f5;
+}
+
+.Calender .DateItem:nth-child(7n-6) {
+  color: #fd565f;
+  background-color: #f5f5f5;
+}
+
+.Calender .ThisMonthDate:hover {
+  border: solid 1px #000000;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.Calender .PrevMonthDate {
+  /* color: #ececec; */
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+.Calender .NextMonthDate {
+  /* color: #ececec; */
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+.calenderGuideBox {
+  /* position: fixed; */
+  position: absolute;
+  top: 0;
+  background-color: #6e6e6ea5;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  /* padding: 0 10vw; */
+}
+
+.calenderGuideBox .Header {
+  padding: 10px 0;
+  background-color: black;
+  color: white;
+  margin: 0;
+}
+
+.calenderGuideBox .button {
+  background-color: white;
+  color: black;
+  margin: 0;
+  cursor: pointer;
+}
+
+.calenderGuideBox .slick-slider {
+  background-color: #000000;
+}
+
+.CalenderGuideImages {
+  max-height: 300px;
+  object-fit: cover;
+}
+
+/* UserHealthBoardForm */
+
+.UserHealthBoradFormTitle {
+  font-family: "San Francisco";
+  font-size: 1.2rem;
+}
+
+.UserHealthBoardForm ul {
+  padding: 0;
+}
+
+.UserHealthBoardForm li {
+  /* border: 1px solid #ececec; */
+  font-family: "San Francisco";
+  margin: 10px 0px;
+  list-style: none;
+  border-radius: 5px;
+  box-shadow: 0 0 0.6rem rgb(0 0 0 / 20%);
+  padding: 2rem;
+}
+
+/* 운동기록 exercise Page */
+
+.exercisePage {
+  font-family: "Noto Sans KR", sans-serif;
+  /* font-family: "Apple SD Gothic Neo", sans-serif; */
+}
+
+.exercisePage .sectionWrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+
+.exercisePage .exerciseInputWrapper {
+  position: -webkit-sticky; /* 사파리 */
+  position: sticky;
+  display: flex;
+  top: 0;
+  flex-direction: column;
+  padding: 50px;
+  backdrop-filter: blur(30px);
+  min-width: 30%;
+  margin: 0 auto;
+}
+
+.exercisePage .exerciseListWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+  min-height: 100vh;
+  margin: 0 auto;
+  backdrop-filter: blur(200px);
+}
+
+.exercisePage .exerciseListWrapper::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  min-height: 100%;
+  z-index: -1;
+  background: linear-gradient(
+      to right,
+      rgba(162, 162, 144, 0.4) 5%,
+      rgba(111, 86, 86, 0.3),
+      rgba(108, 145, 110, 0.4) 75%,
+      rgba(78, 81, 42, 0.3)
+    ),
+    radial-gradient(
+      circle farthest-side at 10% 20%,
+      rgba(255, 0, 0, 0.3),
+      rgba(0, 0, 255, 0.1),
+      rgba(255, 255, 255, 0.2)
+    ),
+    radial-gradient(
+      circle farthest-side at 80% 90%,
+      rgba(255, 0, 0, 0.3),
+      rgba(0, 0, 255, 0.1),
+      rgba(255, 255, 255, 0.2)
+    );
+}
+
+.exercisePage .ExerciseList {
+  min-width: 50%;
+  margin: 0 50%;
+}
+
+.exercisePage .ExerciseItem {
+  margin: 30px 0;
+  border-radius: 25px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 300px;
+  transform: 1s;
+}
+
+.exercisePage .ExerciseItem:hover {
+  box-shadow: 0 0 0.6rem rgb(0 0 0 / 40%);
+  transition: 0.3s;
+}
+
+.exercisePage .ExerciseItem {
+  animation: registed 0.5s normal;
+  transition: 0.4s;
+}
+
+.exercisePage .ExerciseItem-nonvisible {
+  opacity: 0;
+  min-width: 300px;
+  display: flex;
+
+  align-items: center;
+  flex-direction: column;
+
+  transition: 1s;
+}
+
+.exercisePage .ExerciseItem-visible {
+  margin: 30px 0;
+  border-radius: 25px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 300px;
+  transition: 1s;
+}
+
+.exerciseInputForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-height: 50vh;
+}
+
+.formTextbox {
+  position: relative;
+}
+.formTextboxInput {
+  padding-right: 3.82353rem;
+  color: #1d1d1f;
+  border-color: #d2d2d7;
+  background-color: hsla(0, 0%, 100%, 0.8);
+  text-overflow: ellipsis;
+  width: 100%;
+  height: 3.29412rem;
+  border-radius: 12px;
+  border-width: 1px;
+  border-style: solid;
+  box-sizing: border-box;
+  margin-bottom: 0.82353rem;
+  padding: 1.05882rem 0.94118rem 0;
+  text-align: left;
+  appearance: none;
+}
+
+.formTextboxLabel {
+  line-height: 1.35296;
+  letter-spacing: 0;
+  color: #86868b;
+  position: absolute;
+  pointer-events: none;
+  transition-timing-function: ease-in;
+  transition-duration: 0.125s;
+  top: 1.05882rem;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: calc(100% - 32px);
+  left: 1rem;
+  font-size: 17px;
+  line-height: 1.23536;
+  font-weight: 400;
+}
+
+.formTextboxInput:valid + .formTextboxLabel {
+  top: -1px;
+  font-size: 13px;
+}
+
+.formTextboxInput:focus + .formTextboxLabel {
+  top: -1px;
+  font-size: 13px;
+}
+
+.checkList {
+  display: flex;
+}
+
+.checkList .checkListItem {
+  margin-right: 5px;
+  cursor: pointer;
+  animation: opend 0.5s forwards;
+}
+
+@keyframes opend {
+  0% {
+    transform: translateX(-35px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+/* 식단 Diet Page*/
+.dietPage .sectionWrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+
+.dietPage .dietInputWrapper {
+  position: -webkit-sticky; /* 사파리 */
+  position: sticky;
+  display: flex;
+  top: 0;
+  flex-direction: column;
+  padding: 50px;
+  backdrop-filter: blur(30px);
+  min-width: 30%;
+  margin: 0 auto;
+}
+
+.btnWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dietPage .dietListWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: #ececec62; */
+  width: 70%;
+  min-height: 100vh;
+  margin: 0 auto;
+  backdrop-filter: blur(100px);
+}
+
+.dietPage .dietListWrapper::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  min-height: 100%;
+  z-index: -1;
+  background: linear-gradient(
+    to top right,
+    rgba(162, 162, 144, 0.3),
+    rgba(111, 86, 86, 0.3),
+    rgba(108, 145, 110, 0.3),
+    rgba(78, 81, 42, 0.3),
+    rgba(81, 42, 42, 0.3),
+    rgba(42, 81, 49, 0.3),
+    rgba(42, 44, 81, 0.3)
+  );
+}
+
+.dietPage .DietList {
+  min-width: 50%;
+  margin: 0 50%;
+}
+
+.dietPage .dietImageWrapper {
+  object-fit: cover;
+  width: 50%;
+  height: 30%;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.dietPage .dietInputFormWrapper {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-height: 50vh;
+  transition: 1s; */
+  margin-top: 10%;
+}
+
+.dietPage .DietItem {
+  margin: 30px 0;
+  border-radius: 25px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 300px;
+  transform: 1s;
+}
+
+.dietPage .DietItem:hover {
+  box-shadow: 0 0 0.6rem rgb(0 0 0 / 40%);
+
+  transition: 0.3s;
+}
+
+.dietPage .DietItem {
+  animation: registed 0.5s normal;
+  transition: 0.4s;
+}
+
+@keyframes registed {
+  0% {
+    transform: translateY(-10px) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.dietPage .DietItem-nonvisible {
+  opacity: 0;
+  transition: 1s;
+}
+
+.dietPage .DietItem-visible {
+  margin: 30px 0;
+  border-radius: 25px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 300px;
+  transition: 1s;
+}
+
+.dietPage .FoodSearchWrapper {
+  border: 1px solid #d2d2d7;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.dietPage .FoodSearchForm {
+}
+
+.dietPage .FoodSearchForm input {
+  width: 100%;
+  height: 3.29412rem;
+  border: none;
+}
+
+.dietPage .FoodSearchResultForm {
+  max-height: 200px;
+  max-width: 400px;
+  overflow-y: scroll;
+  border-radius: 5px;
+}
+
+.dietPage .FoodSearchResultForm::-webkit-scrollbar {
+  width: 10px;
+  background-color: #ffffff;
+}
+
+.dietPage .FoodSearchResultForm::-webkit-scrollbar-thumb {
+  /* 막대 */
+  background-color: #ececec;
+}
+.dietPage .FoodSearchResultForm::-webkit-scrollbar-track {
+  /* 여백 */
+  background-color: #ffffff;
+}
+
+.dietPage .FoodSearchResult {
+  font-size: 1.1rem;
+  min-height: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  animation: vaild 0.5s forwards;
+}
+@keyframes vaild {
+  0% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.dietPage .FoodSearchResult:hover {
+}
+
+.dietPage .FoodSearchResult .FoodKcal {
+  color: #6e6e6e;
+  margin: 0;
+}
+
+.dietPage .FoodTypeBox {
+  padding: 10px 0px;
+}
+
+.dietPage .FoodType {
+  border: 1px solid #0000006c;
+  border-radius: 15px;
+  margin-right: 5px;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  /* box-shadow: 0px 0px 2px 1px #474ce54e; */
+}
+
+.dietPage .FoodType:hover {
+  /* box-shadow: 0px 0px 5px 2px #474ce54e; */
+  box-shadow: 0 0 0.6rem rgb(0 0 0 / 20%);
+
+  transition: 0.4s;
+}
+
+.dietPage .FoodType-active {
+  background-color: #495371;
+  color: white;
+  transition: 0.5s;
+}
+
+/* widthPage 체중 입력 페이지 */
+.widthPage .sectionWrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+
+.widthPage .widthInputWrapper {
+  position: -webkit-sticky; /* 사파리 */
+  position: sticky;
+  display: flex;
+  top: 0;
+  flex-direction: column;
+  padding: 50px;
+  backdrop-filter: blur(30px);
+  min-width: 30%;
+  margin: 0 auto;
+}
+
+.widthPage .widthListWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: #ececec62; */
+  width: 70%;
+  min-height: 100vh;
+  margin: 0 auto;
+  backdrop-filter: blur(100px);
+}
+
+.widthPage .widthListWrapper::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  min-height: 100%;
+  z-index: -1;
+  background: linear-gradient(
+      to top right,
+      rgba(148, 144, 162, 0.3),
+      rgba(185, 115, 115, 0.3),
+      rgba(72, 86, 189, 0.3)
+    ),
+    radial-gradient(
+      circle farthest-side at 10% 20%,
+      rgba(0, 255, 255, 0.3),
+      rgba(0, 0, 255, 0.1),
+      rgba(255, 255, 255, 0.2)
+    ),
+    radial-gradient(
+      circle farthest-side at 90% 10%,
+      rgba(255, 255, 0, 0.3),
+      rgba(0, 0, 255, 0.1),
+      rgba(255, 255, 255, 0.2)
+    ),
+    radial-gradient(
+      circle farthest-side at 80% 90%,
+      rgba(0, 255, 255, 0.3),
+      rgba(0, 0, 255, 0.1),
+      rgba(255, 255, 255, 0.2)
+    ),
+    radial-gradient(
+      circle farthest-side at 50% 50%,
+      rgba(0, 255, 255, 0.3),
+      rgba(0, 0, 255, 0.1),
+      rgba(255, 255, 255, 0.2)
+    );
+}
+
+/* Group 그룹 페이지*/
+
+.GroupPage .subTitle {
+  font-family: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.GroupPage .searchedGroupList {
+  border: 1px solid #ececec;
+  padding: 1rem;
+}
+
+.GroupPage .searchedGroupItem {
+  border: 1px solid #ececec;
+}
+
+.GroupPage .RegistedGroupList {
+  border: 1px solid #ececec;
+  padding: 1rem;
+}
+
+.GroupPage .RegistedGroupItem {
+  border: 1px solid #ececec;
+}
+
+.GroupPage .groupSince {
+  color: #808080;
+}
+
+.GroupPage .groupPurpose {
+  border-style: none;
+  border-radius: 5px;
+  color: white;
+  margin-right: 5px;
+  padding: 1px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.GroupPage .groupPurpose-active {
+  background-color: #474ce5;
+  transition: 0.2s;
+  box-shadow: 0px 0px 5px 2px rgba(4, 0, 255, 0.5);
+}
+
+.groupPurpose input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  outline: 0;
+}
+
+.groupPurpose button {
+  display: none;
+}
+
+/* .groupPurpose input[type="checkbox"]::after {
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  content: "";
+  display: none;
+  height: 40%;
+  left: 40%;
+  position: relative;
+  top: 20%;
+  width: 15%;
+  cursor: pointer;
+} */
+
+.groupPurpose-0 {
+  background-color: #716b49;
+}
+.groupPurpose-1 {
+  background-color: #759a74;
+}
+.groupPurpose-2 {
+  background-color: #494a71;
+}
+.groupPurpose-3 {
+  background-color: #664971;
+}
+.groupPurpose-4 {
+  background-color: #71496c;
+}
+.groupPurpose-5 {
+  background-color: #714949;
+}
+
+.groupEmoji {
+  font-size: 2rem;
+  background-color: #000000;
+  border-radius: 150px;
+  padding: 5px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 그룹 Board 페이지 */
+
+.GroupBoardPage {
+  margin: 25px;
+  padding: 10px 0;
+}
+
+.GroupBoardPage .groupPurpose {
+  border-style: none;
+  border-radius: 5px;
+  color: white;
+  margin-right: 5px;
+  padding: 1px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.GroupBoardPage .groupPurpose-active {
+  background-color: #474ce5;
+  transition: 0.2s;
+  box-shadow: 0px 0px 5px 2px rgba(4, 0, 255, 0.5);
+}
+
+.GroupBoardPage .PostItem {
+  border: 1px solid #ececec;
+}
+
+/* PostItem Component */
+.GroupBoardPage .PostItem {
+  margin: 25px 0px;
+  padding: 5px;
+  border: 1px solid #ececec;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px 3px #dcdbdb;
+}
+
+.GroupBoardPage .clapWrapper {
+  position: relative;
+}
+
+.GroupBoardPage .clapBtn {
+  outline: none;
+  cursor: pointer;
+  font-size: 20px;
+}
+.GroupBoardPage .clapCounter {
+  position: absolute;
+  top: 0px;
+  font-weight: 700;
+  opacity: 0;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 30px;
+  min-width: 50px;
+  text-align: center;
+  z-index: -1;
+}
+.GroupBoardPage .clapCounter.active {
+  opacity: 1;
+}
+
+.GroupBoardPage .clapCounter.first {
+  animation: first-bump 1s forwards;
+}
+.GroupBoardPage .clapBtn.active {
+  animation: crap 1s normal;
+}
+
+/* 처음 실행 됐을때 clap_counter를 표시한다. -> 높이(translateY) 조절 가능 */
+@keyframes first-bump {
+  0% {
+    transform: translateY(-10px) scale(0.5);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px) scale(1);
+    opacity: 0;
+  }
+}
+
+/* 버튼이 클릭될때마다 튕기듯이 커지고 처음 위치에 표시할 수 있게 해주는 애니메이션 
+-> 원하는 크기(scale)와 높이(translateY)는 조절 가능 */
+@keyframes crap {
+  0% {
+    transform: rotate(0deg) scale(1.1);
+  }
+  25% {
+    transform: rotate(-10deg) scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  75% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+.GroupBoardPage .postImageBox {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.GroupBoardPage .postImageItem {
+  width: 32%;
+}
+
+.GroupBoardPage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Comment Component */
+
+.GroupBoardPage .commentItem {
+  border: 1px solid #ececec;
+  padding: 15px 0;
+}
+
+.GroupBoardPage .commentInputBox {
+  border: 1px solid #ececec;
+}
+
+.GroupBoardPage .commentInputBoxFlex {
+  display: flex;
+}
+
+.commentInputBox textarea {
+  border-style: none;
+  border-radius: 20px;
+  border: 1px solid #ececec;
+  flex-grow: 1;
+}
+
+.GroupBoardPage .nicknameIcon {
+  border-radius: 150px;
+  padding: 5px;
+  background-color: #ececec;
+  border: 1px solid #000000;
+  margin: 45px 0px;
+}
+
+.GroupBoardPage .userListName {
+  display: inline-block;
+  cursor: pointer;
+  border: 1px solid #ececec;
+  box-shadow: 0px 0px 5px 5px #ececec;
+  border-radius: 5px;
+  margin-right: 2px;
+}
+
+.GroupBoardPage .userListName:hover {
+  background-color: #ececec;
+
+  transition: 0.2s;
+}
+
+/* ProfilePage 프로필 페이지 (마이페이지)*/
+
+.ProfilePage .profileHeader {
+  position: relative;
+  /* overflow: hidden; */
+  min-height: 20vh;
+  display: flex;
+  justify-content: left;
+}
+
+.ProfilePage .userProfileEmoji {
+  margin: 1.5rem 3rem 1.5rem 3rem;
+  font-size: 5rem;
+  background-color: #ececec50;
+  border-radius: 300px;
+  width: 11rem;
+  height: 11rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+  cursor: context-menu;
+}
+
+.ProfilePage .profileHeader::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100%;
+  min-height: 100%;
+  z-index: -1;
+  background: linear-gradient(
+      to right,
+      rgba(162, 162, 144, 0.4) 5%,
+      rgba(111, 86, 86, 0.3),
+      rgba(108, 145, 110, 0.4) 75%,
+      rgba(78, 81, 42, 0.3)
+    ),
+    radial-gradient(
+      circle farthest-side at 10% 20%,
+      rgba(255, 0, 0, 0.3),
+      rgba(0, 0, 255, 0.1),
+      rgba(255, 255, 255, 0.2)
+    ),
+    radial-gradient(
+      circle farthest-side at 80% 90%,
+      rgba(255, 0, 0, 0.3),
+      rgba(0, 0, 255, 0.1),
+      rgba(255, 255, 255, 0.2)
+    );
+}
+
+.ProfilePage .challengeBoxWrapper {
+  position: absolute;
+  top: 10rem;
+  left: 10rem;
+  z-index: 999;
+}
+.userProfileEmoji.active {
+  transform: translateY(-5px);
+  transition: 0.3s;
+}
+
+.ProfilePage .challengeBox {
+  width: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  box-shadow: 0 0.3rem 0.6rem rgb(0 0 0 / 40%);
+  background-color: #ececec60;
+  justify-content: space-around;
+  padding: 5px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+.ProfilePage .challengeBox-folded {
+  display: flex;
+  width: max-content;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  box-shadow: 0 0.3rem 0.6rem rgb(0 0 0 / 40%);
+  justify-content: left;
+  padding: 5px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+.ProfilePage .challengeBox-folded:hover {
+  transform: translateY(-5px);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.ProfilePage .challengeBox:hover {
+  transform: translateY(-5px);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.ProfilePage .challengeItem:hover {
+  transform: translateY(-5px);
+  transition: 0.3s;
+  /* box-shadow: 0 0.3rem 0.6rem rgb(0 0 0 / 40%); */
+}
+.ProfilePage .challengeItem:hover .challengeContent {
+  opacity: 1;
+  transition: 0.3s;
+}
+
+.ProfilePage .challengeItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* background-color: #74959a; */
+  /* background-color: white; */
+
+  margin: 1px;
+  width: 32%;
+  /* width: 110px; */
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.ProfilePage .challengeTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.ProfilePage .challengeIcon {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.ProfilePage .challengeContent {
+  background-color: white;
+  font-size: 0.8rem;
+  text-align: center;
+  opacity: 0;
+  transition: 0.3s;
+  box-shadow: 0 0.3rem 0.6rem rgb(0 0 0 / 40%);
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+.ProfilePage .profileBody {
+  padding: 3rem;
+  min-height: 80vh;
+}
+
+.ProfilePage .nickname {
+  font-weight: bold;
+}
+
+.ProfilePage .changeNicknameInput {
+  border: none;
+  font-size: large;
+  font-weight: bold;
+  border-bottom: 2px solid #000000;
+}
+
+.ProfilePage .btnWrapper {
+  justify-content: center;
+}
+.ProfilePage .btnWrapper button {
+  transition: 0.3s;
+  border-radius: 5px;
+  padding: 0.7rem;
+  opacity: 0.5;
+}
+.ProfilePage .btnWrapper button.active {
+  /* background-color: #474ce5; */
+  opacity: 1;
+  background: linear-gradient(
+      to right,
+      rgba(162, 162, 144, 0.4) 5%,
+      rgba(111, 86, 86, 0.3),
+      rgba(108, 145, 110, 0.4) 75%,
+      rgba(78, 81, 42, 0.3)
+    ),
+    radial-gradient(
+      circle farthest-side at 10% 20%,
+      rgba(255, 0, 0, 0.3),
+      rgba(0, 0, 255, 0.1),
+      rgba(255, 255, 255, 0.2)
+    ),
+    radial-gradient(
+      circle farthest-side at 80% 90%,
+      rgba(255, 0, 0, 0.3),
+      rgba(0, 0, 255, 0.1),
+      rgba(255, 255, 255, 0.2)
+    );
+  transition: 0.3s;
+  color: white;
+  margin: 0 5px 0 5px;
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.3);
+}
+
+/* 주간 캘린더 */
+
+.WeekCalendarComponent {
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  /* box-shadow: 1px 5px 5px 2px rgba(121, 121, 121, 0.3); */
+  /* overscroll-behavior: contain; */
+}
+
+.WeekCalendarComponent header {
+  display: flex;
+  justify-content: space-around;
+  overscroll-behavior: contain;
+}
+
+.WeekCalendarComponent .weekCalendarBody {
+  padding: 10px;
+}
+
+.WeekCalendarComponent .dayOfTheWeek {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.WeekCalendarComponent .weeklyDate {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.WeekCalendarComponent .weekCalendarItem {
+}
+
+.WeekCalendarComponent .weekCalendarDays {
+  margin-left: 5px;
+}
+
+.WeekCalendarComponent .weekCalendarDate {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.WeekCalendarComponent .weekCalendarDate-active {
+  background-color: #fd565f;
+  border-radius: 150px;
+  transition: 0.4s;
+}
+
+/* 로그인 폼 */
+
+.LoginPage .login-form {
+  font-family: "Noto Sans KR", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.login-form h1 {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 60px;
+  font-weight: 1000;
+}
+.int-area {
+  width: 400px;
+  position: relative;
+  margin-top: 20px;
+}
+.int-area:first-child {
+  margin-top: 0;
+}
+.int-area input {
+  width: 100%;
+  padding: 20px 10px 10px;
+  border: none;
+  border-bottom: 1px solid #999;
+  font-size: 18px;
+  color: black;
+  outline: none;
+}
+.int-area label {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  font-size: 18px;
+  color: #999;
+}
+.int-area label.warning {
+  color: red !important;
+  animation: warning 0.3s ease;
+  animation-iteration-count: 3;
+}
+@keyframes warning {
+  0% {
+    transform: translateX(-8px);
+  }
+  25% {
+    transform: translateX(8px);
+  }
+  50% {
+    transform: translateX(-8px);
+  }
+  75% {
+    transform: translateX(8px);
+  }
+}
+.int-area input:focus + label,
+.int-area input:valid + label {
+  top: -2px;
+  font-size: 13px;
+  color: #166cea;
+}
+
+.btn-area {
+  margin-top: 30px;
+}
+.btn-area button {
+  width: 100%;
+  height: 50px;
+  background: black;
+  color: #fff;
+  font-size: 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+.btn-area-a {
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-area-a {
+  min-width: 100%;
+  height: 50px;
+  background: #fae109;
+  color: #fff;
+  font-size: 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.btn-area-kakao a {
+  text-decoration: none;
+  color: white;
+}
+
+.LoginPage .subText {
+  font-size: 15px;
+  color: #999;
+  text-decoration: none;
+}
+
+.btn-area-b {
+  color: #166cea;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1390px) {
+  .exercisePage .sectionWrapper {
+    min-height: auto;
+  }
+
+  .exercisePage .exerciseInputWrapper {
+    position: relative;
+    border-radius: 5px;
+    background-color: #ececec50;
+    margin: 5px auto;
+  }
+
+  .exercisePage .exerciseListWrapper {
+    margin: 0;
+    width: 100vw;
+    min-height: 20vh;
+  }
+
+  .exercisePage .exerciseListWrapper::after {
+    width: 100%;
+  }
+
+  .dietPage .sectionWrapper {
+    min-height: auto;
+  }
+
+  .dietPage .dietInputWrapper {
+    position: relative;
+    border-radius: 5px;
+    background-color: #ececec50;
+    margin: 5px auto;
+  }
+
+  .dietPage .dietListWrapper {
+    margin: 0;
+    width: 100vw;
+    min-height: 20vh;
+  }
+
+  .dietPage .dietListWrapper::after {
+    width: 100%;
+  }
+
+  .ProfilePage .challengeBox {
+    width: 50vw;
+  }
+}
