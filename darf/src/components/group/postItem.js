@@ -6,37 +6,16 @@ import {
   REMOVE_GROUP_POST_REQUEST,
 } from "../../modules/reducers/group";
 import Comment from "./comment";
+import Modal from "../Modal";
+import { timeForToday } from "../../util/function";
 
 const PostItem = ({ post }) => {
   const { me } = useSelector((state) => state.user);
   const { selected } = useSelector((state) => state.group.group);
   const [date, setDate] = useState(new Date(post.date));
   const [clapping, setClapping] = useState(false);
-
-  const timeForToday = (value) => {
-    const today = new Date();
-    const timeValue = new Date(value);
-
-    const betweenTime = Math.floor(
-      (today.getTime() - timeValue.getTime()) / 1000 / 60
-    );
-    if (betweenTime < 1) return "방금전";
-    if (betweenTime < 60) {
-      return `${betweenTime}분전`;
-    }
-
-    const betweenTimeHour = Math.floor(betweenTime / 60);
-    if (betweenTimeHour < 24) {
-      return `${betweenTimeHour}시간전`;
-    }
-
-    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-    if (betweenTimeDay < 365) {
-      return `${betweenTimeDay}일전`;
-    }
-
-    return `${Math.floor(betweenTimeDay / 365)}년전`;
-  };
+  const [groupPostRemoveModalOpen, setGroupPostRemoveModalOpen] =
+    useState(false);
 
   const dispatch = useDispatch();
 
@@ -72,8 +51,6 @@ const PostItem = ({ post }) => {
 
   /** 게시글 삭제버튼을 누를때 호출하는 deletePost dispatch를 수행하는 함수 */
   const onClickRemovePostBtn = () => {
-    console.log("정말 삭제하냐는 모달 호출");
-
     dispatch({
       type: REMOVE_GROUP_POST_REQUEST,
       data: post.id,
@@ -127,7 +104,31 @@ const PostItem = ({ post }) => {
           </div>
 
           {(post.UserId === me.id || me.id === selected.adminId) && (
-            <button onClick={onClickRemovePostBtn}>삭제</button>
+            <button
+              onClick={() => {
+                setGroupPostRemoveModalOpen(true);
+              }}
+            >
+              삭제
+            </button>
+          )}
+          {groupPostRemoveModalOpen && (
+            <Modal
+              innerContents={
+                <div>
+                  <h2>게시글 삭제</h2>
+                  {`${timeForToday(
+                    post.createdAt
+                  )} 작성된 이 게시물을 삭제할까요...? 😢`}
+                </div>
+              }
+              okMessage="삭제합니다."
+              closeMessage="조금 더 고민해볼게요"
+              okAction={onClickRemovePostBtn}
+              closeAction={() => {
+                setGroupPostRemoveModalOpen(false);
+              }}
+            ></Modal>
           )}
 
           <Comment
