@@ -29,10 +29,14 @@ const Login = () => {
   const loginEmailRef = useRef();
   const loginPasswordRef = useRef();
   const signUpEmailRef = useRef();
+  const signUpPasswordRef = useRef();
   const signUpConfirmPasswordRef = useRef();
+  const signUpNicknameRef = useRef();
 
   const $emailLabelRef = useRef();
   const $passwordLabelRef = useRef();
+  const $nicknameLabelRef = useRef();
+  const $confirmPasswordLabelRef = useRef();
 
   // ############ onChange ############
   const onChangeLoginEmail = useCallback((e) => {
@@ -47,18 +51,22 @@ const Login = () => {
 
   const onChangeSignUpEmail = useCallback((e) => {
     setUserSignUpEmail(e.target.value);
+    $emailLabelRef?.current.classList.remove("warning");
   }, []);
 
   const onChangeSignUpPassword = useCallback((e) => {
     setUserSignUpPassword(e.target.value);
+    $passwordLabelRef?.current.classList.remove("warning");
   }, []);
 
   const onChangeSignUpNickname = useCallback((e) => {
     setUserSignUpNickname(e.target.value);
+    $nicknameLabelRef?.current.classList.remove("warning");
   }, []);
 
   const onChangeConfirmSignUpPassword = useCallback((e) => {
     setUserSignUpConfirmPassword(e.target.value);
+    $confirmPasswordLabelRef?.current.classList.remove("warning");
   }, []);
 
   const togleSignUpMode = useCallback(() => {
@@ -93,7 +101,8 @@ const Login = () => {
     // message.error(error);
   };
 
-  const submitSignUp = () => {
+  const submitSignUp = (e) => {
+    e.preventDefault();
     console.log(
       userSignUpEmail,
       userSignUpPassword,
@@ -101,9 +110,31 @@ const Login = () => {
       userSignUpConfirmPassword
     );
 
+    if (!userSignUpEmail || userSignUpEmail?.length <= 0) {
+      message.error("유효하지 않은 이메일 입니다..");
+      signUpEmailRef.current.focus();
+      $emailLabelRef.current.classList.add("warning");
+      return;
+    }
+
+    if (!userSingUpNickname || userSingUpNickname?.length <= 0) {
+      message.error("닉네임 값이 없습니다.");
+      signUpNicknameRef.current.focus();
+      $nicknameLabelRef.current.classList.add("warning");
+      return;
+    }
+
+    if (!userSignUpPassword || userSignUpPassword?.length <= 0) {
+      message.error("유효하지 않은 비밀번호 입니다..");
+      signUpPasswordRef.current.focus();
+      $passwordLabelRef.current.classList.add("warning");
+      return;
+    }
+
     if (userSignUpPassword !== userSignUpConfirmPassword) {
       message.error("비밀번호를 확인해 주세요.");
       signUpConfirmPasswordRef.current.focus();
+      $confirmPasswordLabelRef.current.classList.add("warning");
       return;
     }
 
@@ -130,6 +161,14 @@ const Login = () => {
     //백엔드 서버 오류 시
     if (signUpError) {
       message.warning(signUpError);
+      switch (signUpError) {
+        case "이미 존재하는 닉네임 입니다.":
+          $nicknameLabelRef.current.classList.add("warning");
+
+          break;
+        default:
+          break;
+      }
       return;
     }
   }, [signUpError]);
@@ -153,85 +192,94 @@ const Login = () => {
       <div>
         {signUpMode ? (
           <>
-            <h2>Sign Up</h2>
-            <Form
-              initialValues={{
-                remember: true,
-              }}
-              onFinish={submitSignUp}
-            >
-              <Form.Item
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    type: "email",
-                    message: "이메일 양식이 맞지 않습니다.",
-                  },
-                ]}
-                onChange={onChangeSignUpEmail}
-                ref={signUpEmailRef}
-              >
-                <Input placeholder="Email" />
-              </Form.Item>
-              <Form.Item
-                name="nickname"
-                rules={[
-                  {
-                    required: true,
-                    message: "사용하실 별명을 입력해 주세요.",
-                  },
-                ]}
-                onChange={onChangeSignUpNickname}
-              >
-                <Input placeholder="Nickname" ref={loginEmailRef} />
-              </Form.Item>
-              <Form.Item
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "비밀번호를 입력해주세요.",
-                  },
-                ]}
-              >
-                <Input
-                  autoComplete="off"
-                  type="password"
-                  placeholder="Password"
-                  onChange={onChangeSignUpPassword}
-                />
-              </Form.Item>
-              <Form.Item
-                autoComplete="off"
-                name="confirm"
-                rules={[
-                  {
-                    required: true,
-                    message: "동일한 비밀번호를 입력해주세요.",
-                  },
-                ]}
-              >
-                <Input
-                  dependencies={["password"]}
-                  placeholder="Confirm Password"
-                  type="password"
-                  onChange={onChangeConfirmSignUpPassword}
-                  ref={signUpConfirmPasswordRef}
-                />
-              </Form.Item>
-              <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className="login-form-button"
-                >
-                  회원가입
-                </Button>
+            <section className="signUp-form">
+              <h1>Sign Up</h1>
+              <form>
+                <div className="int-area">
+                  <input
+                    id="registeId"
+                    autoComplete="email"
+                    type="text"
+                    required
+                    onChange={onChangeSignUpEmail}
+                    ref={signUpEmailRef}
+                    value={userSignUpEmail}
+                  ></input>
+                  <label
+                    className="idLabel"
+                    htmlFor="registeId"
+                    ref={$emailLabelRef}
+                  >
+                    이메일 입력
+                  </label>
+                </div>
+                <div className="int-area">
+                  <input
+                    id="nickname"
+                    autoComplete="email"
+                    type="text"
+                    required
+                    onChange={onChangeSignUpNickname}
+                    ref={signUpNicknameRef}
+                    value={userSingUpNickname}
+                  ></input>
+                  <label
+                    className="idLabel"
+                    htmlFor="nickname"
+                    ref={$nicknameLabelRef}
+                  >
+                    닉네임 입력
+                  </label>
+                </div>
+                <div className="int-area">
+                  <input
+                    type="password"
+                    name="registePassword"
+                    id="registePassword"
+                    autoComplete="off"
+                    required
+                    onChange={onChangeSignUpPassword}
+                    ref={signUpPasswordRef}
+                    value={userSignUpPassword}
+                  ></input>
+                  <label
+                    className="registePassword"
+                    htmlFor="registePassword"
+                    ref={$passwordLabelRef}
+                  >
+                    PASSWORD
+                  </label>
+                </div>
+                <div className="int-area">
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    autoComplete="off"
+                    required
+                    onChange={onChangeConfirmSignUpPassword}
+                    ref={signUpConfirmPasswordRef}
+                    value={userSignUpConfirmPassword}
+                  ></input>
+                  <label
+                    className="pwLabel"
+                    htmlFor="confirmPassword"
+                    ref={$confirmPasswordLabelRef}
+                  >
+                    Confirm Password
+                  </label>
+                </div>
+                <div className="btn-area">
+                  <button id="btn" type="submit" onClick={submitSignUp}>
+                    가입하기
+                  </button>
+                </div>
+              </form>
 
-                <div onClick={togleSignUpMode}>로그인으로 돌아가기</div>
-              </Form.Item>
-            </Form>
+              <div className="btn-area-b" onClick={togleSignUpMode}>
+                로그인으로 돌아가기
+              </div>
+            </section>
           </>
         ) : (
           <>
