@@ -254,48 +254,48 @@ router.get("/selected/load", async (req, res, next) => {
 
     const groupId = parseInt(req.query.groupId, 10);
 
-    const findGroups = await Group.findOne({
+    let findGroups = await Group.findOne({
       where: {
         id: groupId,
       },
       include: [
-        {
-          model: GroupPost,
-
-          include: [
-            {
-              model: User,
-              attributes: ["id", "nickname"],
-              include: [{ model: UserProfile, attributes: ["id", "emoji"] }],
-            },
-            {
-              model: PostComment,
-              include: [
-                {
-                  model: User,
-                  attributes: ["id", "nickname"],
-                  include: [
-                    { model: UserProfile, attributes: ["id", "emoji"] },
-                  ],
-                },
-              ],
-              order: [
-                [{ model: PostComment }, "createdAt", "DESC"], // GroupPost를 생성순서로 내림차순( 늦게 생성된 순서 (즉 최신순))
-              ],
-            },
-          ],
-        },
+        // {
+        //   model: GroupPost,
+        //   include: [
+        //     {
+        //       model: User,
+        //       attributes: ["id", "nickname"],
+        //       include: [{ model: UserProfile, attributes: ["id", "emoji"] }],
+        //     },
+        //     {
+        //       model: PostComment,
+        //       include: [
+        //         {
+        //           model: User,
+        //           attributes: ["id", "nickname"],
+        //           include: [
+        //             { model: UserProfile, attributes: ["id", "emoji"] },
+        //           ],
+        //         },
+        //       ],
+        //       order: [
+        //         [{ model: PostComment }, "createdAt", "DESC"], // GroupPost를 생성순서로 내림차순( 늦게 생성된 순서 (즉 최신순))
+        //       ],
+        //     },
+        //   ],
+        // },
         {
           model: User,
           attributes: ["id", "userEmail", "nickname"],
           include: [{ model: UserProfile, attributes: ["id", "emoji"] }],
         },
       ],
-      order: [
-        [{ model: GroupPost }, "date", "DESC"], // GroupPost를 생성순서로 내림차순( 늦게 생성된 순서 (즉 최신순))
-        [{ model: GroupPost }, "createdAt", "DESC"],
-      ],
+      // order: [
+      //   [{ model: GroupPost }, "date", "DESC"], // GroupPost를 생성순서로 내림차순( 늦게 생성된 순서 (즉 최신순))
+      //   [{ model: GroupPost }, "createdAt", "DESC"],
+      // ],
     });
+    findGroups.GroupPosts = [];
 
     if (findGroups) {
       res.status(200).json(findGroups);
@@ -306,6 +306,65 @@ router.get("/selected/load", async (req, res, next) => {
     next(error);
   }
 });
+
+// 작성중
+// infiniteScrolling get Post
+// localhost:3065/api/group/selected/grouppost/load/:groupId/:pageNumber GET  || 선택한 그룹 정보 불러오기
+router.get(
+  "/selected/grouppost/load/:groupId/:lastId",
+  async (req, res, next) => {
+    try {
+      if (!req.user) {
+        return res.status(401).send("유저 세션이 존재하지 않습니다.");
+      }
+
+      const where = {};
+
+      if (parseInt(req.params.lastId, 10)) {
+        where.id = { [Op.lt]: req.params.lastId };
+      }
+      where.Groupid = req.params.groupId;
+
+      const groupPosts = await GroupPost.findAll({
+        where,
+        limit: 5,
+        order: [
+          ["date", "DESC"], // GroupPost를 생성순서로 내림차순( 늦게 생성된 순서 (즉 최신순))
+          ["createdAt", "DESC"],
+        ],
+        include: [
+          {
+            model: User,
+            attributes: ["id", "nickname"],
+            include: [{ model: UserProfile, attributes: ["id", "emoji"] }],
+          },
+          {
+            model: PostComment,
+            include: [
+              {
+                model: User,
+                attributes: ["id", "nickname"],
+                include: [{ model: UserProfile, attributes: ["id", "emoji"] }],
+              },
+            ],
+            order: [
+              [{ model: PostComment }, "createdAt", "DESC"], // PostComment를 생성순서로 내림차순( 늦게 생성된 순서 (즉 최신순))
+            ],
+          },
+        ],
+      });
+
+      if (groupPosts.length >= 1) {
+        res.status(200).json(groupPosts);
+        return;
+      }
+      res.status(401).json("마지막 그룹 포스트입니다.");
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+);
 
 // localhost:3065/api/group/selected/{groupId}/load:userId GET  || 선택한 그룹에서 선택한 유저의 포스트만 불러오기
 router.get("/selected/:groupId/load", async (req, res, next) => {

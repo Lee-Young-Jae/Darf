@@ -60,11 +60,15 @@ const initialState = {
 
     changeGroupAdminLoading: false, //그룹 양도 시도중
     changeGroupAdminDone: false,
-    changeGroupAdminError: false,
+    changeGroupAdminError: null,
+
+    loadGroupPostsLoading: false, //그룹 게시글 로드 시도중 (인피니티 스크롤링)
+    loadGroupPostsDone: false,
+    loadGroupPostsError: null,
   },
   group: {
     myGroup: [],
-    selected: [],
+    selected: { GroupPosts: [], Users: [] },
     searchedGroup: [],
     test: [],
   },
@@ -132,6 +136,10 @@ export const REMOVE_GROUP_FAILURE = "REMOVE_GROUP_FAILURE";
 export const CHANGE_GROUP_ADMIN_REQUEST = "CHANGE_GROUP_ADMIN_REQUEST";
 export const CHANGE_GROUP_ADMIN_SUCCESS = "CHANGE_GROUP_ADMIN_SUCCESS";
 export const CHANGE_GROUP_ADMIN_FAILURE = "CHANGE_GROUP_ADMIN_FAILURE";
+
+export const LOAD_GROUP_POSTS_REQUEST = "LOAD_GROUP_POSTS_REQUEST";
+export const LOAD_GROUP_POSTS_SUCCESS = "LOAD_GROUP_POSTS_SUCCESS";
+export const LOAD_GROUP_POSTS_FAILURE = "LOAD_GROUP_POSTS_FAILURE";
 
 /* 리듀서 선언 */
 
@@ -206,6 +214,8 @@ const reducer = (state = initialState, action) => {
         draft.state.loadSelectedGroupDone = true;
         draft.state.loadSelectedGroupError = null;
         draft.group.selected = action.data;
+        draft.group.selected.GroupPosts = [];
+        draft.group.selected.postLastId = 0;
         break;
       case LOAD_SELECTED_GROUP_FAILURE:
         draft.state.loadSelectedGroupError = action.error;
@@ -390,6 +400,21 @@ const reducer = (state = initialState, action) => {
         break;
       case CHANGE_GROUP_ADMIN_FAILURE:
         draft.state.changeGroupAdminError = action.error;
+        break;
+      case LOAD_GROUP_POSTS_REQUEST:
+        draft.state.loadGroupPostsLoading = true;
+        draft.state.loadGroupPostsDone = false;
+        draft.state.loadGroupPostsError = null;
+        break;
+      case LOAD_GROUP_POSTS_SUCCESS:
+        draft.state.loadGroupPostsLoading = false;
+        draft.state.loadGroupPostsDone = true;
+        draft.state.loadGroupPostsError = null;
+        draft.group.selected.GroupPosts =
+          draft.group.selected.GroupPosts.concat(action.data);
+        break;
+      case LOAD_GROUP_POSTS_FAILURE:
+        draft.state.loadGroupPostsError = action.error;
         break;
 
       default:

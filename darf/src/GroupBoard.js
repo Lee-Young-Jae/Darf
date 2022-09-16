@@ -1,27 +1,74 @@
 import { message } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import EditGroupInfoForm from "./components/group/EditGroupInfoForm";
 import PostItem from "./components/group/postItem";
 import {
   LEAVE_GROUP_REQUEST,
+  LOAD_GROUP_POSTS_REQUEST,
   LOAD_GROUP_USERPOST_REQUEST,
 } from "./modules/reducers/group";
 
 const GroupBoard = () => {
   const { selected } = useSelector((state) => state.group.group);
+  const { GroupPosts } = useSelector((state) => state.group.group.selected);
   const {
     loadGroupUserPostError,
     leaveGroupError,
     leaveGroupDone,
     removeGroupDone,
     removeGroupError,
+    loadGroupPostsError,
+    loadSelectedGroupDone,
   } = useSelector((state) => state.group.state);
   const { me, logOutDone } = useSelector((state) => state.user);
   const [showManagementForm, setShowManagementForm] = useState(false);
-
   const dispatch = useDispatch();
+  const [postsIntersecting, setPostsIntersecting] = useState(false);
+
+  const postLoaderRef = useRef();
+
+  const handleObserver = useCallback((entries) => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      setPostsIntersecting((prev) => !prev);
+    }
+  }, []);
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_GROUP_POSTS_REQUEST,
+      data: {
+        groupId: selected.id,
+        lastId: GroupPosts[GroupPosts.length - 1]?.id,
+      },
+    });
+  }, [postsIntersecting]);
+
+  useEffect(() => {
+    if (loadSelectedGroupDone) {
+      dispatch({
+        type: LOAD_GROUP_POSTS_REQUEST,
+        data: {
+          groupId: selected.id,
+          lastId: GroupPosts[GroupPosts.length - 1]?.id,
+        },
+      });
+    }
+  }, [loadSelectedGroupDone]);
+
+  useEffect(() => {
+    const option = {
+      root: null, // document
+      rootMargin: "20px",
+      threshold: 0,
+    };
+    const observer = new IntersectionObserver(handleObserver, option);
+    if (postLoaderRef.current) {
+      observer.observe(postLoaderRef.current);
+    }
+  }, []);
 
   const onClickUserNickname = (userId) => {
     dispatch({
@@ -150,6 +197,8 @@ const GroupBoard = () => {
           return <PostItem key={post.id} post={post}></PostItem>;
         })}
       </div>
+      {loadGroupPostsError && <div>{loadGroupPostsError}</div>}
+      <div ref={postLoaderRef}></div>
     </div>
   );
 };

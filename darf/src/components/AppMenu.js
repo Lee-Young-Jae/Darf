@@ -25,7 +25,7 @@ const AppMenu = () => {
           navigate("/");
         }}
       >
-        DARF
+        서비스 소개
       </Menu.Item>
       <Menu.Item
         key="setting:1"
@@ -33,7 +33,7 @@ const AppMenu = () => {
           navigate("/healthstate");
         }}
       >
-        Calendar
+        달력
       </Menu.Item>
 
       <Menu.Item
@@ -42,15 +42,16 @@ const AppMenu = () => {
           navigate("/group");
         }}
       >
-        Group
+        그룹
       </Menu.Item>
+
       <Menu.Item
         key="MyPage"
         onClick={() => {
           navigate("/profile/1");
         }}
       >
-        Mypage
+        마이페이지
       </Menu.Item>
       {me?.userEmail ? (
         <Menu.Item key="logout" onClick={onLogout}>

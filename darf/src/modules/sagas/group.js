@@ -26,6 +26,9 @@ import {
   LIKE_POST_FAILURE,
   LIKE_POST_REQUEST,
   LIKE_POST_SUCCESS,
+  LOAD_GROUP_POSTS_FAILURE,
+  LOAD_GROUP_POSTS_REQUEST,
+  LOAD_GROUP_POSTS_SUCCESS,
   LOAD_GROUP_USERPOST_FAILURE,
   LOAD_GROUP_USERPOST_REQUEST,
   LOAD_GROUP_USERPOST_SUCCESS,
@@ -324,6 +327,27 @@ function* changeGroupAdmin(action) {
     });
   }
 }
+function loadGroupPostsAPI(data) {
+  return axios.get(
+    `/api/group/selected/grouppost/load/${data.groupId}/${
+      data.lastId === undefined ? 0 : data.lastId
+    }/`
+  );
+}
+function* loadGroupPosts(action) {
+  try {
+    const result = yield call(loadGroupPostsAPI, action.data);
+    yield put({
+      type: LOAD_GROUP_POSTS_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: LOAD_GROUP_POSTS_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
 
 function* watchLoadRegistedGroup() {
   yield takeLatest(LOAD_REGISTED_GROUP_REQUEST, loadRegistedGroup);
@@ -377,6 +401,9 @@ function* watchRemoveGroup() {
 function* watchChageGroupAdmin() {
   yield takeLatest(CHANGE_GROUP_ADMIN_REQUEST, changeGroupAdmin);
 }
+function* watchLoadGroupPosts() {
+  yield takeLatest(LOAD_GROUP_POSTS_REQUEST, loadGroupPosts);
+}
 
 export default function* userSaga() {
   yield all([
@@ -395,5 +422,6 @@ export default function* userSaga() {
     fork(watchDropUser),
     fork(watchRemoveGroup),
     fork(watchChageGroupAdmin),
+    fork(watchLoadGroupPosts),
   ]);
 }
