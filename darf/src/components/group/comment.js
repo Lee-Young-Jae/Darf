@@ -1,19 +1,36 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { message } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { REMOVE_COMMENT_REQUEST } from "../../modules/reducers/group";
 
 const Comment = ({
   comment = [{ id: 1, nickname: "", comment: "입력된 댓글이 없습니다." }],
-  eventHandler,
+  onCreateHandler,
+  post,
 }) => {
   const [postComment, setPostComment] = useState("");
   const [isCommentSecret, setIsCommentSecret] = useState(false);
+  const { me } = useSelector((state) => state.user);
+  const { adminId } = useSelector((state) => state.group.group.selected);
+
+  const dispatch = useDispatch();
+
+  const onClickRemoveCommentBtn = useCallback(
+    (commentId) => {
+      dispatch({
+        type: REMOVE_COMMENT_REQUEST,
+        data: { commentId, postId: post.id },
+      });
+    },
+    [dispatch, post.id]
+  );
 
   const onClickCommentSubmitBtn = () => {
     if (postComment?.length < 5) {
       message.info("댓글은 5자 이상 입력해 주세요.");
       return;
     }
-    eventHandler(postComment, isCommentSecret);
+    onCreateHandler(postComment, isCommentSecret);
     setPostComment("");
     setIsCommentSecret(false);
   };
@@ -71,6 +88,15 @@ const Comment = ({
                 <span>{timeForToday(comment.createdAt)}</span>
               </div>
               <div>{comment.content}</div>
+              {comment.User.id === me.id || me.id === adminId ? (
+                <button
+                  onClick={() => {
+                    onClickRemoveCommentBtn(comment.id);
+                  }}
+                >
+                  삭제
+                </button>
+              ) : null}
             </div>
           );
         })}

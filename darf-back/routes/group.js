@@ -468,6 +468,10 @@ router.patch("/like", async (req, res, next) => {
 // localhost:3065/api/group/comment/create POST  || 그룹 게시글 코멘트 생성 시도중
 router.post("/comment/create", async (req, res, next) => {
   try {
+    if (!req.user) {
+      return res.status(401).send("유저 세션이 존재하지 않습니다.");
+    }
+
     const postComment = await PostComment.create({
       UserId: req.user.id,
       GroupPostId: req.body.postId,
@@ -487,6 +491,53 @@ router.post("/comment/create", async (req, res, next) => {
     });
 
     res.status(200).json(fullComment);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// localhost:3065/api/group/comment/:commentId/:groupId DELETE  || 그룹 게시글 코멘트 삭제 시도중
+router.delete("/comment/:commentId/:postId", async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).send("유저 세션이 존재하지 않습니다.");
+    }
+
+    const existedComment = await PostComment.findOne({
+      where: { id: req.params.commentId },
+    });
+
+    if (!existedComment) {
+      return res.status(401).send("해당 코멘트가 존재하지 않습니다.");
+    }
+
+    await PostComment.destroy({
+      where: { id: existedComment.id },
+    });
+
+    const post = await GroupPost.findOne({
+      where: {
+        id: req.params.postId,
+      },
+    });
+
+    const comments = await PostComment.findAll({
+      where: { GroupPostId: post.id },
+      include: [
+        {
+          model: User,
+          attributes: ["id", "nickname"],
+          include: [{ model: UserProfile, attributes: ["id", "emoji"] }],
+        },
+      ],
+    });
+
+    res.status(200).json({
+      commentId: req.params.commentId,
+      postId: req.params.postId,
+      comments,
+    });
   } catch (error) {
     console.error(error);
     next(error);

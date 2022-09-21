@@ -38,6 +38,10 @@ const initialState = {
     createCommentDone: false,
     createCommentError: null,
 
+    removeCommentLoading: false, //게시글 코멘트 달기 시도중
+    removeCommentDone: false,
+    removeCommentError: null,
+
     loadGroupUserPostLoading: false, //유저 게시글 가져오기 시도중
     loadGroupUserPostDone: false,
     loadGroupUserPostError: null,
@@ -101,6 +105,10 @@ export const CREATE_COMMENT_REQUEST = "CREATE_COMMENT_REQUEST";
 export const CREATE_COMMENT_SUCCESS = "CREATE_COMMENT_SUCCESS";
 export const CREATE_COMMENT_FAILURE = "CREATE_COMMENT_FAILURE";
 
+export const REMOVE_COMMENT_REQUEST = "REMOVE_COMMENT_REQUEST";
+export const REMOVE_COMMENT_SUCCESS = "REMOVE_COMMENT_SUCCESS";
+export const REMOVE_COMMENT_FAILURE = "REMOVE_COMMENT_FAILURE";
+
 export const JOIN_GROUP_REQUEST = "JOIN_GROUP_REQUEST";
 export const JOIN_GROUP_SUCCESS = "JOIN_GROUP_SUCCESS";
 export const JOIN_GROUP_FAILURE = "JOIN_GROUP_FAILURE";
@@ -159,6 +167,7 @@ const reducer = (state = initialState, action) => {
         draft.state.joinGroupDone = false; //가입 성공 Done도 초기화
         draft.state.removeGroupDone = false; //그룹 지우기 Done 초기화
         draft.state.removeGroupError = null; // 그룹 지우기 Error도 초기화
+        draft.group.selected.GroupPosts = [];
 
         break;
       case LOAD_REGISTED_GROUP_SUCCESS:
@@ -298,7 +307,24 @@ const reducer = (state = initialState, action) => {
         }).PostComments.push(action.data);
         break;
       case CREATE_COMMENT_FAILURE:
-        draft.state.createGroupPostError = action.error;
+        draft.state.createCommentError = action.error;
+        break;
+
+      case REMOVE_COMMENT_REQUEST:
+        draft.state.removeCommentLoading = true;
+        draft.state.removeCommentDone = false;
+        draft.state.removeCommentError = null;
+        break;
+      case REMOVE_COMMENT_SUCCESS:
+        draft.state.removeCommentLoading = false;
+        draft.state.removeCommentDone = true;
+        draft.state.removeCommentError = null;
+        draft.group.selected.GroupPosts.find((post) => {
+          return post.id === parseInt(action.data.postId);
+        }).PostComments = action.data.comments;
+        break;
+      case REMOVE_COMMENT_FAILURE:
+        draft.state.removeCommentError = action.error;
         break;
 
       case LIKE_POST_REQUEST:

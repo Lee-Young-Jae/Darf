@@ -38,6 +38,9 @@ import {
   LOAD_SELECTED_GROUP_FAILURE,
   LOAD_SELECTED_GROUP_REQUEST,
   LOAD_SELECTED_GROUP_SUCCESS,
+  REMOVE_COMMENT_FAILURE,
+  REMOVE_COMMENT_REQUEST,
+  REMOVE_COMMENT_SUCCESS,
   REMOVE_GROUP_FAILURE,
   REMOVE_GROUP_POST_FAILURE,
   REMOVE_GROUP_POST_REQUEST,
@@ -220,6 +223,24 @@ function* createComment(action) {
   }
 }
 
+function removeCommentAPI(data) {
+  return axios.delete(`/api/group/comment/${data.commentId}/${data.postId}`);
+}
+function* removeComment(action) {
+  try {
+    const result = yield call(removeCommentAPI, action.data);
+    yield put({
+      type: REMOVE_COMMENT_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: REMOVE_COMMENT_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function loadGroupUserPostAPI(data) {
   return axios.get(
     `/api/group/selected/${data.groupId}/load?userId=${data.userId || 0}`
@@ -381,6 +402,9 @@ function* watchLikePost() {
 function* watchCreateComment() {
   yield takeLatest(CREATE_COMMENT_REQUEST, createComment);
 }
+function* watchRemoveComment() {
+  yield takeLatest(REMOVE_COMMENT_REQUEST, removeComment);
+}
 
 function* watchLoadGroupUserPost() {
   yield takeLatest(LOAD_GROUP_USERPOST_REQUEST, loadGroupUserPost);
@@ -416,6 +440,7 @@ export default function* userSaga() {
     fork(watchLoadSelectedGroup),
     fork(watchLikePost),
     fork(watchCreateComment),
+    fork(watchRemoveComment),
     fork(watchLoadGroupUserPost),
     fork(watchLeaveGroup),
     fork(watchEditGroup),

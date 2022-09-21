@@ -117,9 +117,10 @@ const PostItem = ({ post }) => {
               innerContents={
                 <div>
                   <h2>게시글 삭제</h2>
-                  {`${timeForToday(
-                    post.createdAt
-                  )} 작성된 이 게시물을 삭제할까요...? 😢`}
+                  <span className="timeStamp">
+                    {timeForToday(post.createdAt)}
+                  </span>
+                  <span>{` 작성된 이 게시물을 삭제할까요...? 😢`}</span>
                 </div>
               }
               okMessage="삭제합니다."
@@ -133,7 +134,7 @@ const PostItem = ({ post }) => {
 
           <Comment
             comment={post.PostComments}
-            eventHandler={onSubmitComment}
+            onCreateHandler={onSubmitComment}
             post={post}
           ></Comment>
         </div>
@@ -174,7 +175,7 @@ const PostItem = ({ post }) => {
 
           <Comment
             comment={post.PostComments}
-            eventHandler={onSubmitComment}
+            onCreateHandler={onSubmitComment}
             post={post}
           ></Comment>
         </div>
