@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import { message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { REMOVE_COMMENT_REQUEST } from "../../modules/reducers/group";
+import Modal from "../Modal";
 
 const Comment = ({
   comment = [{ id: 1, nickname: "", comment: "입력된 댓글이 없습니다." }],
@@ -10,6 +11,8 @@ const Comment = ({
 }) => {
   const [postComment, setPostComment] = useState("");
   const [isCommentSecret, setIsCommentSecret] = useState(false);
+  const [commentRemoveModalOpen, setCommentRemoveModalOpen] = useState(false);
+  const [commentRemoveTargetId, setCommentRemoveTargetId] = useState();
   const { me } = useSelector((state) => state.user);
   const { adminId } = useSelector((state) => state.group.group.selected);
 
@@ -21,6 +24,7 @@ const Comment = ({
         type: REMOVE_COMMENT_REQUEST,
         data: { commentId, postId: post.id },
       });
+      setCommentRemoveModalOpen(false);
     },
     [dispatch, post.id]
   );
@@ -66,7 +70,11 @@ const Comment = ({
       <div>
         {comment?.map((comment) => {
           return (
-            <div key={comment.id} className="commentItem">
+            <div
+              key={comment.id}
+              id={`comment-${comment.id}`}
+              className="commentItem"
+            >
               <div>
                 {comment.isSecret ? (
                   <>
@@ -90,11 +98,37 @@ const Comment = ({
               <div>{comment.content}</div>
               {comment.User.id === me.id || me.id === adminId ? (
                 <button
-                  onClick={() => {
-                    onClickRemoveCommentBtn(comment.id);
+                  id={`comment-${comment.id}`}
+                  onClick={(event) => {
+                    setCommentRemoveTargetId(
+                      parseInt(event.target.id.substr(8))
+                    );
+                    setCommentRemoveModalOpen(true);
                   }}
                 >
                   삭제
+                  {commentRemoveModalOpen &&
+                    commentRemoveTargetId === comment.id && (
+                      <Modal
+                        innerContents={
+                          <div>
+                            <h2>게시글 삭제</h2>
+                            <span className="timeStamp">
+                              {timeForToday(comment.createdAt)}
+                            </span>
+                            <span>{` 작성된 이 댓글을 삭제할까요...? 😢`}</span>
+                          </div>
+                        }
+                        okMessage="삭제합니다."
+                        closeMessage="조금 더 고민해볼게요"
+                        okAction={(event) => {
+                          onClickRemoveCommentBtn(comment.id);
+                        }}
+                        closeAction={() => {
+                          setCommentRemoveModalOpen(false);
+                        }}
+                      ></Modal>
+                    )}
                 </button>
               ) : null}
             </div>
