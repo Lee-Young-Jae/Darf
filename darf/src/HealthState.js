@@ -5,34 +5,6 @@ import Calender from "./components/Calendar";
 // import HealthFormBox from "./components/HealthFormBox";
 
 const HealthState = () => {
-  // const [weight, setWeight] = useState(55);
-  // const [alcohol, setAlcohol] = useState(0);
-
-  // const { me } = useSelector((state) => state.user);
-
-  // const onChangeWeight = (e) => {
-  //   if (e.target.value) {
-  //     setWeight(e.target.value);
-  //   } else {
-  //     setWeight("");
-  //   }
-  // };
-  // const onChangeAlcohol = (e) => {
-  //   if (e.target.value) {
-  //     setAlcohol(e.target.value);
-  //   } else {
-  //     setAlcohol("");
-  //   }
-  // };
-
-  // const onSubmitWeight = () => {
-  //   console.log(weight);
-  // };
-
-  // const onSubmitAlcohol = () => {
-  //   console.log(alcohol);
-  // };
-
   const [showGuide, setShowGuide] = useState(true);
 
   useEffect(() => {

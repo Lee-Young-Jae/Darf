@@ -13,9 +13,14 @@ const initialState = {
     getFoodDetailLoading: false, // 음식 정보 검색 시도중
     getFoodDetailDone: false,
     getFoodDetailError: null,
+
+    getSelectMonthRecodeLoading: false, //해당 달 유저 기록 불러오기 시도중
+    getSelectMonthRecodeDone: false,
+    getSelectMonthRecodeError: null,
   },
   calendar: {
     choiceDate: new Date(),
+    thisMonthData: {},
     food: {
       searchFoodDetail: [{ id: 1, name: "김치국", kcal: 89 }],
       boardData: {
@@ -58,6 +63,13 @@ export const DIARY_UPDATE_FAILURE = "DIARY_UPDATE_FAILURE";
 export const CHANGE_SELECT_DATE_REQUEST = "CHANGE_SELECT_DATE_REQUEST";
 export const CHANGE_SELECT_DATE_SUCCESS = "CHANGE_SELECT_DATE_SUCCESS";
 export const CHANGE_SELECT_DATE_FAILURE = "CHANGE_SELECT_DATE_FAILURE";
+
+export const GET_SELECT_MONTH_RECODE_REQUEST =
+  "GET_SELECT_MONTH_RECODE_REQUEST";
+export const GET_SELECT_MONTH_RECODE_SUCCESS =
+  "GET_SELECT_MONTH_RECODE_SUCCESS";
+export const GET_SELECT_MONTH_RECODE_FAILURE =
+  "GET_SELECT_MONTH_RECODE_FAILURE";
 
 /* 리듀서 선언 */
 
@@ -115,6 +127,20 @@ const reducer = (state = initialState, action) => {
       case CHANGE_SELECT_DATE_REQUEST:
         draft.calendar.choiceDate = action.data;
 
+        break;
+      case GET_SELECT_MONTH_RECODE_REQUEST:
+        draft.state.getSelectMonthRecodeLoading = true;
+        draft.state.getSelectMonthRecodeDone = false;
+        draft.state.getSelectMonthRecodeError = null;
+        break;
+      case GET_SELECT_MONTH_RECODE_SUCCESS:
+        draft.state.getSelectMonthRecodeLoading = false;
+        draft.state.getSelectMonthRecodeDone = true;
+        draft.state.getSelectMonthRecodeError = null;
+        draft.calendar.thisMonthData = action.data;
+        break;
+      case GET_SELECT_MONTH_RECODE_FAILURE:
+        draft.state.getSelectMonthRecodeError = action.error;
         break;
 
       default:

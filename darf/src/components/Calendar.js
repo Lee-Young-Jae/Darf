@@ -5,6 +5,7 @@ import MyModal from "./MyModal";
 import {
   OPEN_POPUP_REQUEST,
   CLOSE_POPUP_REQUEST,
+  GET_SELECT_MONTH_RECODE_REQUEST,
 } from "../modules/reducers/calendar";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -64,6 +65,12 @@ const Calender = () => {
       tempArr.push(i);
     }
     setNextMonth(tempArr);
+
+    // 이번달 데이터 불러오기
+    dispatch({
+      type: GET_SELECT_MONTH_RECODE_REQUEST,
+      data: { date },
+    });
   }, [selectedDate]);
 
   const decreaseMonth = () => {
@@ -143,6 +150,38 @@ const Calender = () => {
                   onClick={onClickDate(e)}
                 >
                   {e}
+                  <div className="recodedBox">
+                    <span>
+                      {calendar?.thisMonthData?.exercise?.find((item) => {
+                        return (
+                          parseInt(new Date(item.date).getDate()) ===
+                          parseInt(e)
+                        );
+                      }) ? (
+                        <span className="recodedExercise">운동</span>
+                      ) : null}
+                    </span>
+                    <span>
+                      {calendar?.thisMonthData?.diet?.find((item) => {
+                        return (
+                          parseInt(new Date(item.date).getDate()) ===
+                          parseInt(e)
+                        );
+                      }) ? (
+                        <span className="recodedDiet">오식완</span>
+                      ) : null}
+                    </span>
+                    <span>
+                      {calendar?.thisMonthData?.width?.find((item) => {
+                        return (
+                          parseInt(new Date(item.date).getDate()) ===
+                          parseInt(e)
+                        );
+                      }) ? (
+                        <span className="recodedWidth">오체완</span>
+                      ) : null}
+                    </span>
+                  </div>
                 </div>
               );
             }
@@ -154,6 +193,35 @@ const Calender = () => {
                 className="DateItem ThisMonthDate"
               >
                 {e}
+                <div className="recodedBox">
+                  <span>
+                    {calendar?.thisMonthData?.exercise?.find((item) => {
+                      return (
+                        parseInt(new Date(item.date).getDate()) === parseInt(e)
+                      );
+                    }) ? (
+                      <span className="recodedExercise">운동</span>
+                    ) : null}
+                  </span>
+                  <span>
+                    {calendar?.thisMonthData?.diet?.find((item) => {
+                      return (
+                        parseInt(new Date(item.date).getDate()) === parseInt(e)
+                      );
+                    }) ? (
+                      <span className="recodedDiet">오식완</span>
+                    ) : null}
+                  </span>
+                  <span>
+                    {calendar?.thisMonthData?.width?.find((item) => {
+                      return (
+                        parseInt(new Date(item.date).getDate()) === parseInt(e)
+                      );
+                    }) ? (
+                      <span className="recodedWidth">오체완</span>
+                    ) : null}
+                  </span>
+                </div>
               </div>
             );
           })}

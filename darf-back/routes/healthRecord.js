@@ -363,4 +363,53 @@ router.get("/chart/:days", async (req, res, next) => {
   }
 });
 
+// localhost:3065/api/healthRecordRouter/calendar/:thisMonth GET  || 해당 달의 기록 데이터 불러오기
+router.get("/calendar/:selectDate", async (req, res, next) => {
+  try {
+    const date = new Date(req.params.selectDate);
+
+    let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+
+    let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+    if (!req.user) {
+      return res.status(401).send("유저 토큰이 존재하지 않습니다...");
+    }
+
+    const exercise = await HealthRecordExercise.findAll({
+      where: {
+        UserId: req.user.id,
+        [Op.and]: [
+          { date: { [Op.gte]: firstDay } },
+          { date: { [Op.lte]: lastDay } },
+        ],
+      },
+    });
+    const diet = await HealthRecordDiet.findAll({
+      where: {
+        UserId: req.user.id,
+        [Op.and]: [
+          { date: { [Op.gte]: firstDay } },
+          { date: { [Op.lte]: lastDay } },
+        ],
+      },
+    });
+
+    const width = await Width.findAll({
+      where: {
+        UserId: req.user.id,
+        [Op.and]: [
+          { date: { [Op.gte]: firstDay } },
+          { date: { [Op.lte]: lastDay } },
+        ],
+      },
+    });
+
+    res.status(200).json({ exercise, diet, width });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 module.exports = router;

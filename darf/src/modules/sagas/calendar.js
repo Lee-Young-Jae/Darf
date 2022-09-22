@@ -10,6 +10,9 @@ import {
   GET_FOOD_DETAIL_REQUEST,
   GET_FOOD_DETAIL_SUCCESS,
   GET_FOOD_DETAIL_FAILURE,
+  GET_SELECT_MONTH_RECODE_REQUEST,
+  GET_SELECT_MONTH_RECODE_SUCCESS,
+  GET_SELECT_MONTH_RECODE_FAILURE,
 } from "../reducers/calendar";
 
 // function openPopupAPI(data) {
@@ -53,13 +56,11 @@ function* closePopup(action) {
 }
 
 function getFoodDetailAPI(data) {
-  console.log("getFoodDetailAPI", data);
   return axios.get(`/api/food/load/${encodeURIComponent(data)}`);
 }
 
 function* getFoodDetail(action) {
   try {
-    console.log("getFoodDetail", action.data);
     const result = yield call(getFoodDetailAPI, action.data);
     yield put({
       type: GET_FOOD_DETAIL_SUCCESS,
@@ -68,6 +69,24 @@ function* getFoodDetail(action) {
   } catch (err) {
     yield put({
       type: GET_FOOD_DETAIL_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+function getSelectMonthRecodeAPI(data) {
+  return axios.get(`/api/healthRecordRouter/calendar/${data.date}`);
+}
+
+function* getSelectMonthRecode(action) {
+  try {
+    const result = yield call(getSelectMonthRecodeAPI, action.data);
+    yield put({
+      type: GET_SELECT_MONTH_RECODE_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: GET_SELECT_MONTH_RECODE_FAILURE,
       error: err.response.data,
     });
   }
@@ -84,11 +103,15 @@ function* watchClosePopup() {
 function* watchGetFoodDetail() {
   yield takeLatest(GET_FOOD_DETAIL_REQUEST, getFoodDetail);
 }
+function* watchGetSelectMonthRecode() {
+  yield takeLatest(GET_SELECT_MONTH_RECODE_REQUEST, getSelectMonthRecode);
+}
 
 export default function* calendarSaga() {
   yield all([
     fork(watchOpenPopup),
     fork(watchClosePopup),
     fork(watchGetFoodDetail),
+    fork(watchGetSelectMonthRecode),
   ]);
 }
