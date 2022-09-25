@@ -29,6 +29,10 @@ const EditGroupInfoForm = ({ group }) => {
     setGroupIntroduce(e.target.value);
   };
 
+  const onChangeGroupPassword = (e) => {
+    setGroupPassword(e.target.value);
+  };
+
   const emoji = {
     options: [
       { value: "💪" },
@@ -108,13 +112,27 @@ const EditGroupInfoForm = ({ group }) => {
         </label>
         {GroupPassword?.length >= 1 ? (
           <>
-            <label>비공개</label>
-            <input></input>
+            <span>비공개</span>
+            <br></br>
+            <input
+              // name="editGroupPasswordInput"
+              onChange={onChangeGroupPassword}
+              value={GroupPassword}
+            ></input>
           </>
         ) : (
           <>
-            <label>공개 그룹입니다</label>
-            <input></input>
+            <label
+            // htmlFor="editGroupPasswordInput"
+            >
+              공개된 그룹
+            </label>
+            <br></br>
+            <input
+              // name="editGroupPasswordInput"
+              onChange={onChangeGroupPassword}
+              value={GroupPassword}
+            ></input>
           </>
         )}
         <button onClick={onClickEditGroupInfoBtn}>변경하기</button>

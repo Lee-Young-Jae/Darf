@@ -79,6 +79,10 @@ const GroupCreate = ({ purpose }) => {
   const dispatch = useDispatch();
   const onSubmitCreateGroup = (e) => {
     e.preventDefault();
+    if (GroupName.length <= 0) {
+      message.info("사용할수 없는 그룹 이름입니다.");
+      return;
+    }
     dispatch({
       type: GROUP_CREATE_REQUEST,
       data: {
@@ -116,6 +120,7 @@ const GroupCreate = ({ purpose }) => {
             value={GroupCapacity}
             type="number"
             step="1"
+            min="2"
             max="20"
             onChange={onChangeGroupCapacity}
           ></input>

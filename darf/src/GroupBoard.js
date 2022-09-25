@@ -21,6 +21,7 @@ const GroupBoard = () => {
     removeGroupError,
     loadGroupPostsError,
     loadSelectedGroupDone,
+    editGroupDone,
   } = useSelector((state) => state.group.state);
   const { me, logOutDone } = useSelector((state) => state.user);
   const [showManagementForm, setShowManagementForm] = useState(false);
@@ -120,6 +121,12 @@ const GroupBoard = () => {
       navigate("/group");
     }
   }, [removeGroupDone, removeGroupError, navigate]);
+
+  useEffect(() => {
+    if (editGroupDone) {
+      setShowManagementForm(false);
+    }
+  }, [editGroupDone]);
 
   return (
     <div className="GroupBoardPage">
