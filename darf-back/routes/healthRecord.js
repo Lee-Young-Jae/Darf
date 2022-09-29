@@ -363,7 +363,7 @@ router.get("/chart/:days", async (req, res, next) => {
   }
 });
 
-// localhost:3065/api/healthRecordRouter/calendar/:thisMonth GET  || 해당 달의 기록 데이터 불러오기
+// localhost:3065/api/healthRecordRouter/calendar/:selectDate GET  || 해당 달의 기록 데이터 불러오기
 router.get("/calendar/:selectDate", async (req, res, next) => {
   try {
     const date = new Date(req.params.selectDate);
