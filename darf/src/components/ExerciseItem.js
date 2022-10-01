@@ -4,14 +4,13 @@ import { CREATE_GROUP_POST_REQUEST } from "../modules/reducers/group";
 import { REMOVE_EXERCISE_REQUEST } from "../modules/reducers/user";
 import Modal from "./Modal";
 import { timeForToday } from "../util/function";
+// import { days } from "../util/publicData";
 
 const ExerciseItem = ({ data }) => {
   const [shareRecordsAsGroup, setShareRecordsAsGroup] = useState();
   const { group } = useSelector((state) => state.group);
   const { createGroupPostDone } = useSelector((state) => state.group.state);
   const [removeRecordModalOpen, setRemoveRecordModalOpen] = useState(false);
-
-  const days = ["일", "월", "화", "수", "목", "금", "토"];
 
   const dispatch = useDispatch();
 
@@ -46,72 +45,98 @@ const ExerciseItem = ({ data }) => {
   }, [createGroupPostDone]);
 
   return (
-    <div className="ExerciseItem" key={data.id}>
-      <div>
+    <div className="ExerciseItem userHealthRecodeItem" key={data.id}>
+      {/* <div>
         {`${date?.getFullYear()}. ${
           date?.getMonth() + 1
         }. ${date?.getDate()}. ${days[date?.getDay()]}`}
-      </div>
-      <div>{data.name}</div>
-      <div>{data.type}</div>
-      <div>{data.bodyPart}</div>
-      <div>{data.intensity}</div>
-      <div>{data.minute}분</div>
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          setRemoveRecordModalOpen((prev) => !prev);
-        }}
-      >
-        기록 삭제
-      </button>
-      {removeRecordModalOpen && (
-        <Modal
-          innerContents={
-            <span>{`${timeForToday(data.createdAt)} 정성스럽게 작성한
-            ${data.name} 기록을 정말로 삭제할까요? 😢`}</span>
-          }
-          closeMessage="돌아가기"
-          okMessage="삭제합니다"
-          okAction={() => {
-            onClickRemoveBtn(data);
-          }}
-          closeAction={() => {
-            setRemoveRecordModalOpen(false);
-          }}
-        ></Modal>
-      )}
-      <span onClick={() => setShareRecordsAsGroup((prev) => !prev)}>
-        그룹에 공유하기
-      </span>
-      {shareRecordsAsGroup && (
-        <Modal
-          closeMessage="닫기"
-          closeAction={() => {
-            setShareRecordsAsGroup(false);
-          }}
-          innerContents={
-            <div>
-              <span>어느 그룹에 공유할까요?</span>
-              {group.myGroup?.map((group) => {
-                return (
-                  <div key={group.id} className="groupCard">
-                    <span className="emoji-mini-black">{group.emoji}</span>
+      </div> */}
 
-                    <button
-                      onClick={() => {
-                        onclickSharedBtn(group, data);
-                      }}
-                    >
-                      {group.name}
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          }
-        ></Modal>
-      )}
+      <div className="recodeContent">
+        <span>{data.name} / </span>
+        <span>
+          {JSON.parse(data.bodyPart).map((bodyPart, index) =>
+            JSON.parse(data.bodyPart).length === index + 1 ? (
+              <span>{bodyPart} </span>
+            ) : (
+              <span> {`${bodyPart}, `} </span>
+            )
+          )}
+        </span>
+        /
+        <span>
+          {JSON.parse(data.intensity).map((intensity, index) =>
+            JSON.parse(data.intensity).length === index + 1 ? (
+              <span> {intensity} </span>
+            ) : (
+              <span>{` ${intensity}, `}</span>
+            )
+          )}
+        </span>
+        /<span> {data.minute}분</span>
+      </div>
+      <div className="btnWrapper">
+        <button
+          className="sharedBtn"
+          onClick={() => setShareRecordsAsGroup((prev) => !prev)}
+        >
+          {/* 그룹에 공유하기 */}
+        </button>
+        {shareRecordsAsGroup && (
+          <Modal
+            closeMessage="닫기"
+            closeAction={() => {
+              setShareRecordsAsGroup(false);
+            }}
+            innerContents={
+              <div className="shareToGroupModalWrapper">
+                <span className="title">어느 그룹에 공유할까요?</span>
+                {group.myGroup?.map((group) => {
+                  return (
+                    <div key={group.id} className="groupCard">
+                      <span className="emoji-mini-black">{group.emoji}</span>
+
+                      <button
+                        className="shareBtn"
+                        onClick={() => {
+                          onclickSharedBtn(group, data);
+                        }}
+                      >
+                        {group.name}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            }
+          ></Modal>
+        )}
+        <button
+          className="deleteBtn"
+          onClick={(e) => {
+            e.preventDefault();
+            setRemoveRecordModalOpen((prev) => !prev);
+          }}
+        >
+          {/* 기록 삭제 */}
+        </button>
+        {removeRecordModalOpen && (
+          <Modal
+            innerContents={
+              <span>{`${timeForToday(data.createdAt)} 정성스럽게 작성한
+              ${data.name} 기록을 정말로 삭제할까요? 😢`}</span>
+            }
+            closeMessage="돌아가기"
+            okMessage="삭제합니다"
+            okAction={() => {
+              onClickRemoveBtn(data);
+            }}
+            closeAction={() => {
+              setRemoveRecordModalOpen(false);
+            }}
+          ></Modal>
+        )}
+      </div>
     </div>
   );
 };

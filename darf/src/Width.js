@@ -56,7 +56,7 @@ const Width = () => {
     if (me) {
       dispatch({
         type: LOAD_WIDTH_REQUEST,
-        data: me?.id,
+        data: { date: new Date(choicedTime) },
       });
     }
   }, []);
@@ -94,8 +94,8 @@ const Width = () => {
 
   return (
     <div className="widthPage">
-      <div className="sectionWrapper">
-        <section className="widthInputWrapper">
+      <div className="recodeSectionWrapper">
+        <section className="recodeInputContainer">
           <WeekCalendar eventHandler={onClickDate}></WeekCalendar>
 
           <form className="widthInputForm">
@@ -122,9 +122,18 @@ const Width = () => {
         </section>
         <section className="widthListWrapper">
           {me?.width &&
-            me.width.map((data) => {
-              return <UserWidthItem key={data.id} data={data}></UserWidthItem>;
-            })}
+            me.width
+              .filter((width) => {
+                return (
+                  `${new Date(width.date)}` ===
+                  `${new Date(calendar.choiceDate)}`
+                );
+              })
+              .map((data) => {
+                return (
+                  <UserWidthItem key={data.id} data={data}></UserWidthItem>
+                );
+              })}
         </section>
       </div>
     </div>

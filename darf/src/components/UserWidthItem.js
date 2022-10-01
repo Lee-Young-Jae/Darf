@@ -29,25 +29,20 @@ const UserWidthItem = ({ data }) => {
   console.log(data);
 
   return (
-    <div className="UserWidthItemComponent">
-      <div key={data.id}>
-        <p>{`${timestamp(data.date)}`}</p>
+    <div className="UserWidthItemComponent userHealthRecodeItem">
+      <div className="recodeContent">
+        {/* <p>{`${timestamp(data.date)}`}</p> */}
         <div>{`${data.width} Kg`}</div>
-        {/* <button
-                onClick={() => {
-                  eventHandler(e);
-                }}
-              >
-                지우기
-              </button> */}
+      </div>
+
+      <div className="btnWrapper">
         <button
+          className="deleteBtn"
           onClick={(e) => {
             e.preventDefault();
             setRemoveRecordModalOpen((prev) => !prev);
           }}
-        >
-          기록 삭제
-        </button>
+        ></button>
         {removeRecordModalOpen && (
           <Modal
             innerContents={

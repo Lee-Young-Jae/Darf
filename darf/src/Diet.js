@@ -164,8 +164,8 @@ const Diet = () => {
   return (
     <div className="dietPage">
       {/* 여기는 Diet Page 입니다. */}
-      <div className="sectionWrapper">
-        <section className="dietInputWrapper">
+      <div className="recodeSectionWrapper">
+        <section className="recodeInputContainer">
           <WeekCalendar eventHandler={onClickDate}></WeekCalendar>
           <div className="underbar"></div>
           <div className="dietInputFormWrapper">

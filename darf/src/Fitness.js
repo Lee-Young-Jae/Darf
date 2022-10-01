@@ -206,8 +206,8 @@ const Fitness = () => {
 
   return (
     <div className="exercisePage">
-      <div className="sectionWrapper">
-        <section className="exerciseInputWrapper">
+      <div className="recodeSectionWrapper">
+        <section className="recodeInputContainer">
           <WeekCalendar eventHandler={onClickDate}></WeekCalendar>
           <div className="underbar"></div>
           {/* <h2>{`${choicedTime.getFullYear()}. ${

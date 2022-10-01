@@ -51,58 +51,36 @@ const DietItem = ({ data }) => {
   }, [createGroupPostDone]);
 
   return (
-    <div className="DietItem">
-      <div>
-        <div>{`${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()}. ${
-          days[now.getDay()]
-        }`}</div>
+    <div className="DietItem userHealthRecodeItem">
+      <div className="recodeContent">
+        {/* <div>
+          <div>{`${now.getFullYear()}. ${
+            now.getMonth() + 1
+          }. ${now.getDate()}. ${days[now.getDay()]}`}</div>
+        </div> */}
+        {data?.DietImages ? (
+          data.DietImages.map((image) => {
+            return (
+              <div className="dietImageWrapper" key={image.id}>
+                <img
+                  src={`http://localhost:3065/images/${image.src}`}
+                  alt={image.src}
+                ></img>
+              </div>
+            );
+          })
+        ) : (
+          <div>이미지가 존재하지 않습니다.</div>
+        )}
+        <span>{data.name} / </span>
+        <span>{`${Math.round(data.kcal)}kcal`} / </span>
+        <span>{data.type}</span>
       </div>
-      {data?.DietImages ? (
-        data.DietImages.map((image) => {
-          return (
-            <div className="dietImageWrapper" key={image.id}>
-              <img
-                src={`http://localhost:3065/images/${image.src}`}
-                alt={image.src}
-              ></img>
-            </div>
-          );
-        })
-      ) : (
-        <div>이미지가 존재하지 않습니다.</div>
-      )}
-      <div>{data.name}</div>
-      <div>{`${Math.round(data.kcal)}칼로리 섭취`}</div>
-      <div>{data.type}</div>
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          setRemoveRecordModalOpen((prev) => !prev);
-        }}
-      >
-        기록 삭제
-      </button>
-      {removeRecordModalOpen && (
-        <Modal
-          innerContents={
-            <span>{`${timeForToday(data.createdAt)} 정성스럽게 작성한
-            ${data.name} 기록을 정말로 삭제할까요? 😢`}</span>
-          }
-          closeMessage="돌아가기"
-          okMessage="삭제합니다"
-          okAction={() => {
-            onClickRemoveBtn(data);
-          }}
-          closeAction={() => {
-            setRemoveRecordModalOpen(false);
-          }}
-        ></Modal>
-      )}
-
-      <div>
-        <button onClick={() => setShareRecordsAsGroup((prev) => !prev)}>
-          그룹에 공유하기
-        </button>
+      <div className="btnWrapper">
+        <button
+          className="sharedBtn"
+          onClick={() => setShareRecordsAsGroup((prev) => !prev)}
+        ></button>
         {shareRecordsAsGroup && (
           <Modal
             closeMessage="닫기"
@@ -129,6 +107,29 @@ const DietItem = ({ data }) => {
                 })}
               </div>
             }
+          ></Modal>
+        )}
+        <button
+          className="deleteBtn"
+          onClick={(e) => {
+            e.preventDefault();
+            setRemoveRecordModalOpen((prev) => !prev);
+          }}
+        ></button>
+        {removeRecordModalOpen && (
+          <Modal
+            innerContents={
+              <span>{`${timeForToday(data.createdAt)} 정성스럽게 작성한
+              ${data.name} 기록을 정말로 삭제할까요? 😢`}</span>
+            }
+            closeMessage="돌아가기"
+            okMessage="삭제합니다"
+            okAction={() => {
+              onClickRemoveBtn(data);
+            }}
+            closeAction={() => {
+              setRemoveRecordModalOpen(false);
+            }}
           ></Modal>
         )}
       </div>

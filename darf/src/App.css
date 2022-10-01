@@ -184,6 +184,10 @@ body {
   font-weight: bold;
 }
 
+.timeStamp {
+  color: #6e6e6e;
+}
+
 .MyButton {
   border: none;
   border-radius: 5px;
@@ -339,7 +343,7 @@ body {
   left: 50%;
   background-color: #ffffff;
   border-radius: 5px;
-  padding: 40px;
+  padding: 20px 40px;
   text-align: center;
   border-radius: 10px;
   box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
@@ -381,6 +385,16 @@ body {
   margin-left: 0.5rem;
 }
 
+.shareToGroupModalWrapper {
+}
+
+.shareToGroupModalWrapper .title {
+  margin-bottom: 10px;
+}
+
+.shareToGroupModalWrapper .shareBtn {
+}
+
 textarea {
   resize: none;
   width: 100%;
@@ -398,21 +412,22 @@ textarea :focus {
 }
 
 .emoji-mini-black {
-  border-radius: 150px;
+  border-radius: 350px;
   display: flexbox;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
   background-color: #000000;
-  min-width: 3rem;
-  min-height: 3rem;
-  padding: 5px;
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+  padding: 3px;
 }
 
 .LoginPage {
 }
 
 .DiaryPage {
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 .DiaryPage .DiaryForm {
@@ -598,6 +613,45 @@ textarea :focus {
   padding: 5px 10px;
 }
 
+.Calender .recodedBox {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.Calender .recodedExercise {
+  background-color: #71494975;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  width: 1rem;
+  height: 1rem;
+  font-size: 0px;
+  margin-left: 2px;
+}
+.Calender .recodedDiet {
+  background-color: #474ce575;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  width: 1rem;
+  height: 1rem;
+  font-size: 0px;
+  margin-left: 2px;
+}
+.Calender .recodedWidth {
+  background-color: #74959a75;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  width: 1rem;
+  height: 1rem;
+  font-size: 0px;
+  margin-left: 2px;
+}
+
 .Calender .Today {
   border: solid 1px #6e6e6e;
   /* background-color: #f3f3f3; */
@@ -611,6 +665,11 @@ textarea :focus {
 .Calender .DateItem:nth-child(7n-6) {
   color: #fd565f;
   background-color: #f5f5f5;
+}
+.Calender .ThisMonthDate {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .Calender .ThisMonthDate:hover {
@@ -668,14 +727,11 @@ textarea :focus {
   object-fit: cover;
 }
 
-/* 운동기록 exercise Page */
+/*
+  기록 입력 페이지 공통 레이아웃
+*/
 
-.exercisePage {
-  font-family: "Noto Sans KR", sans-serif;
-  /* font-family: "Apple SD Gothic Neo", sans-serif; */
-}
-
-.exercisePage .sectionWrapper {
+.recodeSectionWrapper {
   min-height: 100vh;
   display: flex;
   align-items: flex-start;
@@ -683,7 +739,7 @@ textarea :focus {
   flex-grow: 1;
 }
 
-.exercisePage .exerciseInputWrapper {
+.recodeInputContainer {
   position: -webkit-sticky; /* 사파리 */
   position: sticky;
   display: flex;
@@ -693,6 +749,64 @@ textarea :focus {
   backdrop-filter: blur(30px);
   min-width: 30%;
   margin: 0 auto;
+}
+
+.userHealthRecodeItem {
+  margin: 30px 0;
+  border-radius: 14px;
+  background-color: white;
+  min-width: 300px;
+  transform: 1s;
+  padding: 5px;
+  text-align: center;
+  animation: registed 0.5s normal;
+  transition: 0.4s;
+  display: grid;
+  grid-template-columns: 100% 20%;
+  min-height: 4rem;
+  align-items: center;
+}
+
+.userHealthRecodeItem:hover .btnWrapper {
+  opacity: 1;
+  transition: 0.5s;
+}
+
+.userHealthRecodeItem .btnWrapper {
+  opacity: 0;
+  width: 100%;
+  min-height: 15px;
+  justify-content: center;
+  transition: 0.5s;
+}
+
+.userHealthRecodeItem .deleteBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: url(./imgs/icons-delete.png) no-repeat center;
+  background-size: contain;
+  margin-right: 0.5rem;
+}
+
+.userHealthRecodeItem .sharedBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: url(./imgs/icons-share.png) no-repeat center;
+  background-size: contain;
+  margin-right: 0.5rem;
+}
+
+/* 운동기록 exercise Page */
+
+.exercisePage {
+  font-family: "Noto Sans KR", sans-serif;
+  /* font-family: "Apple SD Gothic Neo", sans-serif; */
 }
 
 .exercisePage .exerciseListWrapper {
@@ -711,7 +825,13 @@ textarea :focus {
   width: 100%;
   min-height: 100%;
   z-index: -1;
-  background: linear-gradient(
+  /* background: radial-gradient(
+    circle farthest-side at 10% 20%,
+    #ececec00,
+    #ececec00,
+    #2460cb
+  ); */
+  /* background: linear-gradient(
       to right,
       rgba(162, 162, 144, 0.4) 5%,
       rgba(111, 86, 86, 0.3),
@@ -729,23 +849,13 @@ textarea :focus {
       rgba(255, 0, 0, 0.3),
       rgba(0, 0, 255, 0.1),
       rgba(255, 255, 255, 0.2)
-    );
+    ); */
+  background-color: #ced3da;
 }
 
 .exercisePage .ExerciseList {
   min-width: 50%;
   margin: 0 50%;
-}
-
-.exercisePage .ExerciseItem {
-  margin: 30px 0;
-  border-radius: 25px;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 300px;
-  transform: 1s;
 }
 
 .exercisePage .ExerciseItem:hover {
@@ -859,25 +969,6 @@ textarea :focus {
 }
 
 /* 식단 Diet Page*/
-.dietPage .sectionWrapper {
-  min-height: 100vh;
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  flex-grow: 1;
-}
-
-.dietPage .dietInputWrapper {
-  position: -webkit-sticky; /* 사파리 */
-  position: sticky;
-  display: flex;
-  top: 0;
-  flex-direction: column;
-  padding: 50px;
-  backdrop-filter: blur(30px);
-  min-width: 30%;
-  margin: 0 auto;
-}
 
 .btnWrapper {
   display: flex;
@@ -901,7 +992,7 @@ textarea :focus {
   width: 100%;
   min-height: 100%;
   z-index: -1;
-  background: linear-gradient(
+  /* background: linear-gradient(
     to top right,
     rgba(162, 162, 144, 0.3),
     rgba(111, 86, 86, 0.3),
@@ -910,7 +1001,8 @@ textarea :focus {
     rgba(81, 42, 42, 0.3),
     rgba(42, 81, 49, 0.3),
     rgba(42, 44, 81, 0.3)
-  );
+  ); */
+  background-color: #ced3da;
 }
 
 .dietPage .DietList {
@@ -920,35 +1012,19 @@ textarea :focus {
 
 .dietPage .dietImageWrapper {
   object-fit: cover;
-  width: 50%;
+  width: 40%;
   height: 30%;
   border-radius: 24px;
   overflow: hidden;
+  margin: 0 auto;
 }
 
 .dietPage .dietInputFormWrapper {
-  /* display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  min-height: 50vh;
-  transition: 1s; */
   margin-top: 10%;
-}
-
-.dietPage .DietItem {
-  margin: 30px 0;
-  border-radius: 25px;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 300px;
-  transform: 1s;
 }
 
 .dietPage .DietItem:hover {
   box-shadow: 0 0 0.6rem rgb(0 0 0 / 40%);
-
   transition: 0.3s;
 }
 
@@ -1080,25 +1156,6 @@ textarea :focus {
 }
 
 /* widthPage 체중 입력 페이지 */
-.widthPage .sectionWrapper {
-  min-height: 100vh;
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  flex-grow: 1;
-}
-
-.widthPage .widthInputWrapper {
-  position: -webkit-sticky; /* 사파리 */
-  position: sticky;
-  display: flex;
-  top: 0;
-  flex-direction: column;
-  padding: 50px;
-  backdrop-filter: blur(30px);
-  min-width: 30%;
-  margin: 0 auto;
-}
 
 .widthPage .widthListWrapper {
   display: flex;
@@ -1117,7 +1174,7 @@ textarea :focus {
   width: 100%;
   min-height: 100%;
   z-index: -1;
-  background: linear-gradient(
+  /* background: linear-gradient(
       to top right,
       rgba(148, 144, 162, 0.3),
       rgba(185, 115, 115, 0.3),
@@ -1146,10 +1203,11 @@ textarea :focus {
       rgba(0, 255, 255, 0.3),
       rgba(0, 0, 255, 0.1),
       rgba(255, 255, 255, 0.2)
-    );
+    ); */
+  background-color: #ced3da;
 }
 
-.UserWidthItemComponent {
+/* .UserWidthItemComponent {
   margin: 30px 0;
   border-radius: 25px;
   background-color: white;
@@ -1160,7 +1218,7 @@ textarea :focus {
   transform: 1s;
   animation: registed 0.5s normal;
   transition: 0.4s;
-}
+} */
 
 .UserWidthItemComponent:hover {
   box-shadow: 0 0 0.6rem rgb(0 0 0 / 40%);
@@ -1461,7 +1519,7 @@ textarea :focus {
 .ProfilePage .userProfileEmoji {
   margin: 1.5rem 3rem 1.5rem 3rem;
   font-size: 5rem;
-  background-color: #ececec50;
+  background-color: #ffffff;
   border-radius: 300px;
   width: 11rem;
   height: 11rem;
@@ -1479,7 +1537,7 @@ textarea :focus {
   width: 100%;
   min-height: 100%;
   z-index: -1;
-  background: linear-gradient(
+  /* background: linear-gradient(
       to right,
       rgba(162, 162, 144, 0.4) 5%,
       rgba(111, 86, 86, 0.3),
@@ -1497,7 +1555,8 @@ textarea :focus {
       rgba(255, 0, 0, 0.3),
       rgba(0, 0, 255, 0.1),
       rgba(255, 255, 255, 0.2)
-    );
+    ); */
+  background-color: #ced3da;
 }
 
 .ProfilePage .challengeBoxWrapper {
@@ -1690,9 +1749,11 @@ textarea :focus {
 }
 
 .WeekCalendarComponent .weekCalendarDate-active {
-  background-color: #fd565f;
+  background-color: #54bff3;
   border-radius: 150px;
   transition: 0.4s;
+  min-width: 15px;
+  color: white;
 }
 
 /* 회원가입 폼 */
