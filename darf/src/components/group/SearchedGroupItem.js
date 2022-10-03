@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { JOIN_GROUP_REQUEST } from "../../modules/reducers/group";
 import Modal from "../Modal";
+import { timeForToday } from "../../util/function";
 
 const SearchedGroupItem = ({ group, searchGroupPurpose }) => {
   const [groupPasswordCheckModalOpen, setGroupPasswordCheckModalOpen] =
@@ -35,7 +36,9 @@ const SearchedGroupItem = ({ group, searchGroupPurpose }) => {
     <div key={group.id} className="searchedGroupItem">
       <span>{group.name}</span>
       <span>{group?.password.length >= 1 ? "🔒︎" : ""}</span>
-      <p className="groupEmoji">{group.emoji}</p>
+      <div className="groupEmojiWrapper">
+        <p className="groupEmoji">{group.emoji}</p>
+      </div>
       <p>{`${group.Users.length}/${group.capacity}`}</p>
       {group.purpose &&
         JSON.parse(group.purpose).map((purpose, index) => {
@@ -57,7 +60,7 @@ const SearchedGroupItem = ({ group, searchGroupPurpose }) => {
           );
         })}
       <p>{group.introduce}</p>
-      <p>{`${new Date(group.createdAt)}`}</p>
+      <p>{`${timeForToday(group.createdAt)}`}</p>
       <button
         onClick={() => {
           return onClickJoinGroup();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,51 +9,36 @@ import {
 import { message } from "antd";
 import GroupCreate from "./components/group/GroupCreate";
 import SearchedGroupItem from "./components/group/SearchedGroupItem";
+import { days, purpose } from "./util/publicData";
 
 const Group = () => {
   const { me, logOutDone } = useSelector((state) => state.user);
   const { group } = useSelector((state) => state.group);
   const { createGroupDone, joinGroupError, joinGroupLoading, joinGroupDone } =
     useSelector((state) => state.group.state);
-  const [registedGroupPopupOpen, setRegistedGroupPopupOpen] = useState(true);
-  const [findNewGroupPopupOpen, setfindNewGroupPopupOpen] = useState(false);
+  const [registedGroupOpen, setRegistedGroupOpen] = useState(true);
+  const [findNewGroupOpen, setfindNewGroupOpen] = useState(false);
   const [searchGroupName, setsearchGroupName] = useState("");
   const [searchGroupPurpose, setSearchGroupPurpose] = useState("");
-  const [createNewGroupPopupOpen, setCreateNewGroupPopupOpen] = useState(false);
-
-  const days = [
-    "일요일",
-    "월요일",
-    "화요일",
-    "수요일",
-    "목요일",
-    "금요일",
-    "토요일",
-  ];
-
-  const purpose = [
-    { id: 1, purpose: "체지방 줄이기" },
-    { id: 2, purpose: "근육량 늘리기" },
-    { id: 3, purpose: "체력 키우기" },
-    { id: 4, purpose: "습관 만들기" },
-    { id: 5, purpose: "식단 관리하기" },
-  ];
+  const [createNewGroupOpen, setCreateNewGroupOpen] = useState(false);
+  const [whichViewGroupList, setWhichViewGroupList] = useState("new");
 
   const navigate = useNavigate();
 
   const onClickCreateNewGroup = (e) => {
     // navigate("/groupcreate");
     e.preventDefault();
-    setCreateNewGroupPopupOpen((prev) => !prev);
+    setCreateNewGroupOpen((prev) => !prev);
   };
 
   const dispatch = useDispatch();
 
-  /** 그룹 생성이 완료되면 메세지 출력 */
+  /** 그룹 생성이 완료되면 메세지 출력하고 가입한 그룹 탭으로 변경 */
   useEffect(() => {
     if (createGroupDone) {
       message.success("성공적으로 그룹이 생성되었습니다!");
-      setCreateNewGroupPopupOpen(false);
+      setCreateNewGroupOpen(false);
+      setWhichViewGroupList("registed");
     }
   }, [createGroupDone]);
 
@@ -109,14 +94,28 @@ const Group = () => {
     dispatchGroupSearch();
   }, [searchGroupPurpose, searchGroupName]);
 
+  /**
+   *  표시할 그룹 리스트를 변경하는 함수
+   */
+
+  const newBtnRef = useRef();
+  const registedBtnRef = useRef();
+  const createBtnRef = useRef();
+
+  const onChangeGroupList = useCallback((event) => {
+    event.preventDefault();
+    setWhichViewGroupList(event.target.name);
+  }, []);
+
   /** 그룹 가입 메세지를 토스트팝업으로 출력하는 함수 */
   useEffect(() => {
     if (joinGroupError) message.error(joinGroupError);
 
     if (joinGroupDone) {
       message.success("가입이 완료되었습니다.");
+      setWhichViewGroupList("registed");
     }
-  }, [joinGroupError, joinGroupLoading]);
+  }, [joinGroupError, joinGroupDone]);
 
   /** 페이지 첫 load시 로그인 여부를 확인하고 경고 메세지를 출력하는 함수 */
   useEffect(() => {
@@ -134,25 +133,168 @@ const Group = () => {
 
   return (
     <div className="GroupPage">
-      <div>여기는 GroupPage 입니다.</div>
-      <div>
+      <div className="groupMenu">
+        <div className="groupMenuBtnWrapper">
+          <button onClick={onChangeGroupList} name="new" ref={newBtnRef}>
+            {whichViewGroupList === "new" ? (
+              <b>새로운 그룹 찾기</b>
+            ) : (
+              "새로운 그룹 찾기"
+            )}
+          </button>
+          <div className="line-y"></div>
+          <button
+            onClick={onChangeGroupList}
+            name="registed"
+            ref={registedBtnRef}
+          >
+            {whichViewGroupList === "registed" ? (
+              <b>내가 가입한 그룹</b>
+            ) : (
+              "내가 가입한 그룹"
+            )}
+          </button>
+        </div>
+        <div className="groupMenuBtnWrapper">
+          <button onClick={onChangeGroupList} name="create" ref={createBtnRef}>
+            {whichViewGroupList === "create" ? (
+              <b>내가 그룹 만들기</b>
+            ) : (
+              "내가 그룹 만들기"
+            )}
+          </button>
+        </div>
+      </div>
+      <div className="groupList">
+        {whichViewGroupList === "new" && (
+          <>
+            <div className="groupSearchForm">
+              <input
+                placeholder="그룹 이름으로 검색"
+                onChange={onChageGroupSearchName}
+                value={searchGroupName}
+              ></input>
+              <p>그룹 태그로 검색: </p>
+              {purpose.map((e) => {
+                return (
+                  <label
+                    key={e.id}
+                    className={`groupPurpose groupPurpose-${e.id} ${
+                      e.purpose === searchGroupPurpose
+                        ? "groupPurpose-active"
+                        : ""
+                    }`}
+                  >
+                    <button
+                      value={e.purpose}
+                      onClick={onChangeGroupSearchPurpose}
+                    ></button>
+                    <span>{e.purpose}</span>
+                  </label>
+                );
+              })}
+            </div>
+            <div className="searchedGroupList">
+              {
+                <>
+                  {group.searchedGroup?.length >= 1 ? (
+                    group.searchedGroup.map((e) => {
+                      return (
+                        <SearchedGroupItem
+                          key={e.id}
+                          group={e}
+                          searchGroupPurpose={searchGroupPurpose}
+                        ></SearchedGroupItem>
+                      );
+                    })
+                  ) : (
+                    <div className="searchedGroupItem">
+                      검색 결과가 없습니다.
+                    </div>
+                  )}
+                </>
+              }
+            </div>
+          </>
+        )}
+        {whichViewGroupList === "registed" && (
+          <div className="registedGroupList">
+            {group.myGroup.length <= 0 && (
+              <div>
+                가입중인 그룹이 없습니다. 그룹을 찾아 가입하시거나 새로운 그룹을
+                만들어 보세요!{" "}
+              </div>
+            )}
+            {group.myGroup &&
+              group.myGroup.map((e) => {
+                // const groupDate = new Date(e.createdAt);
+                return (
+                  <div
+                    key={e.id}
+                    className="registedGroupItem"
+                    onClick={() => onClickRegistedGroupItem(e)}
+                  >
+                    <Link to={"/groupboard"}>
+                      {/* <p className="groupSince">{`since: ${groupDate.getFullYear()}. ${
+                        groupDate.getMonth() + 1
+                      }. ${groupDate.getDate()}. ${
+                        days[groupDate.getDay()]
+                      }`}</p> */}
+                      <h3>{`${e.name}`}</h3>
+                      {e.password.length >= 1 ? (
+                        <span>🔒︎</span>
+                      ) : (
+                        <span></span>
+                      )}
+                      <div className="groupEmojiWrapper">
+                        <div className="groupEmoji">{e.emoji}</div>
+                      </div>
+                      <p>{`정원: ${e.Users?.length || 1}/${e.capacity}`}</p>
+                      <p>
+                        {e.introduce.length > 10
+                          ? `${e.introduce.slice(0, 10)}...`
+                          : `${e.introduce}`}
+                      </p>
+
+                      <p>
+                        {e.purpose &&
+                          JSON.parse(e.purpose).map((purpose, index) => {
+                            return (
+                              <span
+                                className={`groupPurpose groupPurpose-${index}`}
+                                key={index}
+                              >
+                                {purpose}
+                              </span>
+                            );
+                          })}
+                      </p>
+                    </Link>
+                  </div>
+                );
+              })}
+          </div>
+        )}
+        {whichViewGroupList === "create" && (
+          <GroupCreate purpose={purpose}></GroupCreate>
+        )}
+      </div>
+      {/* <div>
         <p className="subTitle" onClick={onClickCreateNewGroup}>
           새로운 그룹 만들기
         </p>
-        {createNewGroupPopupOpen && (
-          <GroupCreate purpose={purpose}></GroupCreate>
-        )}
+        {createNewGroupOpen && <GroupCreate purpose={purpose}></GroupCreate>}
       </div>
       <div className="searchedGroupList">
         <p
           className="subTitle"
           onClick={() => {
-            return setfindNewGroupPopupOpen((prev) => !prev);
+            return setfindNewGroupOpen((prev) => !prev);
           }}
         >
           가입 할 그룹 찾기
         </p>
-        {findNewGroupPopupOpen && (
+        {findNewGroupOpen && (
           <div>
             <p>가입할 그룹 목록:</p>
             <input
@@ -202,7 +344,7 @@ const Group = () => {
         <p
           className="subTitle"
           onClick={() => {
-            setRegistedGroupPopupOpen((prev) => !prev);
+            setRegistedGroupOpen((prev) => !prev);
           }}
         >
           가입된 그룹 목록
@@ -215,7 +357,7 @@ const Group = () => {
           </div>
         )}
         {group.myGroup &&
-          registedGroupPopupOpen &&
+          registedGroupOpen &&
           group.myGroup.map((e) => {
             const groupDate = new Date(e.createdAt);
             return (
@@ -255,7 +397,7 @@ const Group = () => {
               </div>
             );
           })}
-      </div>
+      </div> */}
     </div>
   );
 };
