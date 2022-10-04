@@ -69,6 +69,10 @@ const initialState = {
     loadGroupPostsLoading: false, //그룹 게시글 로드 시도중 (인피니티 스크롤링)
     loadGroupPostsDone: false,
     loadGroupPostsError: null,
+
+    loadGroupTypePostLoading: false, // 타입별 게시글 가져오기 시도중
+    loadGroupTypePostDone: false,
+    loadGroupTypePostError: null,
   },
   group: {
     myGroup: [],
@@ -148,6 +152,10 @@ export const CHANGE_GROUP_ADMIN_FAILURE = "CHANGE_GROUP_ADMIN_FAILURE";
 export const LOAD_GROUP_POSTS_REQUEST = "LOAD_GROUP_POSTS_REQUEST";
 export const LOAD_GROUP_POSTS_SUCCESS = "LOAD_GROUP_POSTS_SUCCESS";
 export const LOAD_GROUP_POSTS_FAILURE = "LOAD_GROUP_POSTS_FAILURE";
+
+export const LOAD_GROUP_TYPEPOST_REQUEST = "LOAD_GROUP_TYPEPOST_REQUEST";
+export const LOAD_GROUP_TYPEPOST_SUCCESS = "LOAD_GROUP_TYPEPOST_SUCCESS";
+export const LOAD_GROUP_TYPEPOST_FAILURE = "LOAD_GROUP_TYPEPOST_FAILURE";
 
 /* 리듀서 선언 */
 
@@ -442,7 +450,20 @@ const reducer = (state = initialState, action) => {
       case LOAD_GROUP_POSTS_FAILURE:
         draft.state.loadGroupPostsError = action.error;
         break;
-
+      case LOAD_GROUP_TYPEPOST_REQUEST:
+        draft.state.loadGroupTypePostLoading = true;
+        draft.state.loadGroupTypePostDone = false;
+        draft.state.loadGroupTypePostError = null;
+        break;
+      case LOAD_GROUP_TYPEPOST_SUCCESS:
+        draft.state.loadGroupTypePostLoading = false;
+        draft.state.loadGroupTypePostDone = true;
+        draft.state.loadGroupTypePostError = null;
+        draft.group.selected = action.data;
+        break;
+      case LOAD_GROUP_TYPEPOST_FAILURE:
+        draft.state.loadGroupTypePostError = action.error;
+        break;
       default:
         return state;
     }

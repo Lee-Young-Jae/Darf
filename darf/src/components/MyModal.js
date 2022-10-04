@@ -19,9 +19,6 @@ const MyModal = ({ title, message, btnMessage, onClick }) => {
           <Link className="ModalMenu" to="/width">
             체중
           </Link>
-          <Link className="ModalMenu" to="/diary">
-            일기
-          </Link>
         </div>
         <MyButton text="닫기" onClick={onClick}></MyButton>
       </div>

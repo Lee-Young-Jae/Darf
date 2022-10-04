@@ -307,7 +307,6 @@ router.get("/selected/load", async (req, res, next) => {
   }
 });
 
-// 작성중
 // infiniteScrolling get Post
 // localhost:3065/api/group/selected/grouppost/load/:groupId/:pageNumber GET  || 선택한 그룹 정보 불러오기
 router.get(
@@ -418,7 +417,7 @@ router.get("/selected/:groupId/load", async (req, res, next) => {
       ],
       order: [
         [{ model: GroupPost }, "date", "DESC"], // GroupPost를 생성순서로 내림차순( 늦게 생성된 순서 (즉 최신순))
-        [{ model: GroupPost }, "createdAt", "ASC"],
+        [{ model: GroupPost }, "createdAt", "DESC"],
       ],
     });
 
@@ -428,6 +427,74 @@ router.get("/selected/:groupId/load", async (req, res, next) => {
     }
 
     return res.status(401).send("해당 유저가 공유한 게시글이 없네요...");
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// localhost:3065/api/group/selected/:groupId/load/post/:postType GET  || 선택한 그룹에서 운동기록|식단기록|전체 만 불러오기
+router.get("/selected/:groupId/load/post/:postType", async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).send("유저 세션이 존재하지 않습니다.");
+    }
+
+    // const PostType = req.params.postType === "all" ;
+    let where =
+      req.params.postType === "All" ? {} : { PostType: req.params.postType };
+
+    const groupId = parseInt(req.params.groupId, 10);
+
+    const findGroup = await Group.findOne({
+      where: {
+        id: groupId,
+      },
+      include: [
+        {
+          model: GroupPost,
+          where,
+          include: [
+            {
+              model: User,
+              attributes: ["id", "nickname"],
+              include: [{ model: UserProfile, attributes: ["id", "emoji"] }],
+            },
+            {
+              model: PostComment,
+              include: [
+                {
+                  model: User,
+                  attributes: ["id", "nickname"],
+                  include: [
+                    { model: UserProfile, attributes: ["id", "emoji"] },
+                  ],
+                },
+              ],
+              order: [
+                [{ model: PostComment }, "createdAt", "DESC"], // GroupPost를 생성순서로 내림차순( 늦게 생성된 순서 (즉 최신순))
+              ],
+            },
+          ],
+        },
+        {
+          model: User,
+          attributes: ["id", "userEmail", "nickname"],
+          include: [{ model: UserProfile, attributes: ["id", "emoji"] }],
+        },
+      ],
+      order: [
+        [{ model: GroupPost }, "date", "DESC"], // GroupPost를 생성순서로 내림차순( 늦게 생성된 순서 (즉 최신순))
+        [{ model: GroupPost }, "createdAt", "DESC"],
+      ],
+    });
+
+    if (findGroup) {
+      res.status(200).json(findGroup);
+      return;
+    }
+
+    return res.status(401).send("게시글이 없습니다.");
   } catch (error) {
     console.error(error);
     next(error);

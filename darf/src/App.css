@@ -1241,28 +1241,110 @@ textarea :focus {
 
 /* Group 그룹 페이지*/
 
+.GroupPage {
+  background-color: #ced3da;
+  min-height: 98vh;
+  padding: 3rem 5rem;
+  margin: 0 auto;
+}
+
+.GroupPage .groupMenu {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  background-color: white;
+  border-radius: 14px;
+}
+
+.GroupPage .groupMenu button {
+  padding: 2rem 1rem;
+}
+
+.GroupPage .groupMenu button:hover {
+  font-weight: bold;
+}
+
+.GroupPage .groupMenu button.active {
+  font-weight: bold;
+  transition: 0.5s;
+}
+
+.GroupPage .groupMenu .groupMenuBtnWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.GroupPage .line-y {
+  border: 1px solid #ced3da;
+  background-color: #ced3da;
+}
+
+.GroupPage .groupList {
+  min-height: 50px;
+  margin: 14px 0;
+}
+
 .GroupPage .subTitle {
   font-family: 1.2rem;
   font-weight: bold;
   cursor: pointer;
 }
 
+.GroupPage .groupSearchForm {
+  padding: 14px;
+  background-color: white;
+  margin: 14px 0;
+  border-radius: 14px;
+}
+
 .GroupPage .searchedGroupList {
   border: 1px solid #ececec;
   padding: 1rem;
+  background-color: white;
+  border-radius: 14px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .GroupPage .searchedGroupItem {
   border: 1px solid #ececec;
+  width: 200px;
+  text-align: center;
+  margin: 5px;
+  padding: 15px;
+  border-radius: 14px;
+  min-height: 250px;
 }
 
-.GroupPage .RegistedGroupList {
+.GroupPage .registedGroupList {
   border: 1px solid #ececec;
   padding: 1rem;
+  background-color: white;
+  border-radius: 14px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.GroupPage .RegistedGroupItem {
+.GroupPage .registedGroupItem {
   border: 1px solid #ececec;
+  width: 200px;
+  text-align: center;
+  margin: 5px;
+  padding: 15px;
+  border-radius: 14px;
+  min-height: 250px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.GroupPage .registedGroupItem:hover {
+  transform: translateY(-7px);
+  transition: 0.3s;
+}
+
+.GroupPage .registedGroupItem:hover .groupEmoji {
+  font-size: 2.3rem;
+  transition: 0.2s;
 }
 
 .GroupPage .groupSince {
@@ -1330,6 +1412,11 @@ textarea :focus {
   background-color: #714949;
 }
 
+.groupEmojiWrapper {
+  display: flex;
+  justify-content: center;
+}
+
 .groupEmoji {
   font-size: 2rem;
   background-color: #000000;
@@ -1340,6 +1427,7 @@ textarea :focus {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: 0.3s;
 }
 
 /* 그룹 Board 페이지 */

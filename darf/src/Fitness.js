@@ -401,7 +401,7 @@ const Fitness = () => {
                     return <ExerciseItem key={e.id} data={e}></ExerciseItem>;
                   })
               ) : (
-                <div className="ExerciseItem">
+                <div className="ExerciseItem userHealthRecodeItem">
                   기록이 없습니다 새로 작성해 보세요!
                 </div>
               )}

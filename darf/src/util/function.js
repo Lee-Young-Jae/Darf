@@ -1,3 +1,5 @@
+import { days } from "./publicData";
+
 export const timeForToday = (value) => {
   const today = new Date();
   const timeValue = new Date(value);
@@ -21,4 +23,12 @@ export const timeForToday = (value) => {
   }
 
   return `${Math.floor(betweenTimeDay / 365)}년전`;
+};
+
+export const timeFormatting = (time) => {
+  const today = new Date(time);
+
+  return `${today.getFullYear()}. ${
+    today.getMonth() + 1
+  }. ${today.getDate()}. ${days[today.getDay()]}`;
 };

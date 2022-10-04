@@ -29,6 +29,9 @@ import {
   LOAD_GROUP_POSTS_FAILURE,
   LOAD_GROUP_POSTS_REQUEST,
   LOAD_GROUP_POSTS_SUCCESS,
+  LOAD_GROUP_TYPEPOST_FAILURE,
+  LOAD_GROUP_TYPEPOST_REQUEST,
+  LOAD_GROUP_TYPEPOST_SUCCESS,
   LOAD_GROUP_USERPOST_FAILURE,
   LOAD_GROUP_USERPOST_REQUEST,
   LOAD_GROUP_USERPOST_SUCCESS,
@@ -369,6 +372,25 @@ function* loadGroupPosts(action) {
     });
   }
 }
+function loadGroupTypePostsAPI(data) {
+  return axios.get(
+    `/api/group/selected/${data.groupId}/load/post/${data.postType}/`
+  );
+}
+function* loadGroupTypePosts(action) {
+  try {
+    const result = yield call(loadGroupTypePostsAPI, action.data);
+    yield put({
+      type: LOAD_GROUP_TYPEPOST_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: LOAD_GROUP_TYPEPOST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
 
 function* watchLoadRegistedGroup() {
   yield takeLatest(LOAD_REGISTED_GROUP_REQUEST, loadRegistedGroup);
@@ -428,6 +450,9 @@ function* watchChageGroupAdmin() {
 function* watchLoadGroupPosts() {
   yield takeLatest(LOAD_GROUP_POSTS_REQUEST, loadGroupPosts);
 }
+function* watchLoadGroupTypePosts() {
+  yield takeLatest(LOAD_GROUP_TYPEPOST_REQUEST, loadGroupTypePosts);
+}
 
 export default function* userSaga() {
   yield all([
@@ -448,5 +473,6 @@ export default function* userSaga() {
     fork(watchRemoveGroup),
     fork(watchChageGroupAdmin),
     fork(watchLoadGroupPosts),
+    fork(watchLoadGroupTypePosts),
   ]);
 }

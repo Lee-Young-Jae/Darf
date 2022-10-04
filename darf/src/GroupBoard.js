@@ -7,6 +7,7 @@ import PostItem from "./components/group/postItem";
 import {
   LEAVE_GROUP_REQUEST,
   LOAD_GROUP_POSTS_REQUEST,
+  LOAD_GROUP_TYPEPOST_REQUEST,
   LOAD_GROUP_USERPOST_REQUEST,
 } from "./modules/reducers/group";
 
@@ -27,6 +28,7 @@ const GroupBoard = () => {
   const [showManagementForm, setShowManagementForm] = useState(false);
   const dispatch = useDispatch();
   const [postsIntersecting, setPostsIntersecting] = useState(false);
+  const [postLoadMode, setPostLoadMode] = useState("all");
 
   const postLoaderRef = useRef();
 
@@ -38,6 +40,7 @@ const GroupBoard = () => {
   }, []);
 
   useEffect(() => {
+    if (postLoadMode !== "All") return;
     dispatch({
       type: LOAD_GROUP_POSTS_REQUEST,
       data: {
@@ -72,6 +75,7 @@ const GroupBoard = () => {
   }, []);
 
   const onClickUserNickname = (userId) => {
+    setPostLoadMode("User");
     dispatch({
       type: LOAD_GROUP_USERPOST_REQUEST,
       data: { userId, groupId: selected.id },
@@ -127,6 +131,13 @@ const GroupBoard = () => {
       setShowManagementForm(false);
     }
   }, [editGroupDone]);
+
+  const onClickTypePostLoadBtn = (postType) => {
+    dispatch({
+      type: LOAD_GROUP_TYPEPOST_REQUEST,
+      data: { groupId: selected.id, postType },
+    });
+  };
 
   return (
     <div className="GroupBoardPage">
@@ -197,6 +208,34 @@ const GroupBoard = () => {
           </ul>
         </div>
         <button onClick={onClickLeaveGroupBtn}>그룹 탈퇴</button>
+      </div>
+      <div>
+        <button
+          onClick={() => {
+            setPostLoadMode("Diet");
+            onClickTypePostLoadBtn("Diet");
+          }}
+        >
+          식단 기록만
+        </button>{" "}
+        <br></br>
+        <button
+          onClick={() => {
+            setPostLoadMode("Exercise");
+            onClickTypePostLoadBtn("Exercise");
+          }}
+        >
+          운동 기록만
+        </button>
+        <br></br>
+        <button
+          onClick={() => {
+            setPostLoadMode("All");
+            onClickTypePostLoadBtn("All");
+          }}
+        >
+          전체 기록
+        </button>
       </div>
       <div>
         <span>대충 게시글 목록</span>
