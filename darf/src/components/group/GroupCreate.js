@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SelectBox from "../SelectBox";
 import { GROUP_CREATE_REQUEST } from "../../modules/reducers/group";
+import { emoji } from "../../util/publicData";
 
 const GroupCreate = ({ purpose }) => {
   const { state } = useSelector((state) => state.group);
@@ -24,25 +25,6 @@ const GroupCreate = ({ purpose }) => {
   };
   const onChangeGroupIntroduce = (e) => {
     setGroupIntroduce(e.target.value);
-  };
-
-  const emoji = {
-    options: [
-      { value: "💪" },
-      { value: "🚴‍♀️" },
-      { value: "🔥" },
-      { value: "💦" },
-      { value: "🥑" },
-      { value: "🥗" },
-      { value: "🥩" },
-      { value: "👙" },
-      { value: "👟" },
-      { value: "⚽" },
-      { value: "🏓" },
-      { value: "🏸" },
-      { value: "🍛" },
-      { value: "🍮" },
-    ],
   };
 
   /** 그룹 생성이 완료되면 state 초기화 그룹 생성 Error시 Error 메세지 출력*/
@@ -104,29 +86,47 @@ const GroupCreate = ({ purpose }) => {
   }, [GroupPublic]);
 
   return (
-    <div className="GroupCreatePage">
+    <div className="GroupCreateComponent">
+      <h3>그룹 정보 입력</h3>
       <form onSubmit={onSubmitCreateGroup}>
-        <label>
-          그룹 이름:
-          <input value={GroupName} onChange={onChangeGroupName}></input>
-        </label>
         <label>
           그룹 Emoji:
           <SelectBox props={emoji} eventHandler={setGroupEmoji}></SelectBox>
         </label>
-        <label>
-          그룹 정원
+        <div className="formTextbox">
           <input
+            id="groupNameInput"
+            className="formTextboxInput"
+            onChange={onChangeGroupName}
+            value={GroupName}
+            autoComplete="off"
+            required
+            type={"text"}
+          ></input>
+          <label htmlFor="groupNameInput" className="formTextboxLabel">
+            그룹 이름
+          </label>
+        </div>
+
+        <div className="formTextbox">
+          <input
+            id="groupNameInput"
+            className="formTextboxInput"
+            onChange={onChangeGroupCapacity}
             value={GroupCapacity}
+            autoComplete="off"
+            required
             type="number"
             step="1"
             min="2"
             max="20"
-            onChange={onChangeGroupCapacity}
           ></input>
-        </label>
+          <label htmlFor="groupNameInput" className="formTextboxLabel">
+            최대 정원
+          </label>
+        </div>
         <div>
-          <span>그룹소개:</span>
+          <span>내 그룹을 소개합니다: </span>
           <textarea
             onChange={onChangeGroupIntroduce}
             value={GroupIntroduce}

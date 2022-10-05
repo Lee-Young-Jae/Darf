@@ -8,6 +8,7 @@ import {
   GET_SELECT_MONTH_RECODE_REQUEST,
 } from "../modules/reducers/calendar";
 import { useDispatch, useSelector } from "react-redux";
+import { timeFormatting } from "../util/function";
 
 const Calender = () => {
   const dispatch = useDispatch();
@@ -241,7 +242,7 @@ const Calender = () => {
       <div>
         {openDetailPopup ? (
           <MyModal
-            title={`${calendar.choiceDate}`}
+            title={`${timeFormatting(calendar.choiceDate)}`}
             message="작성할 항목을 선택해 주세요."
             onClick={() => {
               setOpenDetailPopup(false);

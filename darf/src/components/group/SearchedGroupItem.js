@@ -48,14 +48,14 @@ const SearchedGroupItem = ({ group, searchGroupPurpose }) => {
                 className={`groupPurpose groupPurpose-${index} groupPurpose-active`}
                 key={index}
               >
-                {purpose}
+                #{purpose}
               </span>
             );
           }
 
           return (
             <span className={`groupPurpose groupPurpose-${index}`} key={index}>
-              {purpose}
+              #{purpose}
             </span>
           );
         })}

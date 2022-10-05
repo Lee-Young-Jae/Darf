@@ -18,7 +18,7 @@ const Group = () => {
     useSelector((state) => state.group.state);
   const [registedGroupOpen, setRegistedGroupOpen] = useState(true);
   const [findNewGroupOpen, setfindNewGroupOpen] = useState(false);
-  const [searchGroupName, setsearchGroupName] = useState("");
+  const [searchGroupName, setsearchGroupName] = useState("test");
   const [searchGroupPurpose, setSearchGroupPurpose] = useState("");
   const [createNewGroupOpen, setCreateNewGroupOpen] = useState(false);
   const [whichViewGroupList, setWhichViewGroupList] = useState("new");
@@ -104,7 +104,18 @@ const Group = () => {
 
   const onChangeGroupList = useCallback((event) => {
     event.preventDefault();
-    setWhichViewGroupList(event.target.name);
+    if (event.target.name) {
+      setWhichViewGroupList(event.target.name);
+      return;
+    }
+    if (event.target.parentElement.name) {
+      setWhichViewGroupList(event.target.parentElement.name);
+      return;
+    }
+    if (event.target.parentElement.parentElement.name) {
+      setWhichViewGroupList(event.target.parentElement.parentElement.name);
+      return;
+    }
   }, []);
 
   /** 그룹 가입 메세지를 토스트팝업으로 출력하는 함수 */
@@ -135,13 +146,31 @@ const Group = () => {
     <div className="GroupPage">
       <div className="groupMenu">
         <div className="groupMenuBtnWrapper">
-          <button onClick={onChangeGroupList} name="new" ref={newBtnRef}>
-            {whichViewGroupList === "new" ? (
-              <b>새로운 그룹 찾기</b>
-            ) : (
-              "새로운 그룹 찾기"
-            )}
-          </button>
+          <div>
+            <button onClick={onChangeGroupList} name="new" ref={newBtnRef}>
+              {whichViewGroupList === "new" ? (
+                <>
+                  <div className="imageWrapper-center">
+                    <div className="newGroupBtnImage active"></div>
+                  </div>
+                  <b>새로운 그룹 찾기</b>
+                </>
+              ) : (
+                <>
+                  <div
+                    onClick={onChangeGroupList}
+                    className="imageWrapper-center"
+                  >
+                    <div
+                      onClick={onChangeGroupList}
+                      className="newGroupBtnImage"
+                    ></div>
+                  </div>
+                  새로운 그룹 찾기
+                </>
+              )}
+            </button>
+          </div>
           <div className="line-y"></div>
           <button
             onClick={onChangeGroupList}
@@ -149,18 +178,38 @@ const Group = () => {
             ref={registedBtnRef}
           >
             {whichViewGroupList === "registed" ? (
-              <b>내가 가입한 그룹</b>
+              <>
+                <div className="imageWrapper-center">
+                  <div className="registedGroupBtnImage active"></div>
+                </div>
+                <b>내가 가입한 그룹</b>
+              </>
             ) : (
-              "내가 가입한 그룹"
+              <>
+                <div className="imageWrapper-center">
+                  <div className="registedGroupBtnImage"></div>
+                </div>
+                내가 가입한 그룹
+              </>
             )}
           </button>
         </div>
         <div className="groupMenuBtnWrapper">
           <button onClick={onChangeGroupList} name="create" ref={createBtnRef}>
             {whichViewGroupList === "create" ? (
-              <b>내가 그룹 만들기</b>
+              <>
+                <div className="imageWrapper-center">
+                  <div className="createGroupBtnImage active"></div>
+                </div>
+                <b>내가 그룹 만들기</b>
+              </>
             ) : (
-              "내가 그룹 만들기"
+              <>
+                <div className="imageWrapper-center">
+                  <div className="createGroupBtnImage"></div>
+                </div>
+                내가 그룹 만들기
+              </>
             )}
           </button>
         </div>
@@ -169,12 +218,20 @@ const Group = () => {
         {whichViewGroupList === "new" && (
           <>
             <div className="groupSearchForm">
-              <input
-                placeholder="그룹 이름으로 검색"
-                onChange={onChageGroupSearchName}
-                value={searchGroupName}
-              ></input>
-              <p>그룹 태그로 검색: </p>
+              <div className="formTextbox">
+                <input
+                  id="groupSearchInput"
+                  className="formTextboxInput"
+                  onChange={onChageGroupSearchName}
+                  value={searchGroupName}
+                  autoComplete="off"
+                  required
+                  type={"text"}
+                ></input>
+                <label htmlFor="groupSearchInput" className="formTextboxLabel">
+                  이름으로 검색해 보세요.
+                </label>
+              </div>
               {purpose.map((e) => {
                 return (
                   <label
@@ -189,7 +246,7 @@ const Group = () => {
                       value={e.purpose}
                       onClick={onChangeGroupSearchPurpose}
                     ></button>
-                    <span>{e.purpose}</span>
+                    <span>#{e.purpose}</span>
                   </label>
                 );
               })}
@@ -249,7 +306,7 @@ const Group = () => {
                       <div className="groupEmojiWrapper">
                         <div className="groupEmoji">{e.emoji}</div>
                       </div>
-                      <p>{`정원: ${e.Users?.length || 1}/${e.capacity}`}</p>
+                      <p>{`${e.Users?.length || 1}/${e.capacity}`}</p>
                       <p>
                         {e.introduce.length > 10
                           ? `${e.introduce.slice(0, 10)}...`
@@ -264,7 +321,7 @@ const Group = () => {
                                 className={`groupPurpose groupPurpose-${index}`}
                                 key={index}
                               >
-                                {purpose}
+                                #{purpose}
                               </span>
                             );
                           })}

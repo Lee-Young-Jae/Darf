@@ -31,7 +31,7 @@ const UserWidthItem = ({ data }) => {
   return (
     <div className="UserWidthItemComponent userHealthRecodeItem">
       <div className="recodeContent">
-        {/* <p>{`${timestamp(data.date)}`}</p> */}
+        <p>{`${timestamp(data.date)}`}</p>
         <div>{`${data.width} Kg`}</div>
       </div>
 

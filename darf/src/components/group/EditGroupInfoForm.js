@@ -8,6 +8,7 @@ import {
 } from "../../modules/reducers/group";
 
 import SelectBox from "../SelectBox";
+import { emoji } from "../../util/publicData";
 
 const EditGroupInfoForm = ({ group }) => {
   const { me } = useSelector((state) => state.user);
@@ -31,25 +32,6 @@ const EditGroupInfoForm = ({ group }) => {
 
   const onChangeGroupPassword = (e) => {
     setGroupPassword(e.target.value);
-  };
-
-  const emoji = {
-    options: [
-      { value: "💪" },
-      { value: "🚴‍♀️" },
-      { value: "🔥" },
-      { value: "💦" },
-      { value: "🥑" },
-      { value: "🥗" },
-      { value: "🥩" },
-      { value: "👙" },
-      { value: "👟" },
-      { value: "⚽" },
-      { value: "🏓" },
-      { value: "🏸" },
-      { value: "🍛" },
-      { value: "🍮" },
-    ],
   };
 
   const dispatch = useDispatch();

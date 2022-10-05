@@ -12,6 +12,7 @@ html {
 }
 body {
   -webkit-font-smoothing: antialiased;
+  font-size: 20px;
 }
 
 a {
@@ -1262,6 +1263,7 @@ textarea :focus {
 
 .GroupPage .groupMenu button:hover {
   font-weight: bold;
+  color: black;
 }
 
 .GroupPage .groupMenu button.active {
@@ -1272,6 +1274,65 @@ textarea :focus {
 .GroupPage .groupMenu .groupMenuBtnWrapper {
   display: flex;
   justify-content: space-between;
+  color: #6e6e6e;
+}
+
+.GroupPage .groupMenu .groupMenuBtnWrapper b {
+  color: black;
+}
+
+.imageWrapper-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.GroupPage .groupMenu .newGroupBtnImage {
+  display: inline-block;
+  background: url(./imgs/icons-search.png) no-repeat center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-size: contain;
+  margin-right: 0.5rem;
+  text-align: center;
+  transition: 0.5s;
+}
+
+.GroupPage .groupMenu .newGroupBtnImage.active {
+  scale: 1.3;
+  transition: 0.5s;
+}
+
+.GroupPage .groupMenu .registedGroupBtnImage {
+  display: inline-block;
+  background: url(./imgs/icons-group.png) no-repeat center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-size: contain;
+  margin-right: 0.5rem;
+  text-align: center;
+  transition: 0.5s;
+}
+
+.GroupPage .groupMenu .registedGroupBtnImage.active {
+  scale: 1.3;
+  transition: 0.5s;
+}
+
+.GroupPage .groupMenu .createGroupBtnImage {
+  display: inline-block;
+  background: url(./imgs/icons-together.png) no-repeat center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-size: contain;
+  margin-right: 0.5rem;
+  text-align: center;
+  transition: 0.5s;
+}
+
+.GroupPage .groupMenu .createGroupBtnImage.active {
+  scale: 1.3;
+  transition: 0.5s;
 }
 
 .GroupPage .line-y {
@@ -1304,16 +1365,29 @@ textarea :focus {
   border-radius: 14px;
   display: flex;
   flex-wrap: wrap;
+  perspective: 500px;
+}
+@keyframes intoSpin {
+  0% {
+    transform: rotateY(-180deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateY(-360deg);
+    opacity: 1;
+  }
 }
 
 .GroupPage .searchedGroupItem {
   border: 1px solid #ececec;
-  width: 200px;
+  width: 300px;
   text-align: center;
   margin: 5px;
   padding: 15px;
   border-radius: 14px;
+  transition: 0.3s;
   min-height: 250px;
+  animation: intoSpin normal 0.5s;
 }
 
 .GroupPage .registedGroupList {
@@ -1327,7 +1401,7 @@ textarea :focus {
 
 .GroupPage .registedGroupItem {
   border: 1px solid #ececec;
-  width: 200px;
+  width: 300px;
   text-align: center;
   margin: 5px;
   padding: 15px;
@@ -1335,10 +1409,18 @@ textarea :focus {
   min-height: 250px;
   transition: 0.3s;
   cursor: pointer;
+  animation: intoSpin normal 0.5s;
 }
 
 .GroupPage .registedGroupItem:hover {
   transform: translateY(-7px);
+  transition: 0.3s;
+}
+
+.GroupCreateComponent {
+  background-color: #ffffff;
+  border-radius: 14px;
+  padding: 14px;
   transition: 0.3s;
 }
 
@@ -1354,18 +1436,19 @@ textarea :focus {
 .GroupPage .groupPurpose {
   border-style: none;
   border-radius: 5px;
-  color: white;
+  /* color: white; */
   margin-right: 5px;
   padding: 1px;
   font-size: 0.8rem;
   cursor: pointer;
   transition: 0.2s;
+  font-weight: bold;
 }
 
 .GroupPage .groupPurpose-active {
-  background-color: #474ce5;
+  /* background-color: #474ce5; */
   transition: 0.2s;
-  box-shadow: 0px 0px 5px 2px rgba(4, 0, 255, 0.5);
+  box-shadow: 0px 0px 5px 2px #ced3da;
 }
 
 .groupPurpose input[type="checkbox"] {
@@ -1394,22 +1477,22 @@ textarea :focus {
 } */
 
 .groupPurpose-0 {
-  background-color: #716b49;
+  /* background-color: #716b49; */
 }
 .groupPurpose-1 {
-  background-color: #759a74;
+  /* background-color: #759a74; */
 }
 .groupPurpose-2 {
-  background-color: #494a71;
+  /* background-color: #494a71; */
 }
 .groupPurpose-3 {
-  background-color: #664971;
+  /* background-color: #664971; */
 }
 .groupPurpose-4 {
-  background-color: #71496c;
+  /* background-color: #71496c; */
 }
 .groupPurpose-5 {
-  background-color: #714949;
+  /* background-color: #714949; */
 }
 
 .groupEmojiWrapper {

@@ -26,8 +26,6 @@ const HealthState = () => {
 
   return (
     <div className="HealthState">
-      <h2>여기는 HealthState 입니다.</h2>
-
       <Calender></Calender>
       {showGuide && (
         <div className="calenderGuideBox">
