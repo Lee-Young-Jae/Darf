@@ -11,10 +11,11 @@ const GroupCreate = ({ purpose }) => {
   const [GroupEmoji, setGroupEmoji] = useState("💪");
   const [GroupName, setGroupName] = useState("");
   const [GroupCapacity, setGroupCapacity] = useState(10);
-  const [checkedItem, setCheckedItem] = useState(new Set());
+  // const [checkedItem, setCheckedItem] = useState(new Set());
   const [GroupIntroduce, setGroupIntroduce] = useState("");
   const [GroupPublic, setGroupPublic] = useState(true);
   const [GroupPassword, setGroupPassword] = useState("");
+  const [GroupPurpose, setGroupPurpose] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
 
   const onChangeGroupName = (e) => {
@@ -36,27 +37,39 @@ const GroupCreate = ({ purpose }) => {
       setGroupEmoji("💪");
       setGroupName("");
       setGroupCapacity(10);
-      setCheckedItem(new Set());
+      // setCheckedItem(new Set());
       setGroupIntroduce("");
       setGroupPublic(true);
       setGroupPassword("");
     }
   }, [state.createGroupError, state.createGroupDone]);
-  const onChangeCheckHandler = (e) => {
-    checkedItemHandler(e.target.parentNode, e.target.value, e.target.checked);
-  };
-  const checkedItemHandler = (box, id, isChecked) => {
-    if (isChecked) {
-      checkedItem.add(id);
-      setCheckedItem(checkedItem);
-      box.style.backgroundColor = "#F6CB44";
-    } else if (!isChecked && checkedItem.has(id)) {
-      checkedItem.delete(id);
-      setCheckedItem(checkedItem);
-      box.style.backgroundColor = "#FFF";
+
+  const onChangeGroupPurpose = (e) => {
+    const purpose = e.target.value;
+    let isExistPurpose = GroupPurpose.find((item) => item === purpose);
+    if (isExistPurpose) {
+      // 이미 값이 배열안에 있다면
+      setGroupPurpose(GroupPurpose.filter((item) => item !== purpose));
+      return;
     }
-    return checkedItem;
+    setGroupPurpose([purpose, ...GroupPurpose]);
   };
+
+  // const onChangeCheckHandler = (e) => {
+  //   checkedItemHandler(e.target.parentNode, e.target.value, e.target.checked);
+  // };
+  // const checkedItemHandler = (box, id, isChecked) => {
+  //   if (isChecked) {
+  //     checkedItem.add(id);
+  //     setCheckedItem(checkedItem);
+  //     box.style.backgroundColor = "#F6CB44";
+  //   } else if (!isChecked && checkedItem.has(id)) {
+  //     checkedItem.delete(id);
+  //     setCheckedItem(checkedItem);
+  //     box.style.backgroundColor = "#FFF";
+  //   }
+  //   return checkedItem;
+  // };
 
   const dispatch = useDispatch();
   const onSubmitCreateGroup = (e) => {
@@ -65,12 +78,18 @@ const GroupCreate = ({ purpose }) => {
       message.info("사용할수 없는 그룹 이름입니다.");
       return;
     }
+
+    if (GroupPurpose.length <= 0) {
+      message.info("그룹 목표를 한개 이상 설정해주세요!");
+      return;
+    }
+
     dispatch({
       type: GROUP_CREATE_REQUEST,
       data: {
         name: GroupName,
         capacity: GroupCapacity,
-        purpose: JSON.stringify(Array.from(checkedItem)),
+        purpose: JSON.stringify(GroupPurpose),
         emoji: GroupEmoji,
         introduce: GroupIntroduce,
         password: GroupPassword,
@@ -87,104 +106,133 @@ const GroupCreate = ({ purpose }) => {
 
   return (
     <div className="GroupCreateComponent">
-      <h3>그룹 정보 입력</h3>
-      <form onSubmit={onSubmitCreateGroup}>
-        <label>
-          그룹 Emoji:
-          <SelectBox props={emoji} eventHandler={setGroupEmoji}></SelectBox>
-        </label>
-        <div className="formTextbox">
-          <input
-            id="groupNameInput"
-            className="formTextboxInput"
-            onChange={onChangeGroupName}
-            value={GroupName}
-            autoComplete="off"
-            required
-            type={"text"}
-          ></input>
-          <label htmlFor="groupNameInput" className="formTextboxLabel">
-            그룹 이름
-          </label>
-        </div>
-
-        <div className="formTextbox">
-          <input
-            id="groupNameInput"
-            className="formTextboxInput"
-            onChange={onChangeGroupCapacity}
-            value={GroupCapacity}
-            autoComplete="off"
-            required
-            type="number"
-            step="1"
-            min="2"
-            max="20"
-          ></input>
-          <label htmlFor="groupNameInput" className="formTextboxLabel">
-            최대 정원
-          </label>
-        </div>
-        <div>
-          <span>내 그룹을 소개합니다: </span>
-          <textarea
-            onChange={onChangeGroupIntroduce}
-            value={GroupIntroduce}
-          ></textarea>
-        </div>
-        <div>
-          <span>그룹 목표: </span>
-          {purpose.map((e) => {
-            return (
-              <label key={e.id} className="TypeBox">
-                <input
-                  type="checkbox"
-                  value={e.purpose}
-                  onChange={onChangeCheckHandler}
-                ></input>
-                <span>{e.purpose}</span>
-              </label>
-            );
-          })}
-        </div>
-        <div>
-          <span>그룹 공개: </span>
-          <div>
+      <section className="groupInfomationInputSection">
+        <form onSubmit={onSubmitCreateGroup}>
+          <div className="formTextbox">
             <input
-              type="checkbox"
-              checked={GroupPublic}
-              onChange={(e) => {
-                setGroupPublic((prev) => !prev);
-              }}
+              id="groupNameInput"
+              className="formTextboxInput"
+              onChange={onChangeGroupName}
+              value={GroupName}
+              autoComplete="off"
+              required
+              type={"text"}
             ></input>
+            <label htmlFor="groupNameInput" className="formTextboxLabel">
+              그룹 이름
+            </label>
           </div>
-          {GroupPublic || (
-            <>
-              <label>
-                비밀번호
-                <input
-                  type={showPassword ? "text" : "password"}
-                  onChange={(e) => {
-                    setGroupPassword(e.target.value);
-                  }}
-                  value={GroupPassword}
-                ></input>
-              </label>
-              <label>
-                비밀번호 보기
-                <input
-                  type="checkbox"
-                  onChange={(e) => {
-                    setShowPassword((prev) => !prev);
-                  }}
-                  checked={showPassword}
-                ></input>
-              </label>
-            </>
-          )}
+
+          <div className="formTextbox">
+            <input
+              id="groupNameInput"
+              className="formTextboxInput"
+              onChange={onChangeGroupCapacity}
+              value={GroupCapacity}
+              autoComplete="off"
+              required
+              type="number"
+              step="1"
+              min="2"
+              max="20"
+            ></input>
+            <label htmlFor="groupNameInput" className="formTextboxLabel">
+              최대 정원
+            </label>
+          </div>
+          <div>
+            <span>내 그룹을 소개합니다: </span>
+            <textarea
+              max="50"
+              onChange={onChangeGroupIntroduce}
+              value={GroupIntroduce}
+            ></textarea>
+          </div>
+          <div>
+            <label>
+              <SelectBox props={emoji} eventHandler={setGroupEmoji}></SelectBox>
+            </label>
+            <br></br>
+            <span>그룹 목표: </span>
+            {purpose.map((e) => {
+              return (
+                <label key={e.id} className="TypeBox">
+                  <input
+                    type="checkbox"
+                    value={e.purpose}
+                    // onChange={onChangeCheckHandler}
+                    onChange={onChangeGroupPurpose}
+                  ></input>
+                  <span>{e.purpose}</span>
+                </label>
+              );
+            })}
+          </div>
+          <div>
+            <div>
+              <label htmlFor="groupPublic">그룹 공개: </label>
+              <input
+                name="groupPublic"
+                type="checkbox"
+                checked={GroupPublic}
+                onChange={(e) => {
+                  setGroupPublic((prev) => !prev);
+                }}
+              ></input>
+            </div>
+            {GroupPublic || (
+              <>
+                <label>
+                  비밀번호
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    onChange={(e) => {
+                      setGroupPassword(e.target.value);
+                    }}
+                    value={GroupPassword}
+                  ></input>
+                </label>
+                <label>
+                  비밀번호 보기
+                  <input
+                    type="checkbox"
+                    onChange={(e) => {
+                      setShowPassword((prev) => !prev);
+                    }}
+                    checked={showPassword}
+                  ></input>
+                </label>
+              </>
+            )}
+          </div>
+          <button>그룹 생성</button>
+        </form>
+      </section>
+      <section
+        className={`${"groupInformationPreviewForm"} ${
+          GroupName.length >= 1 ||
+          GroupPurpose.length >= 1 ||
+          GroupIntroduce.length >= 1
+            ? "active"
+            : null
+        }`}
+      >
+        <div className="searchedGroupItem">
+          <button>가입하기</button>
+          <div className="groupName">{`${GroupName}${
+            GroupPublic ? "" : "🔒︎"
+          }`}</div>
+          <div className="groupEmojiWrapper">
+            <div className="groupEmoji">{GroupEmoji}</div>
+          </div>
+          <div className="groupCapacity">1/{GroupCapacity}</div>
+          {GroupPurpose.map((purpose) => {
+            console.log(purpose);
+            return <span className="groupPurpose ">#{purpose}</span>;
+          })}
+          <div className="groupIntroduce">{GroupIntroduce}</div>
         </div>
-        <button>그룹 생성</button>
-      </form>
+      </section>
     </div>
   );
 };

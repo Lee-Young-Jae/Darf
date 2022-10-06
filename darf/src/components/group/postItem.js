@@ -149,7 +149,8 @@ const PostItem = ({ post }) => {
           <p>{`내가 한 운동: ${post.name}`}</p>
           <p>{`${post.minute}분 동안 ${post.intensity}의 강도로 함`}</p>
 
-          <p>{`"${post.type}" 의 부위를 운동`}</p>
+          <p>{`"${post.bodyPart}" 의 부위를 운동`}</p>
+          <p>{`"${post.type}" 종류 운동`}</p>
 
           <div className="clapWrapper">
             <label
@@ -170,7 +171,32 @@ const PostItem = ({ post }) => {
           </div>
 
           {(post.UserId === me.id || me.id === selected.adminId) && (
-            <button onClick={onClickRemovePostBtn}>삭제</button>
+            <button
+              onClick={() => {
+                setGroupPostRemoveModalOpen(true);
+              }}
+            >
+              삭제
+            </button>
+          )}
+          {groupPostRemoveModalOpen && (
+            <Modal
+              innerContents={
+                <div>
+                  <h2>게시글 삭제</h2>
+                  <span className="timeStamp">
+                    {timeForToday(post.createdAt)}
+                  </span>
+                  <span>{` 작성된 이 게시물을 삭제할까요...? 😢`}</span>
+                </div>
+              }
+              okMessage="삭제합니다."
+              closeMessage="조금 더 고민해볼게요"
+              okAction={onClickRemovePostBtn}
+              closeAction={() => {
+                setGroupPostRemoveModalOpen(false);
+              }}
+            ></Modal>
           )}
 
           <Comment

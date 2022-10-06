@@ -34,12 +34,21 @@ const SearchedGroupItem = ({ group, searchGroupPurpose }) => {
 
   return (
     <div key={group.id} className="searchedGroupItem">
-      <span>{group.name}</span>
-      <span>{group?.password.length >= 1 ? "🔒︎" : ""}</span>
+      <button
+        onClick={() => {
+          return onClickJoinGroup();
+        }}
+      >
+        가입하기
+      </button>
+      <div className="groupName">
+        <span>{group.name}</span>
+        <span>{group?.password.length >= 1 ? "🔒︎" : ""}</span>
+      </div>
       <div className="groupEmojiWrapper">
         <p className="groupEmoji">{group.emoji}</p>
       </div>
-      <p>{`${group.Users.length}/${group.capacity}`}</p>
+      <p className="groupCapacity">{`${group.Users.length}/${group.capacity}`}</p>
       {group.purpose &&
         JSON.parse(group.purpose).map((purpose, index) => {
           if (purpose === searchGroupPurpose) {
@@ -59,15 +68,10 @@ const SearchedGroupItem = ({ group, searchGroupPurpose }) => {
             </span>
           );
         })}
-      <p>{group.introduce}</p>
-      <p>{`${timeForToday(group.createdAt)}`}</p>
-      <button
-        onClick={() => {
-          return onClickJoinGroup();
-        }}
-      >
-        가입하기
-      </button>
+      <p className="groupSince">{`${timeForToday(group.createdAt)}`}</p>
+
+      <p className="groupIntroduce">{group.introduce}</p>
+
       {groupPasswordCheckModalOpen && (
         <Modal
           okAction={() => {

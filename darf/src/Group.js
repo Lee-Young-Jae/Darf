@@ -236,7 +236,7 @@ const Group = () => {
                 return (
                   <label
                     key={e.id}
-                    className={`groupPurpose groupPurpose-${e.id} ${
+                    className={`groupPurposeSearch groupPurpose-${e.id} ${
                       e.purpose === searchGroupPurpose
                         ? "groupPurpose-active"
                         : ""

@@ -98,7 +98,7 @@ const Width = () => {
         <section className="recodeInputContainer">
           <WeekCalendar eventHandler={onClickDate}></WeekCalendar>
 
-          <form className="widthInputForm">
+          <div className="widthInputForm">
             <div className="formTextbox">
               <input
                 className="formTextboxInput"
@@ -118,7 +118,7 @@ const Width = () => {
               <button onClick={() => navigate(-1)}>돌아가기</button>
               <button onClick={onClickWidthSaveBtn}>Save</button>
             </div>
-          </form>
+          </div>
         </section>
         <section className="widthListWrapper">
           {me?.width &&

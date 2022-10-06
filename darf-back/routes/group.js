@@ -229,7 +229,7 @@ router.post("/post/create", async (req, res, next) => {
       name: req.body.name,
       date: req.body.date,
       type: req.body.type,
-      bodyPart: req.body?.bodypart || null,
+      bodyPart: req.body?.bodyPart || null,
       intensity: req.body?.intensity || null,
       kcal: req.body?.kcal || null,
       image: req.body?.image || null,

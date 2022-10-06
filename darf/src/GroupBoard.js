@@ -28,7 +28,7 @@ const GroupBoard = () => {
   const [showManagementForm, setShowManagementForm] = useState(false);
   const dispatch = useDispatch();
   const [postsIntersecting, setPostsIntersecting] = useState(false);
-  const [postLoadMode, setPostLoadMode] = useState("all");
+  const [postLoadMode, setPostLoadMode] = useState("All");
 
   const postLoaderRef = useRef();
 
