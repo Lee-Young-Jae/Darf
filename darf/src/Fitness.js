@@ -10,12 +10,17 @@ import {
   EXERCISE_WRITE_REQUEST,
   LOAD_EXERCISE_REQUEST,
 } from "./modules/reducers/user";
+import {
+  formTypeData,
+  formBodypartData,
+  formIntensityData,
+} from "./util/publicData";
 
 const Fitness = () => {
   const [exerciseName, setExerciseName] = useState("");
-  const [exerciseType, setExerciseType] = useState(new Set());
-  const [exerciseBodyPart, setExerciseBodyPart] = useState(new Set());
-  const [exerciseIntensity, setExerciseIntensity] = useState(new Set());
+  const [exerciseType, setExerciseType] = useState([]);
+  const [exerciseBodyPart, setExerciseBodyPart] = useState([]);
+  const [exerciseIntensity, setExerciseIntensity] = useState([]);
   const [exerciseMinute, setExerciseMinute] = useState(5);
   const [viewEntireExercise, setViewEntireExercise] = useState(false);
 
@@ -40,27 +45,6 @@ const Fitness = () => {
   ];
   const [choicedTime, setChoicedTime] = useState(new Date(calendar.choiceDate));
 
-  const formTypeData = [
-    { id: 1, type: "무산소운동" },
-    { id: 2, type: "유산소운동" },
-    { id: 3, type: "스트레칭" },
-  ];
-  const formBodypartData = [
-    { id: 1, part: "전신" },
-    { id: 2, part: "상체" },
-    { id: 3, part: "하체" },
-    { id: 4, part: "팔" },
-    { id: 5, part: "등" },
-    { id: 6, part: "어깨" },
-    { id: 7, part: "가슴" },
-    { id: 8, part: "복근" },
-  ];
-  const formIntensityData = [
-    { id: 1, intensity: "강하게" },
-    { id: 2, intensity: "보통" },
-    { id: 3, intensity: "쉽게" },
-  ];
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -75,9 +59,9 @@ const Fitness = () => {
   useEffect(() => {
     if (ExerciseWriteDone) {
       setExerciseName("");
-      setExerciseType(new Set());
-      setExerciseBodyPart(new Set());
-      setExerciseIntensity(new Set());
+      setExerciseType([]);
+      setExerciseBodyPart([]);
+      setExerciseIntensity([]);
       setExerciseMinute(5);
       document
         .querySelectorAll(".checkListItem input")
@@ -168,12 +152,13 @@ const Fitness = () => {
 
   const checkedItemHandler = (box, id, isChecked, target, setTarget) => {
     if (isChecked) {
-      target.add(id);
-      setTarget(new Set(target));
+      setTarget([id, ...target]);
       // box.style.backgroundColor = "#F6CB44";
-    } else if (!isChecked && target.has(id)) {
-      target.delete(id);
-      setTarget(new Set(target));
+      console.log("id", id);
+      console.log("target", target);
+    } else if (!isChecked && target.find((item) => item === id)) {
+      let temp = target.filter((item) => item !== id);
+      setTarget(temp);
       // box.style.backgroundColor = "#FFF";
     }
     return target;
@@ -203,6 +188,18 @@ const Fitness = () => {
   useEffect(() => {
     dispatch({ type: LOAD_REGISTED_GROUP_REQUEST });
   }, [dispatch]);
+
+  useEffect(() => {
+    if (exerciseName?.length) {
+      setExerciseTypeOpen(true);
+    }
+    if (exerciseType?.length) {
+      setExerciseBodyPartOpen(true);
+    }
+    if (exerciseBodyPart?.length) {
+      setExerciseIntensityOpen(true);
+    }
+  }, [exerciseName, exerciseType, exerciseBodyPart]);
 
   return (
     <div className="exercisePage">
@@ -296,7 +293,7 @@ const Fitness = () => {
                             id={`part-${e.part}`}
                             onChange={onChangeCheckHandler}
                           ></input>
-                          <label htmlFor={`type-${e.part}`}>{e.part}</label>
+                          <label htmlFor={`part-${e.part}`}>{e.part}</label>
                         </div>
                       );
                     })}
