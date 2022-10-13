@@ -350,7 +350,7 @@ body {
   box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
   transform: translateX(-50%) translateY(-50%);
   min-width: 300px;
-  z-index: 1;
+  z-index: 999;
   /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-show 0.3s;
   overflow: hidden;
@@ -1246,7 +1246,7 @@ textarea :focus {
 .GroupPage {
   background-color: #ced3da;
   min-height: 98vh;
-  padding: 3rem 5rem;
+  padding: 3rem 20rem;
   margin: 0 auto;
 }
 
@@ -1340,7 +1340,7 @@ textarea :focus {
   font-size: 1.2rem;
 }
 
-.GroupPage .line-y {
+.line-y {
   border: 1px solid #ced3da;
   background-color: #ced3da;
 }
@@ -1354,6 +1354,20 @@ textarea :focus {
   font-family: 1.2rem;
   font-weight: bold;
   cursor: pointer;
+}
+
+.privateGroupRegistModal {
+  font-size: 1.1rem;
+}
+.privateGroupRegistModal input {
+  margin: 0.5rem 0;
+  border-radius: 14px;
+  border: 1px solid #ececec;
+  padding: 5px;
+  text-align: center;
+}
+.privateGroupRegistModal footer button {
+  font-size: 1.1rem;
 }
 
 .GroupPage .groupSearchForm {
@@ -1583,29 +1597,77 @@ textarea :focus {
 /* 그룹 Board 페이지 */
 
 .GroupBoardPage {
-  margin: 25px;
   padding: 10px 0;
+  display: flex;
+  padding: 3rem 20rem;
+  background-color: #ced3da;
+  justify-content: space-between;
+  min-height: 100vh;
 }
 
-.GroupBoardPage .groupPurpose {
-  border-style: none;
-  border-radius: 5px;
-  color: white;
-  margin-right: 5px;
-  padding: 1px;
+.groupInfomationSection {
+  width: 30%;
+  background-color: white;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px;
+}
+
+.groupInfomationItem {
+  position: sticky;
+  top: 3rem;
+  text-align: center;
+  background-color: #ccd1d980;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.groupBoardItemSection {
+  width: 60%;
+}
+
+.groupBoardSortBtnWrapper {
+  display: flex;
+  justify-content: space-around;
+  background-color: white;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.foodRecodeIcon {
+  background: url("./imgs/icons-bread.png") no-repeat center;
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-size: contain;
+  margin-right: 0.5rem;
+  text-align: center;
+  transition: 0.5s;
+}
+
+.exerciseRecodeIcon {
+  background: url("./imgs/icons-exercise.png") no-repeat center;
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-size: contain;
+  margin-right: 0.5rem;
+  text-align: center;
+  transition: 0.5s;
+}
+
+.groupPostList {
+  /* background-color: white; */
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 14px;
+}
+
+.GroupBoardPage .groupPurposeList {
   font-size: 0.8rem;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.GroupBoardPage .groupPurpose-active {
-  background-color: #474ce5;
-  transition: 0.2s;
-  box-shadow: 0px 0px 5px 2px rgba(4, 0, 255, 0.5);
-}
-
-.GroupBoardPage .PostItem {
-  border: 1px solid #ececec;
+  margin-top: 14px;
 }
 
 /* PostItem Component */
@@ -1615,10 +1677,24 @@ textarea :focus {
   border: 1px solid #ececec;
   border-radius: 5px;
   box-shadow: 2px 2px 5px 3px #dcdbdb;
+  font-size: 1.1rem;
+}
+
+.GroupBoardPage .PostItem.mine {
+  width: 40%;
+  margin: 25px 0px;
+  padding: 5px;
+  border: 1px solid #ececec;
+  border-radius: 14px;
+  box-shadow: 2px 2px 5px 3px #dcdbdb;
+  font-size: 1.1rem;
+  text-align: right;
+  background-color: #ffeb34;
 }
 
 .GroupBoardPage .clapWrapper {
   position: relative;
+  right: 40px;
 }
 
 .GroupBoardPage .clapBtn {
@@ -1630,19 +1706,19 @@ textarea :focus {
   position: absolute;
   top: 0px;
   font-weight: 700;
-  opacity: 0;
+  opacity: 1;
+  color: black;
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 30px;
   min-width: 50px;
   text-align: center;
   z-index: -1;
 }
-.GroupBoardPage .clapCounter.active {
-  opacity: 1;
-}
 
 .GroupBoardPage .clapCounter.first {
   animation: first-bump 1s forwards;
+  opacity: 1;
+  z-index: 1;
 }
 .GroupBoardPage .clapBtn.active {
   animation: crap 1s normal;
@@ -2134,6 +2210,12 @@ textarea :focus {
 @media screen and (max-width: 700px) {
   .groupInformationPreviewForm.active {
     display: none;
+  }
+}
+
+@media screen and (max-width: 920px) {
+  .GroupPage {
+    padding: 5rem 2rem;
   }
 }
 

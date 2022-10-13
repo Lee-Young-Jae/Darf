@@ -58,14 +58,11 @@ const PostItem = ({ post }) => {
   };
 
   return (
-    <div className="PostItem">
+    <div className={`PostItem ${post?.UserId === me?.id ? "mine" : ""}`}>
       {post.PostType === "Diet" && (
         <div>
-          <span>{`${date.getFullYear()}-${
-            date.getMonth() + 1
-          }-${date.getDate()}일의 기록`}</span>
           <p>{timeForToday(post.createdAt)}</p>
-          <p>
+          <p className="postUserNickname">
             <span>
               {post.User?.UserProfile ? post.User.UserProfile.emoji : "🌱"}
             </span>
@@ -73,7 +70,7 @@ const PostItem = ({ post }) => {
               ? `${post.User.nickname}(나)가 작성함`
               : ` ${post.User.nickname}이(가) 작성함`}
           </p>
-          <p>{`내가 먹은거: ${post.name}`}</p>
+          <p>{`${post.name} / ${post.type} / ${post.kcal}kcal`}</p>
           <div className="postImageBox">
             {JSON.parse(post.image)?.map((e) => {
               return (
@@ -82,25 +79,6 @@ const PostItem = ({ post }) => {
                 </div>
               );
             })}
-          </div>
-          <p>{`"${post.type}" 으로 먹었음`}</p>
-
-          <div className="clapWrapper">
-            <label
-              className="clapCounter"
-              ref={$clabCounterLabelRef}
-              id={`clapLabel${post.id}`}
-            >
-              {`+${post.like}`}
-            </label>
-
-            <button
-              id="clapBtn"
-              className="clapBtn"
-              onClick={(e) => onClickLike(e)}
-            >
-              👏
-            </button>
           </div>
 
           {(post.UserId === me.id || me.id === selected.adminId) && (
@@ -137,6 +115,28 @@ const PostItem = ({ post }) => {
             onCreateHandler={onSubmitComment}
             post={post}
           ></Comment>
+          <span className="clapWrapper">
+            <label
+              className="clapCounter"
+              ref={$clabCounterLabelRef}
+              id={`clapLabel${post.id}`}
+            >
+              {`+${post.like}`}
+            </label>
+
+            <button
+              id="clapBtn"
+              className="clapBtn"
+              onClick={(e) => onClickLike(e)}
+            >
+              👏
+            </button>
+          </span>
+          <span className="postDate">{`${date.getFullYear()}-${
+            date.getMonth() + 1
+          }-${
+            date.getDate() > 10 ? date.getDate() : `0${date.getDate()}`
+          }`}</span>
         </div>
       )}
       {post.PostType === "Exercise" && (

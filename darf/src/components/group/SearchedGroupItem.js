@@ -85,11 +85,12 @@ const SearchedGroupItem = ({ group, searchGroupPurpose }) => {
           okMessage={groupPasswordValue === group.password && "가입하기"}
           // 백엔드에서 검증을 안하기 때문에 이후 수정이 필요함
           innerContents={
-            <div>
-              <p>{`[${group.name}]그룹은 비공개 그룹입니다.`}</p>
+            <div className="privateGroupRegistModal">
+              <p>{`잠겨있는 그룹입니다`}</p>
               <input
                 placeholder="비밀번호를 입력해주세요"
                 value={groupPasswordValue}
+                type="password"
                 onChange={(e) => {
                   setGroupPasswordValue(e.target.value);
                 }}

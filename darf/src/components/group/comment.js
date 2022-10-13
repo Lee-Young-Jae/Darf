@@ -16,6 +16,8 @@ const Comment = ({
   const { me } = useSelector((state) => state.user);
   const { adminId } = useSelector((state) => state.group.group.selected);
 
+  const [isOpendComment, setIsOpendComment] = useState(false);
+
   const dispatch = useDispatch();
 
   const onClickRemoveCommentBtn = useCallback(
@@ -66,7 +68,38 @@ const Comment = ({
 
   return (
     <div className="CommentComponent">
-      응애 나 코멘트 Component
+      <div className="commentInputBox">
+        <p
+          onClick={() => {
+            setIsOpendComment((prev) => !prev);
+          }}
+        >
+          코멘트 작성
+        </p>
+        {isOpendComment && (
+          <div className="commentInputBoxFlex">
+            <textarea
+              value={postComment}
+              onChange={(e) => {
+                setPostComment(e.target.value);
+              }}
+            ></textarea>
+            <div>
+              <label>
+                익명
+                <input
+                  type="checkbox"
+                  checked={isCommentSecret}
+                  onChange={() => {
+                    setIsCommentSecret((prev) => !prev);
+                  }}
+                ></input>
+              </label>
+              <button onClick={onClickCommentSubmitBtn}>게시</button>
+            </div>
+          </div>
+        )}
+      </div>
       <div>
         {comment?.map((comment) => {
           return (
@@ -112,7 +145,7 @@ const Comment = ({
                       <Modal
                         innerContents={
                           <div>
-                            <h2>게시글 삭제</h2>
+                            <h2>코멘트 삭제</h2>
                             <span className="timeStamp">
                               {timeForToday(comment.createdAt)}
                             </span>
@@ -134,30 +167,6 @@ const Comment = ({
             </div>
           );
         })}
-      </div>
-      <div className="commentInputBox">
-        <p>✔댓글쓰기</p>
-        <div className="commentInputBoxFlex">
-          <textarea
-            value={postComment}
-            onChange={(e) => {
-              setPostComment(e.target.value);
-            }}
-          ></textarea>
-          <div>
-            <label>
-              익명
-              <input
-                type="checkbox"
-                checked={isCommentSecret}
-                onChange={() => {
-                  setIsCommentSecret((prev) => !prev);
-                }}
-              ></input>
-            </label>
-            <button onClick={onClickCommentSubmitBtn}>게시</button>
-          </div>
-        </div>
       </div>
     </div>
   );
