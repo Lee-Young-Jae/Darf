@@ -17,13 +17,13 @@ const PostItem = ({ post }) => {
   const [groupPostRemoveModalOpen, setGroupPostRemoveModalOpen] =
     useState(false);
 
+  const [isOpendOptions, setIsOpendOptions] = useState(false);
   const dispatch = useDispatch();
 
   const $clabCounterLabelRef = useRef();
 
   const onClickLike = (e) => {
-    console.log(e.target);
-    console.log(e.target.previousSibling);
+    e.preventDefault();
     e.target.previousSibling.classList.add("first");
     e.target.classList.add("active");
     setClapping(true);
@@ -58,30 +58,122 @@ const PostItem = ({ post }) => {
   };
 
   return (
-    <div className={`PostItem ${post?.UserId === me?.id ? "mine" : ""}`}>
-      {post.PostType === "Diet" && (
-        <div>
-          <p>{timeForToday(post.createdAt)}</p>
-          <p className="postUserNickname">
-            <span>
-              {post.User?.UserProfile ? post.User.UserProfile.emoji : "🌱"}
-            </span>
-            {post?.UserId === me?.id
-              ? `${post.User.nickname}(나)가 작성함`
-              : ` ${post.User.nickname}이(가) 작성함`}
-          </p>
-          <p>{`${post.name} / ${post.type} / ${post.kcal}kcal`}</p>
-          <div className="postImageBox">
-            {JSON.parse(post.image)?.map((e) => {
-              return (
-                <div className="postImageItem" key={e}>
-                  <img src={`http://localhost:3065/images/${e}`} alt={e}></img>
-                </div>
-              );
-            })}
-          </div>
+    <>
+      <div className={`PostItem ${post?.UserId === me?.id ? "mine" : ""}`}>
+        <div className="postHeader">
+          {post?.UserId === me?.id ? (
+            <>
+              <div className="clapWrapper">
+                <label
+                  className="clapCounter"
+                  ref={$clabCounterLabelRef}
+                  id={`clapLabel${post.id}`}
+                >
+                  {`+${post.like}`}
+                </label>
 
-          {(post.UserId === me.id || me.id === selected.adminId) && (
+                <button
+                  id="clapBtn"
+                  className="clapBtn"
+                  onClick={(e) => onClickLike(e)}
+                >
+                  👏
+                </button>
+              </div>
+              <span className="postDate">{`${date.getFullYear()}-${
+                date.getMonth() + 1
+              }-${
+                date.getDate() < 10 ? "0" + date.getDate() : date.getDate()
+              }`}</span>
+            </>
+          ) : (
+            <>
+              <span className="postDate">{`${date.getFullYear()}-${
+                date.getMonth() + 1
+              }-${
+                date.getDate() < 10 ? 10 + date.getDate() : date.getDate()
+              }`}</span>
+              <div className="clapWrapper">
+                <label
+                  className="clapCounter"
+                  ref={$clabCounterLabelRef}
+                  id={`clapLabel${post.id}`}
+                >
+                  {`+${post.like}`}
+                </label>
+
+                <button
+                  id="clapBtn"
+                  className="clapBtn"
+                  onClick={(e) => onClickLike(e)}
+                >
+                  👏
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+        <p className="postUserNickname">
+          {post?.UserId === me?.id ? null : (
+            <>
+              <span>
+                {post.User?.UserProfile ? post.User.UserProfile.emoji : "🌱"}
+              </span>
+              <span>{`${post.User.nickname}`}</span>
+            </>
+          )}
+        </p>
+        {post.PostType === "Diet" && (
+          <div
+            className="postBody"
+            onClick={() => {
+              setIsOpendOptions((prev) => !prev);
+            }}
+          >
+            <p>{timeForToday(post.createdAt)}</p>
+
+            <p>{`${post.name} / ${post.type} / ${post.kcal}kcal`}</p>
+            <div className="postImageBox">
+              {JSON.parse(post.image)?.map((e) => {
+                return (
+                  <div className="postImageItem" key={e}>
+                    <img
+                      src={`http://localhost:3065/images/${e}`}
+                      alt={e}
+                    ></img>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+        {post.PostType === "Exercise" && (
+          <div
+            className="postBody"
+            onClick={() => {
+              setIsOpendOptions((prev) => !prev);
+            }}
+          >
+            <p>{timeForToday(post.createdAt)}</p>
+            <p>{`${post.name} / ${post.minute}분 / ${Array.from(
+              JSON.parse(post.intensity)
+            )} / ${
+              post.bodyPart?.length >= 0
+                ? Array.from(JSON.parse(post.bodyPart)) + "/"
+                : ""
+            } ${Array.from(JSON.parse(post.type))}`}</p>
+          </div>
+        )}
+
+        {isOpendOptions && (
+          <Comment
+            comment={post.PostComments}
+            onCreateHandler={onSubmitComment}
+            post={post}
+          ></Comment>
+        )}
+        {isOpendOptions &&
+          (post.UserId === me.id || me.id === selected.adminId) && (
             <button
               onClick={() => {
                 setGroupPostRemoveModalOpen(true);
@@ -90,124 +182,27 @@ const PostItem = ({ post }) => {
               삭제
             </button>
           )}
-          {groupPostRemoveModalOpen && (
-            <Modal
-              innerContents={
-                <div>
-                  <h2>게시글 삭제</h2>
-                  <span className="timeStamp">
-                    {timeForToday(post.createdAt)}
-                  </span>
-                  <span>{` 작성된 이 게시물을 삭제할까요...? 😢`}</span>
-                </div>
-              }
-              okMessage="삭제합니다."
-              closeMessage="조금 더 고민해볼게요"
-              okAction={onClickRemovePostBtn}
-              closeAction={() => {
-                setGroupPostRemoveModalOpen(false);
-              }}
-            ></Modal>
-          )}
 
-          <Comment
-            comment={post.PostComments}
-            onCreateHandler={onSubmitComment}
-            post={post}
-          ></Comment>
-          <span className="clapWrapper">
-            <label
-              className="clapCounter"
-              ref={$clabCounterLabelRef}
-              id={`clapLabel${post.id}`}
-            >
-              {`+${post.like}`}
-            </label>
-
-            <button
-              id="clapBtn"
-              className="clapBtn"
-              onClick={(e) => onClickLike(e)}
-            >
-              👏
-            </button>
-          </span>
-          <span className="postDate">{`${date.getFullYear()}-${
-            date.getMonth() + 1
-          }-${
-            date.getDate() > 10 ? date.getDate() : `0${date.getDate()}`
-          }`}</span>
-        </div>
+        {post.PostType === "content" && <div></div>}
+      </div>
+      {groupPostRemoveModalOpen && (
+        <Modal
+          innerContents={
+            <div>
+              <h3>게시글 삭제</h3>
+              <span className="timeStamp">{timeForToday(post.createdAt)}</span>
+              <span>{` 작성된 이 게시물을 삭제할까요...? 😢`}</span>
+            </div>
+          }
+          okMessage="삭제합니다."
+          closeMessage="조금 더 고민해볼게요"
+          okAction={onClickRemovePostBtn}
+          closeAction={() => {
+            setGroupPostRemoveModalOpen(false);
+          }}
+        ></Modal>
       )}
-      {post.PostType === "Exercise" && (
-        <div>
-          <span>{`${date.getFullYear()}-${
-            date.getMonth() + 1
-          }-${date.getDate()}일의 기록`}</span>
-          <p>{timeForToday(post.createdAt)}</p>
-          <p>{`내가 누구? ${post.User.nickname}`}</p>
-          <p>{`내가 한 운동: ${post.name}`}</p>
-          <p>{`${post.minute}분 동안 ${post.intensity}의 강도로 함`}</p>
-
-          <p>{`"${post.bodyPart}" 의 부위를 운동`}</p>
-          <p>{`"${post.type}" 종류 운동`}</p>
-
-          <div className="clapWrapper">
-            <label
-              className="clapCounter"
-              ref={$clabCounterLabelRef}
-              id={`clapLabel${post.id}`}
-            >
-              {`+${post.like}`}
-            </label>
-
-            <button
-              id="clapBtn"
-              className="clapBtn"
-              onClick={(e) => onClickLike(e)}
-            >
-              👏
-            </button>
-          </div>
-
-          {(post.UserId === me.id || me.id === selected.adminId) && (
-            <button
-              onClick={() => {
-                setGroupPostRemoveModalOpen(true);
-              }}
-            >
-              삭제
-            </button>
-          )}
-          {groupPostRemoveModalOpen && (
-            <Modal
-              innerContents={
-                <div>
-                  <h2>게시글 삭제</h2>
-                  <span className="timeStamp">
-                    {timeForToday(post.createdAt)}
-                  </span>
-                  <span>{` 작성된 이 게시물을 삭제할까요...? 😢`}</span>
-                </div>
-              }
-              okMessage="삭제합니다."
-              closeMessage="조금 더 고민해볼게요"
-              okAction={onClickRemovePostBtn}
-              closeAction={() => {
-                setGroupPostRemoveModalOpen(false);
-              }}
-            ></Modal>
-          )}
-
-          <Comment
-            comment={post.PostComments}
-            onCreateHandler={onSubmitComment}
-            post={post}
-          ></Comment>
-        </div>
-      )}
-      {post.PostType === "content" && <div></div>}
-    </div>
+    </>
   );
 };
 

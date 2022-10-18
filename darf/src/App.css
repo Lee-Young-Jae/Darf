@@ -1601,12 +1601,12 @@ textarea :focus {
   display: flex;
   padding: 3rem 20rem;
   background-color: #ced3da;
-  justify-content: space-between;
   min-height: 100vh;
+  flex-grow: 1;
 }
 
 .groupInfomationSection {
-  width: 30%;
+  min-width: 300px;
   background-color: white;
   border-radius: 14px;
   display: flex;
@@ -1625,7 +1625,8 @@ textarea :focus {
 }
 
 .groupBoardItemSection {
-  width: 60%;
+  margin-left: 28px;
+  width: 80%;
 }
 
 .groupBoardSortBtnWrapper {
@@ -1659,10 +1660,12 @@ textarea :focus {
 }
 
 .groupPostList {
-  /* background-color: white; */
+  background-color: white;
+  /* border: 1px solid #ffffff; */
   border-radius: 14px;
   padding: 14px;
   margin-top: 14px;
+  min-height: 100vh;
 }
 
 .GroupBoardPage .groupPurposeList {
@@ -1671,57 +1674,140 @@ textarea :focus {
 }
 
 /* PostItem Component */
+@keyframes intoFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .GroupBoardPage .PostItem {
-  margin: 25px 0px;
-  padding: 5px;
-  border: 1px solid #ececec;
-  border-radius: 5px;
-  box-shadow: 2px 2px 5px 3px #dcdbdb;
+  padding: 14px;
   font-size: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  animation: intoFadeIn 0.5s ease-in-out;
+  transition: 0.5s;
+  /* border-bottom: 1px solid #ced3da; */
+  cursor: pointer;
+}
+
+.GroupBoardPage .PostItem:hover {
+  transform: translateY(-5px);
+  transition: 0.5s;
 }
 
 .GroupBoardPage .PostItem.mine {
-  width: 40%;
-  margin: 25px 0px;
-  padding: 5px;
-  border: 1px solid #ececec;
+  align-items: flex-end;
+  /* flex-direction: row-reverse; */
+  margin-left: auto;
+}
+
+.GroupBoardPage .postHeader {
+  display: flex;
+}
+.postUserNickname {
+  position: relative;
+  /* width: 50px;
+  height: 50px;
+  border-radius: 50%; */
+}
+
+.GroupBoardPage .postBodyWrapper {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.GroupBoardPage .postBody {
+  margin-top: 4px;
   border-radius: 14px;
-  box-shadow: 2px 2px 5px 3px #dcdbdb;
   font-size: 1.1rem;
-  text-align: right;
-  background-color: #ffeb34;
+  position: relative;
+  display: inline-block;
+  background-color: #ececec;
+  padding: 14px;
+}
+
+.GroupBoardPage .postBody:after {
+  content: "";
+  position: absolute;
+  border: 10px solid;
+  border-color: transparent transparent transparent #ececec;
+  border-right: none;
+  bottom: -11px;
+  right: 251px;
+}
+
+.GroupBoardPage .PostItem.mine .postBody {
+  /* background-color: #ffeb3475; */
+  background-color: #ccd1d9;
+  text-align: end;
+}
+
+.GroupBoardPage .PostItem.mine .postBody:after {
+  content: "";
+  position: absolute;
+  border: 10px solid transparent;
+  border-top: 10px solid #ccd1d9;
+  border-right: none;
+  bottom: -19px;
+  right: 9px;
 }
 
 .GroupBoardPage .clapWrapper {
   position: relative;
-  right: 40px;
+  /* right: 40px; */
+  opacity: 0;
+  transition: 1s;
+  margin-left: 14px;
+}
+
+.GroupBoardPage .mine .clapWrapper {
+  margin-right: 28px;
+}
+
+.GroupBoardPage .PostItem:hover .clapWrapper {
+  opacity: 1;
+  transition: 1s;
 }
 
 .GroupBoardPage .clapBtn {
   outline: none;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 1.5rem;
 }
 .GroupBoardPage .clapCounter {
   position: absolute;
-  top: 0px;
+  top: -10px;
   font-weight: 700;
-  opacity: 1;
+  opacity: 0;
   color: black;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
   border-radius: 30px;
   min-width: 50px;
   text-align: center;
   z-index: -1;
+  transition: 0.5s;
 }
 
 .GroupBoardPage .clapCounter.first {
   animation: first-bump 1s forwards;
   opacity: 1;
   z-index: 1;
+  transition: 0.5s;
 }
 .GroupBoardPage .clapBtn.active {
   animation: crap 1s normal;
+  transition: 0.5s;
 }
 
 /* 처음 실행 됐을때 clap_counter를 표시한다. -> 높이(translateY) 조절 가능 */
@@ -1761,29 +1847,57 @@ textarea :focus {
 }
 
 .GroupBoardPage .postImageBox {
-  display: flex;
-  flex-wrap: wrap;
+  /* display: flex; */
+  /* flex-wrap: wrap;
+  justify-content: center;
+  border-radius: 14px;
+  overflow: hidden; */
+  width: inherit;
 }
 
 .GroupBoardPage .postImageItem {
-  width: 32%;
+  display: inline-block;
 }
 
 .GroupBoardPage img {
   width: 100%;
-  height: 100%;
   object-fit: cover;
 }
 
 /* Comment Component */
 
+.CommentComponent {
+  transition: 0.5s;
+}
+
+.commentInputBox__title {
+  transition: 0.5s;
+}
+
+.commentInputBox__title:hover {
+  background-color: #ccd1d950;
+  transition: 0.5s;
+  margin: 4px 0;
+  padding: 14px;
+  border-radius: 14px;
+}
+
 .GroupBoardPage .commentItem {
-  border: 1px solid #ececec;
   padding: 15px 0;
+  /* background-color: #ccd1d9; */
+  background-color: #ccd1d950;
+
+  border-radius: 14px;
+  margin: 4px;
+  padding: 5px;
+  border-radius: 14px;
+  font-size: 1.1rem;
+  position: relative;
+  display: inline-block;
 }
 
 .GroupBoardPage .commentInputBox {
-  border: 1px solid #ececec;
+  /* border: 1px solid #ececec; */
 }
 
 .GroupBoardPage .commentInputBoxFlex {
@@ -1807,8 +1921,6 @@ textarea :focus {
 .GroupBoardPage .nicknameIcon {
   border-radius: 150px;
   padding: 5px;
-  background-color: #ececec;
-  border: 1px solid #000000;
   margin: 45px 0px;
 }
 
@@ -1825,6 +1937,18 @@ textarea :focus {
   background-color: #ececec;
 
   transition: 0.2s;
+}
+
+.GroupBoardPage .postDate {
+  margin-top: 10px;
+}
+
+.groupPostsError {
+  background-color: #ccd1d950;
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+  margin: 14px 0;
 }
 
 /* ProfilePage 프로필 페이지 (마이페이지)*/
@@ -2217,9 +2341,30 @@ textarea :focus {
   .GroupPage {
     padding: 5rem 2rem;
   }
+
+  .GroupBoardPage {
+    display: block;
+  }
+  .groupInfomationSection {
+    width: 100%;
+  }
+
+  .groupInfomationItem {
+    position: static;
+  }
+
+  .groupBoardItemSection {
+    width: 100%;
+    margin-top: 14px;
+    margin-left: 0;
+  }
 }
 
 @media screen and (max-width: 1390px) {
+  .GroupBoardPage {
+    padding: 3rem 2rem;
+  }
+
   .exercisePage .sectionWrapper {
     min-height: auto;
   }

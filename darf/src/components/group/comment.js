@@ -73,100 +73,104 @@ const Comment = ({
           onClick={() => {
             setIsOpendComment((prev) => !prev);
           }}
+          className="commentInputBox__title"
         >
-          코멘트 작성
+          Comment
         </p>
         {isOpendComment && (
-          <div className="commentInputBoxFlex">
-            <textarea
-              value={postComment}
-              onChange={(e) => {
-                setPostComment(e.target.value);
-              }}
-            ></textarea>
-            <div>
-              <label>
-                익명
-                <input
-                  type="checkbox"
-                  checked={isCommentSecret}
-                  onChange={() => {
-                    setIsCommentSecret((prev) => !prev);
-                  }}
-                ></input>
-              </label>
-              <button onClick={onClickCommentSubmitBtn}>게시</button>
-            </div>
-          </div>
-        )}
-      </div>
-      <div>
-        {comment?.map((comment) => {
-          return (
-            <div
-              key={comment.id}
-              id={`comment-${comment.id}`}
-              className="commentItem"
-            >
+          <>
+            <div className="commentInputBoxFlex">
+              <textarea
+                value={postComment}
+                onChange={(e) => {
+                  setPostComment(e.target.value);
+                }}
+              ></textarea>
               <div>
-                {comment.isSecret ? (
-                  <>
-                    <span className="nicknameIcon">{"😎"}</span>
-                    <span className="commentNickname">{"익명"}</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="nicknameIcon">
-                      {comment.User?.UserProfile?.emoji
-                        ? comment.User.UserProfile.emoji
-                        : "🌱"}
-                    </span>
-                    <span className="commentNickname">
-                      {comment.User.nickname}
-                    </span>
-                  </>
-                )}
-                <span>{timeForToday(comment.createdAt)}</span>
+                <label>
+                  비공개
+                  <input
+                    type="checkbox"
+                    checked={isCommentSecret}
+                    onChange={() => {
+                      setIsCommentSecret((prev) => !prev);
+                    }}
+                  ></input>
+                </label>
+                <button onClick={onClickCommentSubmitBtn}>게시</button>
               </div>
-              <div>{comment.content}</div>
-              {comment.User.id === me.id || me.id === adminId ? (
-                <button
-                  id={`comment-${comment.id}`}
-                  onClick={(event) => {
-                    setCommentRemoveTargetId(
-                      parseInt(event.target.id.substr(8))
-                    );
-                    setCommentRemoveModalOpen(true);
-                  }}
-                >
-                  삭제
-                  {commentRemoveModalOpen &&
-                    commentRemoveTargetId === comment.id && (
-                      <Modal
-                        innerContents={
-                          <div>
-                            <h2>코멘트 삭제</h2>
-                            <span className="timeStamp">
-                              {timeForToday(comment.createdAt)}
-                            </span>
-                            <span>{` 작성된 이 댓글을 삭제할까요...? 😢`}</span>
-                          </div>
-                        }
-                        okMessage="삭제합니다."
-                        closeMessage="조금 더 고민해볼게요"
-                        okAction={(event) => {
-                          onClickRemoveCommentBtn(comment.id);
-                        }}
-                        closeAction={() => {
-                          setCommentRemoveModalOpen(false);
-                        }}
-                      ></Modal>
-                    )}
-                </button>
-              ) : null}
             </div>
-          );
-        })}
+
+            <div>
+              {comment?.map((comment) => {
+                return (
+                  <div
+                    key={comment.id}
+                    id={`comment-${comment.id}`}
+                    className="commentItem"
+                  >
+                    <div>
+                      {comment.isSecret ? (
+                        <>
+                          <span className="nicknameIcon">{"😎"}</span>
+                          <span className="commentNickname">{"익명"}</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="nicknameIcon">
+                            {comment.User?.UserProfile?.emoji
+                              ? comment.User.UserProfile.emoji
+                              : "🌱"}
+                          </span>
+                          <span className="commentNickname">
+                            {comment.User.nickname}
+                          </span>
+                        </>
+                      )}
+                      <span>{timeForToday(comment.createdAt)}</span>
+                    </div>
+                    <div>{comment.content}</div>
+                    {comment.User.id === me.id || me.id === adminId ? (
+                      <button
+                        id={`comment-${comment.id}`}
+                        onClick={(event) => {
+                          setCommentRemoveTargetId(
+                            parseInt(event.target.id.substr(8))
+                          );
+                          setCommentRemoveModalOpen(true);
+                        }}
+                      >
+                        삭제
+                        {commentRemoveModalOpen &&
+                          commentRemoveTargetId === comment.id && (
+                            <Modal
+                              innerContents={
+                                <div>
+                                  <h2>코멘트 삭제</h2>
+                                  <span className="timeStamp">
+                                    {timeForToday(comment.createdAt)}
+                                  </span>
+                                  <span>{` 작성된 이 댓글을 삭제할까요...? 😢`}</span>
+                                </div>
+                              }
+                              okMessage="삭제합니다."
+                              closeMessage="조금 더 고민해볼게요"
+                              okAction={(event) => {
+                                onClickRemoveCommentBtn(comment.id);
+                              }}
+                              closeAction={() => {
+                                setCommentRemoveModalOpen(false);
+                              }}
+                            ></Modal>
+                          )}
+                      </button>
+                    ) : null}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

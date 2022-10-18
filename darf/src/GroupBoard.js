@@ -65,8 +65,8 @@ const GroupBoard = () => {
   useEffect(() => {
     const option = {
       root: null, // document
-      rootMargin: "20px",
-      threshold: 0,
+      rootMargin: "0px",
+      threshold: 1,
     };
     const observer = new IntersectionObserver(handleObserver, option);
     if (postLoaderRef.current) {
@@ -141,110 +141,123 @@ const GroupBoard = () => {
 
   return (
     <div className="GroupBoardPage">
-      <p>여기는 그룹 보드 페이지입니다.</p>
+      <div className="groupInfomationSection">
+        <div className="groupInfomationItem">
+          <h2>{selected.name}</h2>
+          {me.id === selected.adminId && (
+            <>
+              <button
+                onClick={() => {
+                  setShowManagementForm((prev) => !prev);
+                }}
+              >
+                관리자만 보이는 그룹 관리 버튼
+              </button>
 
-      <div>
-        <span>대충 현재 그룹 정보</span>
-        <h2>{selected.name}</h2>
-        {me.id === selected.adminId && (
-          <>
-            <button
-              onClick={() => {
-                setShowManagementForm((prev) => !prev);
-              }}
-            >
-              관리자만 보이는 그룹 관리 버튼
-            </button>
+              {showManagementForm && (
+                <>
+                  <EditGroupInfoForm group={selected}></EditGroupInfoForm>
+                </>
+              )}
+            </>
+          )}
+          <div className="groupEmojiWrapper">
+            <div className="groupEmoji">{selected.emoji}</div>
+          </div>
+          <div className="groupPurposeList">
+            {selected?.purpose &&
+              JSON.parse(selected.purpose)?.map((purpose, index) => {
+                return (
+                  <>
+                    <span
+                      // className={`groupPurpose groupPurpose-${index}`}
+                      key={purpose}
+                    >
+                      #{purpose}
+                    </span>
+                    <span> </span>
+                  </>
+                );
+              })}
+          </div>
+          <div>
+            <span>가입한 유저 List</span>
+            <ul>
+              {selected.Users?.map((user) => {
+                return user.id === selected.adminId ? (
+                  <li
+                    className="userListName"
+                    key={user.id}
+                    onClick={() => onClickUserNickname(user.id)}
+                  >
+                    <span>{user.UserProfile?.emoji}</span>
+                    {user.nickname} <span>(👑)</span>
+                  </li>
+                ) : (
+                  <li
+                    key={user.id}
+                    id={user.id}
+                    className="userListName"
+                    onClick={() => onClickUserNickname(user.id)}
+                  >
+                    <span>
+                      {user.UserProfile?.emoji ? user.UserProfile.emoji : "🌱"}
+                    </span>
+                    {user.nickname}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          <button onClick={onClickLeaveGroupBtn}>그룹 탈퇴</button>
+        </div>
+      </div>
+      <div className="groupBoardItemSection">
+        <div className="groupBoardSortBtnWrapper">
+          <button
+            onClick={() => {
+              setPostLoadMode("Diet");
+              onClickTypePostLoadBtn("Diet");
+            }}
+          >
+            <div className="imageWrapper-center">
+              <div className="foodRecodeIcon"></div>
+            </div>
+            식단 기록만
+          </button>{" "}
+          <div className="line-y"></div>
+          <button
+            onClick={() => {
+              setPostLoadMode("Exercise");
+              onClickTypePostLoadBtn("Exercise");
+            }}
+          >
+            <div className="imageWrapper-center">
+              <div className="exerciseRecodeIcon"></div>
+            </div>
+            운동 기록만
+          </button>
+          <div className="line-y"> </div>
+          <button
+            onClick={() => {
+              setPostLoadMode("All");
+              onClickTypePostLoadBtn("All");
+            }}
+          >
+            전체 기록
+          </button>
+        </div>
+        <div className="groupPostList">
+          {selected.GroupPosts?.map((post) => {
+            return <PostItem key={post.id} post={post}></PostItem>;
+          })}
+          {loadGroupPostsError && (
+            <div className="groupPostsError">{loadGroupPostsError}</div>
+          )}
+        </div>
 
-            {showManagementForm && (
-              <>
-                <EditGroupInfoForm group={selected}></EditGroupInfoForm>
-              </>
-            )}
-          </>
-        )}
-        <div>{selected.emoji}</div>
-        <div>
-          {selected?.purpose &&
-            JSON.parse(selected.purpose)?.map((purpose, index) => {
-              return (
-                <span
-                  className={`groupPurpose groupPurpose-${index}`}
-                  key={purpose}
-                >
-                  {purpose}
-                </span>
-              );
-            })}
-        </div>
-        <div>
-          <span>대충 유저 정보</span>
-          <span>가입한 유저 List</span>
-          <ul>
-            {selected.Users?.map((user) => {
-              return user.id === selected.adminId ? (
-                <li
-                  className="userListName"
-                  key={user.id}
-                  onClick={() => onClickUserNickname(user.id)}
-                >
-                  <span>{user.UserProfile?.emoji}</span>
-                  {user.nickname} <span>(👑)</span>
-                </li>
-              ) : (
-                <li
-                  key={user.id}
-                  id={user.id}
-                  className="userListName"
-                  onClick={() => onClickUserNickname(user.id)}
-                >
-                  <span>
-                    {user.UserProfile?.emoji ? user.UserProfile.emoji : "🌱"}
-                  </span>
-                  {user.nickname}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-        <button onClick={onClickLeaveGroupBtn}>그룹 탈퇴</button>
+        <div ref={postLoaderRef}></div>
       </div>
-      <div>
-        <button
-          onClick={() => {
-            setPostLoadMode("Diet");
-            onClickTypePostLoadBtn("Diet");
-          }}
-        >
-          식단 기록만
-        </button>{" "}
-        <br></br>
-        <button
-          onClick={() => {
-            setPostLoadMode("Exercise");
-            onClickTypePostLoadBtn("Exercise");
-          }}
-        >
-          운동 기록만
-        </button>
-        <br></br>
-        <button
-          onClick={() => {
-            setPostLoadMode("All");
-            onClickTypePostLoadBtn("All");
-          }}
-        >
-          전체 기록
-        </button>
-      </div>
-      <div>
-        <span>대충 게시글 목록</span>
-        {selected.GroupPosts?.map((post) => {
-          return <PostItem key={post.id} post={post}></PostItem>;
-        })}
-      </div>
-      {loadGroupPostsError && <div>{loadGroupPostsError}</div>}
-      <div ref={postLoaderRef}></div>
     </div>
   );
 };
