@@ -96,31 +96,34 @@ const Diary = () => {
 
   return (
     <div className="DiaryPage">
-      <h2>Diary without CSS</h2>
-      <header>헤더부분</header>
-      <div className="DiaryForm">
-        <input
-          placeholder="제목?"
-          value={title}
-          onChange={onChangeTitle}
-          ref={titleRef}
-        ></input>
-        <textarea
-          placeholder="내용을 말해주세요"
-          value={content}
-          onChange={onChangeContent}
-          ref={contentRef}
-        ></textarea>
-        <Rate
-          className="rate"
-          allowHalf
-          value={emotion}
-          onChange={onChangeEmotion}
-          character={({ index }) => customIcons[index + 1]}
-        />
-        <button onClick={onSubmit}>쓰기!</button>
+      <div className="diaryInputPanel">
+        <h2>Diary without CSS</h2>
+        <header>헤더부분</header>
+        <div className="DiaryForm">
+          <input
+            placeholder="제목?"
+            value={title}
+            onChange={onChangeTitle}
+            ref={titleRef}
+          ></input>
+          <textarea
+            placeholder="내용을 말해주세요"
+            value={content}
+            onChange={onChangeContent}
+            ref={contentRef}
+          ></textarea>
+          <Rate
+            className="rate"
+            allowHalf
+            value={emotion}
+            onChange={onChangeEmotion}
+            character={({ index }) => customIcons[index + 1]}
+          />
+          <button onClick={onSubmit}>쓰기!</button>
+        </div>
       </div>
-      <div className="DiaryList">
+
+      <div className="DiaryItemPanel">
         {diary.map((e) => {
           return <DiaryItem key={e.id} diary={e} />;
         })}

@@ -151,7 +151,7 @@ const GroupBoard = () => {
                   setShowManagementForm((prev) => !prev);
                 }}
               >
-                관리자만 보이는 그룹 관리 버튼
+                그룹 관리
               </button>
 
               {showManagementForm && (
@@ -181,7 +181,6 @@ const GroupBoard = () => {
               })}
           </div>
           <div>
-            <span>가입한 유저 List</span>
             <ul>
               {selected.Users?.map((user) => {
                 return user.id === selected.adminId ? (

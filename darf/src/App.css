@@ -424,11 +424,11 @@ textarea :focus {
   padding: 3px;
 }
 
-.LoginPage {
-}
-
 .DiaryPage {
   font-family: "Noto Sans KR", sans-serif;
+  display: flex;
+  justify-content: center;
+  background-color: #ced3da;
 }
 
 .DiaryPage .DiaryForm {
@@ -475,8 +475,6 @@ textarea :focus {
 }
 
 .DiaryItem {
-  background-color: #f6f6f6;
-  border: solid 1px #ececec;
   border-radius: 5px;
   width: 50vw;
   margin-top: 5px;
@@ -1607,21 +1605,22 @@ textarea :focus {
 
 .groupInfomationSection {
   min-width: 300px;
-  background-color: white;
+  /* background-color: white; */
   border-radius: 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 14px;
+  /* padding: 14px; */
 }
 
 .groupInfomationItem {
   position: sticky;
   top: 3rem;
   text-align: center;
-  background-color: #ccd1d980;
+  /* background-color: #ccd1d980; */
+  background-color: #ffffff;
   border-radius: 14px;
-  padding: 14px;
+  padding: 28px;
 }
 
 .groupBoardItemSection {
@@ -1927,14 +1926,17 @@ textarea :focus {
 .GroupBoardPage .userListName {
   display: inline-block;
   cursor: pointer;
-  border: 1px solid #ececec;
-  box-shadow: 0px 0px 5px 5px #ececec;
-  border-radius: 5px;
-  margin-right: 2px;
+  background-color: #ececec;
+  font-size: 1.2rem;
+  /* box-shadow: 0px 0px 5px 5px #ececec; */
+  border-radius: 14px;
+  margin-right: 4px;
+  padding: 4px;
 }
 
 .GroupBoardPage .userListName:hover {
-  background-color: #ececec;
+  /* background-color: #ececec; */
+  /* box-shadow: 0px 0px 1px 1px #000000; */
 
   transition: 0.2s;
 }
@@ -1949,6 +1951,27 @@ textarea :focus {
   padding: 14px;
   text-align: center;
   margin: 14px 0;
+}
+
+/* 그룹 관리 Components */
+.EditGroupInfoFormComponent {
+  /* display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; */
+}
+
+.groupInfomationForm input {
+  width: 100%;
+  /* min-height: 6.25rem; */
+  border: none;
+  border-radius: 14px;
+  line-height: 160%;
+  overflow: hidden;
+  padding: 1.05882rem 0.94118rem 0;
+}
+
+.groupInfomationForm label {
 }
 
 /* ProfilePage 프로필 페이지 (마이페이지)*/
@@ -2010,6 +2033,7 @@ textarea :focus {
   left: 10rem;
   z-index: 999;
 }
+
 .userProfileEmoji.active {
   transform: translateY(-5px);
   transition: 0.3s;

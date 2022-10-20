@@ -66,32 +66,38 @@ const EditGroupInfoForm = ({ group }) => {
 
   return (
     <div className="EditGroupInfoFormComponent">
-      <div>
+      <div className="groupInfomationForm">
         <p>그룹 기본정보 변경</p>
-        <label>
-          그룹 이름 변경
-          <input value={GroupName} onChange={onChangeGroupName}></input>
-        </label>
-        <label>
-          그룹 EMOJI 변경
-          <SelectBox
-            props={emoji}
-            eventHandler={setGroupEmoji}
-            defaultEmoji={group.emoji}
-          ></SelectBox>
-        </label>
+        <label htmlFor="groupName">그룹 이름 변경</label>
+        <input
+          name="groupName"
+          value={GroupName}
+          onChange={onChangeGroupName}
+          placeholder="그룹 이름을 입력해주세요"
+        ></input>
+        <label htmlFor="groupEmoji">그룹 EMOJI 변경</label>
+        <SelectBox
+          name="groupEmoji"
+          props={emoji}
+          eventHandler={setGroupEmoji}
+          defaultEmoji={group.emoji}
+        ></SelectBox>
+        <br></br>
 
-        <label>
-          그룹 정원 변경
-          <input value={GroupCapacity} onChange={onChangeGroupCapacity}></input>
-        </label>
-        <label>
-          그룹 소개 변경
-          <textarea
-            value={GroupIntroduce}
-            onChange={onChangeGroupIntroduce}
-          ></textarea>
-        </label>
+        <label htmlFor="groupCapacity">그룹 정원 변경</label>
+        <input
+          placeholder="그룹 정원을 입력해주세요"
+          name="groupCapacity"
+          value={GroupCapacity}
+          onChange={onChangeGroupCapacity}
+        ></input>
+        <label htmlFor="groupIntroduce">그룹 소개 변경</label>
+        <textarea
+          name="groupIntroduce"
+          value={GroupIntroduce}
+          onChange={onChangeGroupIntroduce}
+          placeholder="그룹 소개를 입력해주세요"
+        ></textarea>
         {GroupPassword?.length >= 1 ? (
           <>
             <span>비공개</span>
@@ -100,6 +106,7 @@ const EditGroupInfoForm = ({ group }) => {
               // name="editGroupPasswordInput"
               onChange={onChangeGroupPassword}
               value={GroupPassword}
+              placeholder="비밀번호를 입력해주세요"
             ></input>
           </>
         ) : (
@@ -114,6 +121,7 @@ const EditGroupInfoForm = ({ group }) => {
               // name="editGroupPasswordInput"
               onChange={onChangeGroupPassword}
               value={GroupPassword}
+              placeholder="비밀번호를 입력해주세요"
             ></input>
           </>
         )}

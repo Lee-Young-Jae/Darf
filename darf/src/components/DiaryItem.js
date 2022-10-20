@@ -7,6 +7,7 @@ import {
   LOAD_DIARY_REQUEST,
 } from "../modules/reducers/diary";
 import MyButton from "./MyButton";
+import { timeFormatting } from "../util/function";
 
 const DiaryItem = (diary) => {
   const dispatch = useDispatch();
@@ -91,6 +92,7 @@ const DiaryItem = (diary) => {
         <>
           <div className="DiaryHead">
             <div className="title">{diary.diary.title}</div>
+            <div className="date">{timeFormatting(diary.diary.createdAt)}</div>
 
             <div>
               <Popconfirm
